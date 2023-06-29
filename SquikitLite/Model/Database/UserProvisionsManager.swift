@@ -72,16 +72,15 @@ extension UserProvisionsManager {
     
     private func loadUserProvisions() {
         // récupère SVG
-        let optArchivedObj = UserDefaults.standard.data(forKey: USER_PROVISIONS_BACKUP)
-        if let archivedObj = optArchivedObj {
+        if let encodedProvisions = UserDefaults.standard.object(forKey: USER_PROVISIONS_BACKUP) as? Data {
             // on décode la sauvegarde
             do {
-                let unarchivedObj = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, Provision.self], from: archivedObj) as! [Provision]
-                // copie du tableau
-                provisions = unarchivedObj
-            } catch {}
+                provisions = try JSONDecoder().decode([Provision].self, from: encodedProvisions)
+                
+            } catch let error {
+                print(error)
+            }
         }
-        
         provisionsLoaded = true // à la fin pour indiquer qu'on a chargé même si 1ere utilisation donc pas de sauvegarde existante
     }
     
@@ -91,10 +90,12 @@ extension UserProvisionsManager {
             loadUserProvisions()
         }
         
+        // encoder en JSON
         do {
-            let newArchivedObj = try NSKeyedArchiver.archivedData(withRootObject: provisions, requiringSecureCoding: true)
-            // svg du tableau
-            UserDefaults.standard.set(newArchivedObj, forKey: USER_PROVISIONS_BACKUP)
+            let encodedProvisions = try JSONEncoder().encode(provisions)
+            // on sauvegarde
+            UserDefaults.standard.set(encodedProvisions, forKey: USER_PROVISIONS_BACKUP)
+            
         } catch let error {
             print(error)
         }
