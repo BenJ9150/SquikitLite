@@ -20,54 +20,84 @@ class ProvisionDisplayProvider {
     
     // MARK: Properties
     
-    private let provision: Provision
+    private let provOfDisplayProvider: Provision
     
     private var product: Product {
-        get {
-            return provision.product
-        }
+        return provOfDisplayProvider.product
+    }
+    
+    var provision: Provision {
+        return provOfDisplayProvider
     }
     
     // MARK: Init
     
     init(forProvision provision: Provision) {
-        self.provision = provision
+        self.provOfDisplayProvider = provision
     }
 }
 
 
 
 //===========================================================
-// MARK: Display providers
+// MARK: ID, Name and variants
 //===========================================================
 
 
 
 extension ProvisionDisplayProvider {
     
+    var productId: String {
+        return product.Id
+    }
+    
     var name: String {
         return product.Name.capitalizedSentence
     }
     
+    var variants: [String.SubSequence] {
+        if product.Variants == "" {
+            return [String.SubSequence]()
+        }
+        // split
+        return product.Variants.split(separator: ";")
+    }
+}
+
+
+
+//===========================================================
+// MARK: Quantity and Unit
+//===========================================================
+
+
+
+extension ProvisionDisplayProvider {
+    
     var quantityAndShoppingUnit: String {
-        let roundedQty = provision.quantity.rounded()
-        if roundedQty == provision.quantity {
-            return "\(provision.quantity.formatted(.number.precision(.fractionLength(0))))" + " " + product.ShoppingUnit
+        let roundedQty = provOfDisplayProvider.quantity.rounded()
+        if roundedQty == provOfDisplayProvider.quantity {
+            return "\(provOfDisplayProvider.quantity.formatted(.number.precision(.fractionLength(0))))" + " " + product.ShoppingUnit
         } else {
-            return "\(provision.quantity.formatted(.number.precision(.fractionLength(1))))" + " " + product.ShoppingUnit
+            return "\(provOfDisplayProvider.quantity.formatted(.number.precision(.fractionLength(1))))" + " " + product.ShoppingUnit
         }
     }
+}
+
+
+
+//===========================================================
+// MARK: Product Image
+//===========================================================
+
+
+
+extension ProvisionDisplayProvider {
     
     var image: UIImage {
         return ProductsGenericMethods.getDefaultImage(forCategoryRef: product.CategoryRef)
     }
-    
-    var category: String {
-        // TO DO
-        return "ToDo"
-    }
 }
-
 
 
 //===========================================================
@@ -90,7 +120,7 @@ extension ProvisionDisplayProvider {
         if !havePeremption {
             return Int.max
         }
-        let nbOfDaysSincePurchase = Calendar.current.numberOfDaysBetween(from: provision.purchaseDate, to: Date())
+        let nbOfDaysSincePurchase = Calendar.current.numberOfDaysBetween(from: provOfDisplayProvider.purchaseDate, to: Date())
         return product.Preservation - nbOfDaysSincePurchase
     }
     
@@ -100,14 +130,37 @@ extension ProvisionDisplayProvider {
         }
         
         if expirationCountDown < 0 {
-            return "Périm."
+            return NSLocalizedString("dlcLabel_outdated", comment: "")
         }
         if expirationCountDown == 0 {
-            return "Auj."
+            return NSLocalizedString("dlcLabel_today", comment: "")
         }
         if expirationCountDown >= 99 {
-            return "+99j"
+            return NSLocalizedString("dlcLabel_longTime", comment: "")
         }
-        return "J-\(product.Preservation)"
+        return NSLocalizedString("dlcLabel_day", comment: "") + "\(product.Preservation)"
+    }
+}
+
+
+
+//===========================================================
+// MARK: Category and subCategory
+//===========================================================
+
+
+
+extension ProvisionDisplayProvider {
+    
+    var category: String {
+        return ProductsGenericMethods.getCategory(withRef: product.CategoryRef).capitalizedSentence
+    }
+    
+    var subCategory: String {
+        return ProductsGenericMethods.getSubCategory(withSubCatRef: product.SubCategoryRef, inCatRef: product.CategoryRef)
+    }
+    
+    var categoryAndSubCategory: String {
+        return category + " / " + subCategory
     }
 }

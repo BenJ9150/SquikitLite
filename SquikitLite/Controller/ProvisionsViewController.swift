@@ -38,6 +38,9 @@ class ProvisionsViewController: UIViewController {
         // collectionView des provisions
         provisionsCollectionView.register(ProvisionCell.nib, forCellWithReuseIdentifier: ProvisionCell.key)
         provisionsCollectionView.backgroundColor = UIColor.clear
+        
+        // notification update user provisions
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUserProvisions(_ :)), name: .userProvisionsUpdated, object: nil)
     }
 }
 
@@ -224,5 +227,16 @@ extension ProvisionsViewController {
     
     private func getUserProvisions() {
         provsDisplayProvider = ProvisionsGenericMethods.getUserProvisionsDisplayProvider()
+    }
+    
+    @objc func updateUserProvisions(_ notif: NSNotification) {
+        if let providerNotif = notif.object as? ProvisionDisplayProvider {
+            // on ajoute au provider existant
+            provsDisplayProvider.append(providerNotif)
+        } else {
+            // on update tout au cas où...
+            provsDisplayProvider = ProvisionsGenericMethods.getUserProvisionsDisplayProvider()
+        }
+        provisionsCollectionView.reloadData()
     }
 }

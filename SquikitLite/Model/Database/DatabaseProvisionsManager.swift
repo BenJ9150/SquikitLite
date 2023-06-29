@@ -15,7 +15,7 @@ import Foundation
 
 
 
-class DataBaseProvisionsManager {
+class DatabaseProvisionsManager {
     
     // MARK: Properties
     
@@ -24,20 +24,17 @@ class DataBaseProvisionsManager {
     private var provisions = [Provision]()
     
     var dataBaseProvisions: [Provision] {
-        get {
-            return provisions
-        }
+        return provisions
     }
     
     var count: Int {
-        get {
-            return provisions.count
-        }
+        return provisions.count
     }
     
     // MARK: Singleton
     
-    static let shared = DataBaseProvisionsManager()
+    static let shared = DatabaseProvisionsManager()
+    
     private init() {
         getProvisionsFromFood()
         getProvisionsFromNoFood()
@@ -52,7 +49,7 @@ class DataBaseProvisionsManager {
 
 
 
-extension DataBaseProvisionsManager {
+extension DatabaseProvisionsManager {
     
     private func getProvisionsFromFood() {
         getFood { products in
@@ -82,7 +79,7 @@ extension DataBaseProvisionsManager {
 
 
 
-extension DataBaseProvisionsManager {
+extension DatabaseProvisionsManager {
     
     private func getFood(completionHandler: @escaping ([Product]) -> ()) {
         // base pour pouvoir récupérer depuis un serveur

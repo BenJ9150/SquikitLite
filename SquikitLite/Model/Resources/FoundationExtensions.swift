@@ -10,6 +10,18 @@ import Foundation
 
 
 //===========================================================
+// MARK: Notification.Name
+//===========================================================
+
+
+
+extension Notification.Name {
+    static let userProvisionsUpdated = Notification.Name("UserProvisionsUpdated")
+}
+
+
+
+//===========================================================
 // MARK: String
 //===========================================================
 
@@ -22,6 +34,10 @@ extension String {
             return self.capitalized
         }
         return self.prefix(1).capitalized + self.dropFirst().lowercased()
+    }
+    
+    var cleanUpForComparaison: String {
+        return self.lowercased().folding(options: .diacriticInsensitive, locale: .none).replacingOccurrences(of: "’", with: "'")
     }
 }
 

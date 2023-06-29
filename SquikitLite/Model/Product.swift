@@ -23,19 +23,19 @@ struct Product: Codable {
     var Variants: String
     var Unit: String
     var ShoppingUnit: String
-    var UnitConversionFactorGtoCAC: Decimal
-    var UnitConversionFactorGtoCAS: Decimal
-    var UnitConversionFactorGtoL: Decimal
-    var UnitConversionFactorGtoPieces: Decimal
+    var UnitConversionFactorGtoCAC: Double
+    var UnitConversionFactorGtoCAS: Double
+    var UnitConversionFactorGtoL: Double
+    var UnitConversionFactorGtoPieces: Double
     var DefaultNote: String?
-    var DefaultQuantity: Decimal
-    var DefaultQuantityThreshold: Decimal
+    var DefaultQuantity: Double
+    var DefaultQuantityThreshold: Double
     var Thumbnail: String?
     var ThumbnailUrl: String?
     var Category: String?
     var SubCategory: String?
-    var CategoryRef: Decimal
-    var SubCategoryRef: Decimal
+    var CategoryRef: Double
+    var SubCategoryRef: Double
     var StorageZoneId: Int
     var Preservation: Int
     var PreservationAfterOpening: Int

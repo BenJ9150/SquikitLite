@@ -18,24 +18,38 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="48" estimatedRowHeight="48" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="bAy-LK-rag">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <rect key="frame" x="0.0" y="107" width="393" height="711"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="dUa-gO-QPn" id="Pk4-EC-0xZ"/>
                                     <outlet property="delegate" destination="dUa-gO-QPn" id="szO-jZ-kVm"/>
                                 </connections>
                             </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="dk5-SR-jVe">
+                                <rect key="frame" x="0.0" y="59" width="393" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="L9s-H2-FiE"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="dUa-gO-QPn" id="lcp-Kv-BN0"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="bT2-Kx-w14"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="dk5-SR-jVe" firstAttribute="leading" secondItem="bT2-Kx-w14" secondAttribute="leading" id="4ts-aU-2BH"/>
                             <constraint firstItem="bT2-Kx-w14" firstAttribute="trailing" secondItem="bAy-LK-rag" secondAttribute="trailing" id="C1V-fb-YUD"/>
                             <constraint firstItem="bT2-Kx-w14" firstAttribute="bottom" secondItem="bAy-LK-rag" secondAttribute="bottom" id="MGS-lz-cKF"/>
                             <constraint firstItem="bAy-LK-rag" firstAttribute="leading" secondItem="bT2-Kx-w14" secondAttribute="leading" id="WIe-wC-CUX"/>
-                            <constraint firstItem="bAy-LK-rag" firstAttribute="top" secondItem="bT2-Kx-w14" secondAttribute="top" id="j0O-Z6-vNR"/>
+                            <constraint firstItem="dk5-SR-jVe" firstAttribute="trailing" secondItem="bT2-Kx-w14" secondAttribute="trailing" id="Zox-2h-yAR"/>
+                            <constraint firstItem="dk5-SR-jVe" firstAttribute="top" secondItem="bT2-Kx-w14" secondAttribute="top" id="nfZ-SN-2LV"/>
+                            <constraint firstItem="bAy-LK-rag" firstAttribute="top" secondItem="dk5-SR-jVe" secondAttribute="bottom" id="sMy-YY-93h"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="searchBar" destination="dk5-SR-jVe" id="By9-5q-XxO"/>
                         <outlet property="searchProvisionsTableView" destination="bAy-LK-rag" id="pvX-M5-8eh"/>
                     </connections>
                 </viewController>

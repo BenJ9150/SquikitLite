@@ -19,10 +19,30 @@ import UIKit
 class ProductsGenericMethods {
     
     
-    static func getDefaultImage(forCategoryRef categoryRef: Decimal) -> UIImage {
+    static func getCategory(withRef ref: Double) -> String {
+        if let cat = Categories.shared.categories[ref] {
+            return cat
+        }
+        return ""
+    }
+    
+    static func getSubCategory(withSubCatRef subCatRef: Double, inCatRef catRef: Double) -> String {
+        guard let subCatDico = Categories.shared.subCategories[catRef] else {return ""}
+        
+        if let subCat = subCatDico[subCatRef] {
+            return subCat
+        }
+        return ""
+    }
+    
+    static func getDefaultImage(forCategoryRef categoryRef: Double) -> UIImage {
         switch categoryRef {
         case 1:
             return UIImage(named: "ic_rayon_legumes")!
+        case 1.5:
+            return UIImage(named: "ic_rayon_condiments_frais")!
+        case 2:
+            return UIImage(named: "ic_rayon_fruits")!
         default:
             return UIImage(named: "ic_rayon_autres")!
         }

@@ -22,22 +22,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="48"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="P93-yo-7i3">
-                                <rect key="frame" x="15.999999999999996" y="5" width="50.666666666666657" height="38"/>
+                                <rect key="frame" x="5" y="5" width="50.666666666666671" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="P93-yo-7i3" secondAttribute="height" multiplier="492:369" id="LAV-a0-1Dx"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bKE-ol-Q5c">
-                                <rect key="frame" x="82.666666666666671" y="8" width="189.33333333333331" height="32"/>
+                                <rect key="frame" x="71.666666666666671" y="9.6666666666666643" width="200.33333333333331" height="29"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OyC-nW-bmW">
-                                        <rect key="frame" x="0.0" y="17" width="189.33333333333334" height="15"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                        <rect key="frame" x="0.0" y="17" width="200.33333333333334" height="12"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                         <color key="textColor" name="color_quantityAndUnit"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P73-Km-Ys6">
-                                        <rect key="frame" x="0.0" y="0.0" width="189.33333333333334" height="17"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="200.33333333333334" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" name="color_provisionName"/>
                                         <nil key="highlightedColor"/>
@@ -72,7 +72,7 @@
                             <constraint firstAttribute="bottom" secondItem="RZd-Qx-SiQ" secondAttribute="bottom" id="piD-x0-JWQ"/>
                             <constraint firstItem="P93-yo-7i3" firstAttribute="top" secondItem="Z0h-6Q-hEd" secondAttribute="top" constant="5" id="qo4-l6-ERE"/>
                             <constraint firstAttribute="bottom" secondItem="P93-yo-7i3" secondAttribute="bottom" constant="5" id="r6M-Ws-ppN"/>
-                            <constraint firstItem="P93-yo-7i3" firstAttribute="leading" secondItem="Z0h-6Q-hEd" secondAttribute="leading" constant="16" id="wZ2-rg-v3g"/>
+                            <constraint firstItem="P93-yo-7i3" firstAttribute="leading" secondItem="Z0h-6Q-hEd" secondAttribute="leading" constant="5" id="wZ2-rg-v3g"/>
                         </constraints>
                     </view>
                 </subviews>
