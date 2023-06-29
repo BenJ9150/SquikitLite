@@ -40,7 +40,7 @@ class ProvisionsViewController: UIViewController {
         provisionsCollectionView.backgroundColor = UIColor.clear
         
         // notification update user provisions
-        NotificationCenter.default.addObserver(self, selector: #selector(updateUserProvisions(_ :)), name: .userProvisionsUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUserProvisions(_ :)), name: .userProvisionsAdded, object: nil)
     }
 }
 

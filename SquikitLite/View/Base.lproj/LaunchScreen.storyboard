@@ -23,14 +23,14 @@
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="ic_squikit_complet" translatesAutoresizingMaskIntoConstraints="NO" id="PK9-lZ-jvS">
-                                <rect key="frame" x="100" y="703" width="193" height="45.333333333333371"/>
+                                <rect key="frame" x="100" y="690" width="193" height="45.333333333333371"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="PK9-lZ-jvS" secondAttribute="height" multiplier="140:33" id="WbV-dr-7iy"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lite" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ada-9J-NXL">
-                                <rect key="frame" x="169" y="748.33333333333337" width="55" height="45.666666666666629"/>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="38"/>
+                                <rect key="frame" x="161.66666666666666" y="735.33333333333337" width="70" height="58.666666666666629"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="49"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>

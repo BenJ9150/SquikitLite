@@ -113,10 +113,10 @@ extension AddprovisionViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // update user provisions
         if searching && indexPath.row < searchedProvsProvider.count {
-            ProvisionsGenericMethods.saveUserProvision(ofProvDisplayProvider: searchedProvsProvider[indexPath.row])
+            ProvisionsGenericMethods.addUserProvision(ofProvDisplayProvider: searchedProvsProvider[indexPath.row])
             
         } else if indexPath.row < databaseProvsProvider.count {
-            ProvisionsGenericMethods.saveUserProvision(ofProvDisplayProvider: databaseProvsProvider[indexPath.row])
+            ProvisionsGenericMethods.addUserProvision(ofProvDisplayProvider: databaseProvsProvider[indexPath.row])
         }
         dismiss(animated: true)
     }

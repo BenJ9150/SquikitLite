@@ -53,8 +53,31 @@ extension UserProvisionsManager {
         if !provisionsLoaded {
             loadUserProvisions()
         }
-        
+        // change purchase date
+        provision.purchaseDate = Date()
+        // add and save
         provisions.append(provision)
+        saveUserProvisionsToUserDefaults()
+    }
+}
+
+
+
+//===========================================================
+// MARK: delete provisions
+//===========================================================
+
+
+
+extension UserProvisionsManager {
+    
+    func deleteUserProvision(provision: Provision) {
+        // vérif tableau chargé
+        if !provisionsLoaded {
+            loadUserProvisions()
+        }
+        
+        provisions.removeAll { $0.purchaseDate.timeIntervalSince1970 == provision.purchaseDate.timeIntervalSince1970 }
         
         saveUserProvisionsToUserDefaults()
     }

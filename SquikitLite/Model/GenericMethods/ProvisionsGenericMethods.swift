@@ -66,9 +66,9 @@ extension ProvisionsGenericMethods {
         return provsDisplayProvider
     }
     
-    static func saveUserProvision(ofProvDisplayProvider provProvider: ProvisionDisplayProvider) {
+    static func addUserProvision(ofProvDisplayProvider provProvider: ProvisionDisplayProvider) {
         UserProvisionsManager.shared.saveNewUserProvision(provision: provProvider.provision)
-        NotificationCenter.default.post(name: .userProvisionsUpdated, object: provProvider)
+        NotificationCenter.default.post(name: .userProvisionsAdded, object: provProvider)
     }
 }
 

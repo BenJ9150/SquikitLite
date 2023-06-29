@@ -16,7 +16,8 @@ import Foundation
 
 
 extension Notification.Name {
-    static let userProvisionsUpdated = Notification.Name("UserProvisionsUpdated")
+    static let userProvisionsAdded = Notification.Name("UserProvisionsAdded")
+    static let userProvisionsDeleted = Notification.Name("UserProvisionsDeleted")
 }
 
 
