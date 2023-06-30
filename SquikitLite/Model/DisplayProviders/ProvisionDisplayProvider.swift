@@ -22,7 +22,7 @@ class ProvisionDisplayProvider {
     
     private let provision: Provision
     
-    private var product: Product {
+    var product: Product {
         return provision.product
     }
     

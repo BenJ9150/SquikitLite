@@ -67,13 +67,24 @@ extension ProvisionsGenericMethods {
     }
     
     static func addUserProvision(ofProvDisplayProvider provProvider: ProvisionDisplayProvider) {
-        UserProvisionsManager.shared.saveNewUserProvision(provision: provProvider.provisionOfDP)
-        NotificationCenter.default.post(name: .userProvisionsAdded, object: provProvider)
+        // on crée une nouvelle provision pour que l'UUID soit différent si plusieurs même product
+        let newProvProvider = ProvisionDisplayProvider(forProvision: Provision(product: provProvider.product, isFood: provProvider.provisionOfDP.isFood))
+        
+        UserProvisionsManager.shared.saveNewUserProvision(provision: newProvProvider.provisionOfDP)
+        NotificationCenter.default.post(name: .userProvisionsAdded, object: newProvProvider)
+        
+        print("\nUser provision \"" + newProvProvider.name + "\" added")
+        print("(UUID: \(newProvProvider.provisionOfDP.uuid))")
+        print("Purchase date: \(newProvProvider.provisionOfDP.purchaseDate)\n")
     }
     
     static func deleteUserProvision(ofProvDisplayProvider provProvider: ProvisionDisplayProvider) {
         UserProvisionsManager.shared.deleteUserProvision(provision: provProvider.provisionOfDP)
         NotificationCenter.default.post(name: .userProvisionsDeleted, object: provProvider)
+        
+        print("\nUser provision \"" + provProvider.name + "\" deleted")
+        print("UUID: \(provProvider.provisionOfDP.uuid)")
+        print("Purchase date: \(provProvider.provisionOfDP.purchaseDate)\n")
     }
 }
 
