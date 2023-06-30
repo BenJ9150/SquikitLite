@@ -70,6 +70,11 @@ extension ProvisionsGenericMethods {
         UserProvisionsManager.shared.saveNewUserProvision(provision: provProvider.provision)
         NotificationCenter.default.post(name: .userProvisionsAdded, object: provProvider)
     }
+    
+    static func deleteUserProvision(ofProvDisplayProvider provProvider: ProvisionDisplayProvider) {
+        UserProvisionsManager.shared.deleteUserProvision(provision: provProvider.provision)
+        NotificationCenter.default.post(name: .userProvisionsDeleted, object: provProvider)
+    }
 }
 
 

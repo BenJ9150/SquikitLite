@@ -138,7 +138,7 @@ extension ProvisionDisplayProvider {
         if expirationCountDown >= 99 {
             return NSLocalizedString("dlcLabel_longTime", comment: "")
         }
-        return NSLocalizedString("dlcLabel_day", comment: "") + "\(product.Preservation)"
+        return NSLocalizedString("dlcLabel_day", comment: "") + "\(expirationCountDown)"
     }
 }
 

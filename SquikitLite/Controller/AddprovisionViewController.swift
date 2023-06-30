@@ -39,6 +39,9 @@ class AddprovisionViewController: UIViewController {
         
         // search provisions tableView
         searchProvisionsTableView.register(SearchProvisionsCell.nib, forCellReuseIdentifier: SearchProvisionsCell.key)
+        
+        // searchBar first responder
+        searchBar.becomeFirstResponder()
     }
 }
 

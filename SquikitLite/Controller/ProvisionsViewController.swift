@@ -39,8 +39,11 @@ class ProvisionsViewController: UIViewController {
         provisionsCollectionView.register(ProvisionCell.nib, forCellWithReuseIdentifier: ProvisionCell.key)
         provisionsCollectionView.backgroundColor = UIColor.clear
         
-        // notification update user provisions
-        NotificationCenter.default.addObserver(self, selector: #selector(updateUserProvisions(_ :)), name: .userProvisionsAdded, object: nil)
+        // notification user provisions added
+        NotificationCenter.default.addObserver(self, selector: #selector(userProvisionsAdded(_ :)), name: .userProvisionsAdded, object: nil)
+        
+        // notification user provision deleted
+        NotificationCenter.default.addObserver(self, selector: #selector(userProvisionDeleted(_ :)), name: .userProvisionsDeleted, object: nil)
     }
 }
 
@@ -157,9 +160,17 @@ extension ProvisionsViewController: UICollectionViewDelegateFlowLayout {
 extension ProvisionsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let alert = UIAlertController(title: "test", message: "test", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Delete?", message: "", preferredStyle: .alert)
+        
+        let okButton = UIAlertAction(title: "Ok", style: .destructive) { _ in
+            // delete prov
+            ProvisionsGenericMethods.deleteUserProvision(ofProvDisplayProvider: self.provsDisplayProvider[indexPath.row])
+        }
+        alert.addAction(okButton)
+        
         let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addAction(cancelButton)
+        
         present(alert, animated: true)
     }
 }
@@ -229,14 +240,22 @@ extension ProvisionsViewController {
         provsDisplayProvider = ProvisionsGenericMethods.getUserProvisionsDisplayProvider()
     }
     
-    @objc func updateUserProvisions(_ notif: NSNotification) {
-        if let providerNotif = notif.object as? ProvisionDisplayProvider {
+    @objc func userProvisionsAdded(_ notif: NSNotification) {
+        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on ajoute au provider existant
-            provsDisplayProvider.append(providerNotif)
+            provsDisplayProvider.append(providerInNotif)
+        } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
+            // on ajoute au provider existant
+            provsDisplayProvider.append(contentsOf: providersInNotif)
         } else {
             // on update tout au cas où...
             provsDisplayProvider = ProvisionsGenericMethods.getUserProvisionsDisplayProvider()
         }
+        provisionsCollectionView.reloadData()
+    }
+    
+    @objc func userProvisionDeleted(_ notif: NSNotification) {
+        provsDisplayProvider = ProvisionsGenericMethods.getUserProvisionsDisplayProvider()
         provisionsCollectionView.reloadData()
     }
 }
