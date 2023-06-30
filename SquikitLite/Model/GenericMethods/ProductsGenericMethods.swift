@@ -48,6 +48,17 @@ class ProductsGenericMethods {
         }
     }
     
+    static func getPluralUnit(ofUnit unit: String) -> String {
+        if unit == "" {return ""}
+        
+        if let keyValue = Units.shared.unitsSingPlural.keys.first(where: { $0.cleanUpForComparaison == unit.cleanUpForComparaison }) {
+            if let pluralUnit = Units.shared.unitsSingPlural[keyValue] {
+                return pluralUnit
+            }
+        }
+        return unit
+    }
+    
     
     /*
     public static UIImage GetDrawableId(decimal? a_categoryRef)

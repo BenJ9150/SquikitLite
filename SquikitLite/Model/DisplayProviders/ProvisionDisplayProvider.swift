@@ -103,7 +103,9 @@ extension ProvisionDisplayProvider {
     
     var quantityAndShoppingUnit: String {
         if provision.quantity < 0 {return ""}
-        return quantityToString + " " + unit
+        if provision.quantity <= 1 {return quantityToString + " " + unit}
+        
+        return quantityToString + " " + ProductsGenericMethods.getPluralUnit(ofUnit: unit)
     }
 }
 

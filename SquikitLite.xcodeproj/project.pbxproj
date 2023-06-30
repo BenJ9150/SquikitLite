@@ -35,6 +35,7 @@
 		435C02E92A4D7A78000AB320 /* SearchProvisionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435C02E72A4D7A77000AB320 /* SearchProvisionsCell.swift */; };
 		435C02EA2A4D7A78000AB320 /* SearchProvisionsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 435C02E82A4D7A78000AB320 /* SearchProvisionsCell.xib */; };
 		435F8B372A49BC7A00E54573 /* Dimensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435F8B362A49BC7A00E54573 /* Dimensions.swift */; };
+		43AA34592A4F435100EC03BC /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AA34582A4F435100EC03BC /* Units.swift */; };
 		43CB192C2A4D8B420035620D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 43CB192B2A4D8B420035620D /* Localizable.strings */; };
 		43CB192E2A4D8E840035620D /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CB192D2A4D8E840035620D /* Categories.swift */; };
 		43CB19302A4DE0BE0035620D /* UserProvisionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CB192F2A4DE0BE0035620D /* UserProvisionsManager.swift */; };
@@ -71,6 +72,7 @@
 		435C02E72A4D7A77000AB320 /* SearchProvisionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchProvisionsCell.swift; sourceTree = "<group>"; };
 		435C02E82A4D7A78000AB320 /* SearchProvisionsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchProvisionsCell.xib; sourceTree = "<group>"; };
 		435F8B362A49BC7A00E54573 /* Dimensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimensions.swift; sourceTree = "<group>"; };
+		43AA34582A4F435100EC03BC /* Units.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Units.swift; sourceTree = "<group>"; };
 		43CB192B2A4D8B420035620D /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		43CB192D2A4D8E840035620D /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		43CB192F2A4DE0BE0035620D /* UserProvisionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProvisionsManager.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				432A85772A44F8BE00225150 /* Product.swift */,
 				432A856D2A44E95C00225150 /* Provision.swift */,
 				43CB192D2A4D8E840035620D /* Categories.swift */,
+				43AA34582A4F435100EC03BC /* Units.swift */,
 				435F8B322A49BC3200E54573 /* Database */,
 				43584B822A4C801200EEFA8A /* DisplayProviders */,
 				43584B812A4C7FF800EEFA8A /* GenericMethods */,
@@ -301,6 +304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				432A856C2A44DD1800225150 /* AddprovisionViewController.swift in Sources */,
+				43AA34592A4F435100EC03BC /* Units.swift in Sources */,
 				432A857A2A44FBB600225150 /* DatabaseProvisionsManager.swift in Sources */,
 				432A85622A44BC0800225150 /* ProvisionsViewController.swift in Sources */,
 				434E17BA2A4EC91A0086FC28 /* ProvisionsBSDViewController.swift in Sources */,
