@@ -53,8 +53,6 @@ extension UserProvisionsManager {
         if !provisionsLoaded {
             loadUserProvisions()
         }
-        // change purchase date
-        provision.purchaseDate = Date()
         // add and save
         provisions.append(provision)
         saveUserProvisionsToUserDefaults()
@@ -77,6 +75,21 @@ extension UserProvisionsManager {
             loadUserProvisions()
         }
         provisions.removeAll { $0.uuid == provision.uuid }
+        saveUserProvisionsToUserDefaults()
+    }
+}
+
+
+
+//===========================================================
+// MARK: update provisions
+//===========================================================
+
+
+
+extension UserProvisionsManager {
+    
+    func updateUserProvisions() {
         saveUserProvisionsToUserDefaults()
     }
 }

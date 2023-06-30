@@ -127,11 +127,18 @@
         <!--ProvisionsBSD View Controller-->
         <scene sceneID="DMr-hq-NSh">
             <objects>
-                <viewController storyboardIdentifier="ProvisionsBSDViewController" id="mtk-fn-vFz" customClass="ProvisionsBSDViewController" customModule="SquikitLite" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProvisionsBSDViewController" id="mtk-fn-vFz" customClass="ProvisionsBSDViewController" customModule="SquikitLite" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="i0O-DR-apk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NxD-Q2-NHk">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="270"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <connections>
+                                    <action selector="dismissViewOutsideTap" destination="mtk-fn-vFz" eventType="touchUpInside" id="Xb3-Nz-mWS"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6GO-wH-Joj" userLabel="BottomBackground">
                                 <rect key="frame" x="0.0" y="517" width="375" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -508,19 +515,16 @@ courses</string>
                                     </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="CornerRadius">
                                         <integer key="value" value="36"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                            </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NxD-Q2-NHk">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="270"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <connections>
-                                    <action selector="dismissViewOutsideTap" destination="mtk-fn-vFz" eventType="touchUpInside" id="Xb3-Nz-mWS"/>
+                                    <outletCollection property="gestureRecognizers" destination="1iT-61-r1C" appends="YES" id="y3Z-iI-TUp"/>
                                 </connections>
-                            </button>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GMf-1Z-tlz"/>
                         <constraints>
@@ -545,8 +549,13 @@ courses</string>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Bz-0U-fwG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="1iT-61-r1C">
+                    <connections>
+                        <action selector="dismissKeyboardOutsideTap:" destination="mtk-fn-vFz" id="fB5-A0-iwc"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2192.8000000000002" y="-1089.8050974512744"/>
+            <point key="canvasLocation" x="2274" y="-1033"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6gw-QQ-B1h">

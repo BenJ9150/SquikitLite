@@ -68,23 +68,30 @@ extension ProvisionsGenericMethods {
     
     static func addUserProvision(ofProvDisplayProvider provProvider: ProvisionDisplayProvider) {
         // on crée une nouvelle provision pour que l'UUID soit différent si plusieurs même product
-        let newProvProvider = ProvisionDisplayProvider(forProvision: Provision(product: provProvider.product, isFood: provProvider.provisionOfDP.isFood))
+        let newProvProvider = ProvisionDisplayProvider(forProvision: Provision(cloneFromProvision: provProvider.provOfDisplayProvider))
         
-        UserProvisionsManager.shared.saveNewUserProvision(provision: newProvProvider.provisionOfDP)
+        UserProvisionsManager.shared.saveNewUserProvision(provision: newProvProvider.provOfDisplayProvider)
         NotificationCenter.default.post(name: .userProvisionsAdded, object: newProvProvider)
         
         print("\nUser provision \"" + newProvProvider.name + "\" added")
-        print("(UUID: \(newProvProvider.provisionOfDP.uuid))")
-        print("Purchase date: \(newProvProvider.provisionOfDP.purchaseDate)\n")
+        print("(UUID: " + newProvProvider.uuidToString)
+        print("Purchase date: \(newProvProvider.provOfDisplayProvider.purchaseDate)\n")
     }
     
     static func deleteUserProvision(ofProvDisplayProvider provProvider: ProvisionDisplayProvider) {
-        UserProvisionsManager.shared.deleteUserProvision(provision: provProvider.provisionOfDP)
+        UserProvisionsManager.shared.deleteUserProvision(provision: provProvider.provOfDisplayProvider)
         NotificationCenter.default.post(name: .userProvisionsDeleted, object: provProvider)
         
         print("\nUser provision \"" + provProvider.name + "\" deleted")
-        print("UUID: \(provProvider.provisionOfDP.uuid)")
-        print("Purchase date: \(provProvider.provisionOfDP.purchaseDate)\n")
+        print("(UUID: " + provProvider.uuidToString)
+        print("Purchase date: \(provProvider.provOfDisplayProvider.purchaseDate)\n")
+    }
+    
+    static func updateUserProvision(atIndexPath indexpath: IndexPath) {
+        UserProvisionsManager.shared.updateUserProvisions()
+        NotificationCenter.default.post(name: .userProvisionUpdated, object: indexpath)
+        
+        print("\nUser provisions updated\n")
     }
 }
 

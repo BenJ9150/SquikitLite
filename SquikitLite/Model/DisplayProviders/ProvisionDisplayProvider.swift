@@ -22,11 +22,11 @@ class ProvisionDisplayProvider {
     
     private let provision: Provision
     
-    var product: Product {
+    private var product: Product {
         return provision.product
     }
     
-    var provisionOfDP: Provision {
+    var provOfDisplayProvider: Provision {
         return provision
     }
     
@@ -40,15 +40,19 @@ class ProvisionDisplayProvider {
 
 
 //===========================================================
-// MARK: ID, Name and variants
+// MARK: UUID, Name and variants
 //===========================================================
 
 
 
 extension ProvisionDisplayProvider {
     
-    var productId: String {
-        return product.Id
+    var uuid: UUID {
+        return provision.uuid
+    }
+    
+    var uuidToString: String {
+        return provision.uuid.uuidString
     }
     
     var name: String {
@@ -74,21 +78,32 @@ extension ProvisionDisplayProvider {
 
 extension ProvisionDisplayProvider {
     
-    var quantityToString: String {
-        let roundedQty = provision.quantity.rounded()
-        if roundedQty == provision.quantity {
-            return "\(provision.quantity.formatted(.number.precision(.fractionLength(0))))"
-        } else {
-            return "\(provision.quantity.formatted(.number.precision(.fractionLength(1))))"
+    var quantity: Double {
+        get {
+            return provision.quantity
+        } set {
+            provision.quantity = newValue
         }
     }
     
+    var quantityToString: String {
+        if provision.quantity < 0 {return ""}
+        return provision.quantity.toRoundedString
+    }
+    
     var unit: String {
-        return product.ShoppingUnit
+        get {
+            return provision.unit
+        } set {
+            if newValue != "" {
+                provision.unit = newValue
+            }
+        }
     }
     
     var quantityAndShoppingUnit: String {
-        return quantityToString + " " + product.ShoppingUnit
+        if provision.quantity < 0 {return ""}
+        return quantityToString + " " + unit
     }
 }
 
@@ -115,6 +130,14 @@ extension ProvisionDisplayProvider {
 
 
 extension ProvisionDisplayProvider {
+    
+    var customDlc: Date? {
+        get {
+            return provision.customDlc
+        } set {
+            provision.customDlc = newValue
+        }
+    }
     
     var havePeremption: Bool {
         if product.Preservation < 0 {
@@ -150,15 +173,22 @@ extension ProvisionDisplayProvider {
     }
     
     var dlcToString: String {
+        // date formatter
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = AppSettings.dateFormat
+        
+        // vérif si custom dlc
+        if let customDlc = provision.customDlc {
+            return NSLocalizedString("dlcSuffixString", comment: "") + dateFormatter.string(from: customDlc)
+        }
+        
+        // vérif si product avec péremption
         if !havePeremption {
             return NSLocalizedString("dlcNoPeremptionMessage", comment: "")
         }
         // add preservation to purchase date
         var perempDate = provision.purchaseDate
         perempDate.addTimeInterval(Double(product.Preservation))
-        // date formatter
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = AppSettings.dateFormat
         
         return NSLocalizedString("dlcSuffixString", comment: "") + dateFormatter.string(from: perempDate)
     }

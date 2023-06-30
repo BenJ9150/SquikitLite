@@ -17,27 +17,26 @@ import Foundation
 
 struct Product: Codable {
     
-    var Id: String
-    var Name: String
-    var ShortName: String
-    var Variants: String
-    var Unit: String
-    var ShoppingUnit: String
-    var UnitConversionFactorGtoCAC: Double
-    var UnitConversionFactorGtoCAS: Double
-    var UnitConversionFactorGtoL: Double
-    var UnitConversionFactorGtoPieces: Double
-    var DefaultNote: String?
-    var DefaultQuantity: Double
-    var DefaultQuantityThreshold: Double
-    var Thumbnail: String?
-    var ThumbnailUrl: String?
-    var Category: String?
-    var SubCategory: String?
-    var CategoryRef: Double
-    var SubCategoryRef: Double
-    var StorageZoneId: Int
-    var Preservation: Int
-    var PreservationAfterOpening: Int
-    
+    let Id: String
+    let Name: String
+    let ShortName: String
+    let Variants: String
+    let Unit: String
+    let ShoppingUnit: String
+    let UnitConversionFactorGtoCAC: Double
+    let UnitConversionFactorGtoCAS: Double
+    let UnitConversionFactorGtoL: Double
+    let UnitConversionFactorGtoPieces: Double
+    let DefaultNote: String?
+    let DefaultQuantity: Double
+    let DefaultQuantityThreshold: Double
+    let Thumbnail: String?
+    let ThumbnailUrl: String?
+    let Category: String?
+    let SubCategory: String?
+    let CategoryRef: Double
+    let SubCategoryRef: Double
+    let StorageZoneId: Int
+    let Preservation: Int
+    let PreservationAfterOpening: Int
 }

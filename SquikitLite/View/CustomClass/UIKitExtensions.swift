@@ -49,3 +49,27 @@ extension CAShapeLayer {
         //self.layer.shadowRadius = 2
     }
 }
+
+
+
+//===========================================================
+// MARK: UITextField
+//===========================================================
+
+
+
+extension UITextField {
+    
+    func addDoneOnNumericPad() {
+        // create toolbar
+        let keypadToolbar: UIToolbar = UIToolbar()
+        // add done item
+        keypadToolbar.items = [
+        UIBarButtonItem(title: "OK", style: UIBarButtonItem.Style.done, target: self, action: #selector(self.resignFirstResponder)),
+        UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil)
+        ]
+        keypadToolbar.sizeToFit()
+        // add toolbar to textfield
+        self.inputAccessoryView = keypadToolbar
+    }
+}

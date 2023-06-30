@@ -20,7 +20,9 @@ class ProvisionsBSDViewController: UIViewController {
     // MARK: Properties
     
     static let STORYBOARD_ID = "ProvisionsBSDViewController"
-    var provDisplayProvider: ProvisionDisplayProvider?
+    var o_provDisplayProvider: ProvisionDisplayProvider?
+    var o_provIndexPath: IndexPath?
+    private var o_newDlc: Date?
     
     // MARK: Outlets
     @IBOutlet weak var qtyTextField: UITextField!
@@ -62,6 +64,11 @@ class ProvisionsBSDViewController: UIViewController {
     @IBAction func dismissViewOutsideTap() {
         dismissViewOutsideTapAction()
     }
+    
+    @IBAction func dismissKeyboardOutsideTap(_ sender: Any) {
+        dismissKeyboardOutsideTapAction()
+    }
+    
 }
 
 
@@ -77,6 +84,7 @@ extension ProvisionsBSDViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadProduct()
+        initTexfieldKeyboard()
     }
 }
 
@@ -93,6 +101,30 @@ extension ProvisionsBSDViewController {
     private func dismissViewOutsideTapAction() {
         dismiss(animated: true)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        checkIfUpdate()
+    }
+}
+
+
+
+//===========================================================
+// MARK: Keyboard
+//===========================================================
+
+
+
+extension ProvisionsBSDViewController {
+    
+    private func initTexfieldKeyboard() {
+        qtyTextField.addDoneOnNumericPad()
+    }
+    
+    private func dismissKeyboardOutsideTapAction() {
+        qtyTextField.resignFirstResponder()
+    }
 }
 
 
@@ -106,7 +138,7 @@ extension ProvisionsBSDViewController {
 extension ProvisionsBSDViewController {
     
     private func loadProduct() {
-        guard let provProvider = provDisplayProvider else {return}
+        guard let provProvider = o_provDisplayProvider else {return}
         
         // Qty and unit
         qtyTextField.text = provProvider.quantityToString
@@ -129,10 +161,32 @@ extension ProvisionsBSDViewController {
 extension ProvisionsBSDViewController {
     
     private func lessQtyButtonTapAction() {
+        guard var stringQty = qtyTextField.text else {return}
+        if stringQty == "" {return}
+        // enlève 1
+        stringQty.toConvertibleString()
+        guard var qty = Double(stringQty) else {return}
+        qty -= 1
+        
+        if qty < 0 {
+            qtyTextField.text = ""
+        } else {
+            qtyTextField.text = qty.toRoundedString
+        }
         
     }
+    
     private func moreQtyButtonTapAction() {
-        
+        guard var stringQty = qtyTextField.text else {return}
+        if stringQty == "" {
+            qtyTextField.text = "1"
+            return
+        }
+        // on ajoute 1 à la valeur existante
+        stringQty.toConvertibleString()
+        guard var qty = Double(stringQty) else {return}
+        qty += 1
+        qtyTextField.text = qty.toRoundedString
     }
 }
 
@@ -181,6 +235,65 @@ extension ProvisionsBSDViewController {
 
 
 //===========================================================
+// MARK: Update provision
+//===========================================================
+
+
+
+extension ProvisionsBSDViewController {
+    
+    private func checkIfUpdate() {
+        // on met à jour si modification
+        guard let provProvider = o_provDisplayProvider else {return}
+        
+        var updated = false
+        
+        // qty
+        updated = checkQtyUpdate(provProvider: provProvider)
+        // unit
+        if let unit = unitLabel.text {
+            if unit != provProvider.unit {
+                provProvider.unit = unit
+                updated = true
+            }
+        }
+        // DLC
+        if let newDlc = o_newDlc {
+            provProvider.customDlc = newDlc
+            updated = true
+        }
+        
+        // Notif si update
+        if updated {
+            if updated, let provIndexPath = o_provIndexPath {
+                ProvisionsGenericMethods.updateUserProvision(atIndexPath: provIndexPath)
+            }
+        }
+    }
+    
+    private func checkQtyUpdate(provProvider: ProvisionDisplayProvider) -> Bool {
+        guard var stringQty = qtyTextField.text else {return false}
+        
+        if stringQty == "" && provProvider.quantity >= 0 {
+            // -1 pour annuler l'affichage d'une quantité
+            provProvider.quantity = -1
+            return true
+        }
+        
+        stringQty.toConvertibleString()
+        guard let qty = Double(stringQty) else {return false}
+        
+        if qty != provProvider.quantity {
+            provProvider.quantity = qty
+            return true
+        }
+        return false
+    }
+}
+
+
+
+//===========================================================
 // MARK: Delete provision
 //===========================================================
 
@@ -191,7 +304,7 @@ extension ProvisionsBSDViewController {
     private func deleteProvButtonTapAction() {
         
         let deleteButton = UIAlertAction(title: NSLocalizedString("alert_delete", comment: ""), style: .destructive) { _ in
-            guard let provProvider = self.provDisplayProvider else {return}
+            guard let provProvider = self.o_provDisplayProvider else {return}
             
             ProvisionsGenericMethods.deleteUserProvision(ofProvDisplayProvider: provProvider)
             self.dismiss(animated: true)

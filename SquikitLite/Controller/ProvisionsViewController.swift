@@ -49,11 +49,28 @@ extension ProvisionsViewController {
         provisionsCollectionView.register(ProvisionCell.nib, forCellWithReuseIdentifier: ProvisionCell.key)
         provisionsCollectionView.backgroundColor = UIColor.clear
         
+        // notifications
+        addNotificationObservers()
+    }
+}
+
+
+
+//===========================================================
+// MARK: Notifications
+//===========================================================
+
+
+
+extension ProvisionsViewController {
+    
+    private func addNotificationObservers() {
         // notification user provisions added
         NotificationCenter.default.addObserver(self, selector: #selector(userProvisionsAdded(_ :)), name: .userProvisionsAdded, object: nil)
-        
         // notification user provision deleted
         NotificationCenter.default.addObserver(self, selector: #selector(userProvisionDeleted(_ :)), name: .userProvisionsDeleted, object: nil)
+        // notification user provision updated
+        NotificationCenter.default.addObserver(self, selector: #selector(userProvisionUpdated(_ :)), name: .userProvisionUpdated, object: nil)
     }
 }
 
@@ -66,12 +83,12 @@ extension ProvisionsViewController {
 
 
 extension ProvisionsViewController {
-    
+    /*
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         provisionsCollectionView.reloadData()
     }
-    
+    */
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         provisionsCollectionView.reloadData()
@@ -170,9 +187,10 @@ extension ProvisionsViewController: UICollectionViewDelegateFlowLayout {
 extension ProvisionsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let bsdVC = storyboard?.instantiateViewController(withIdentifier: ProvisionsBSDViewController.STORYBOARD_ID) as! ProvisionsBSDViewController
-        bsdVC.provDisplayProvider = provsDisplayProvider[indexPath.row]
-        present(bsdVC, animated: true)
+        let provisionBSD = storyboard?.instantiateViewController(withIdentifier: ProvisionsBSDViewController.STORYBOARD_ID) as! ProvisionsBSDViewController
+        provisionBSD.o_provDisplayProvider = provsDisplayProvider[indexPath.row]
+        provisionBSD.o_provIndexPath = indexPath
+        present(provisionBSD, animated: true)
     }
 }
 
@@ -258,11 +276,22 @@ extension ProvisionsViewController {
     @objc func userProvisionDeleted(_ notif: NSNotification) {
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on supprime du provider existant
-            provsDisplayProvider.removeAll { $0.provisionOfDP.uuid == providerInNotif.provisionOfDP.uuid }
+            provsDisplayProvider.removeAll { $0.uuid == providerInNotif.uuid }
         } else {
             // on update tout au cas où...
             provsDisplayProvider = ProvisionsGenericMethods.getUserProvisionsDisplayProvider()
         }
         provisionsCollectionView.reloadData()
+    }
+    
+    @objc func userProvisionUpdated(_ notif: NSNotification) {
+        if let provIndexPath = notif.object as? IndexPath {
+            // on reload la cellule
+            provisionsCollectionView.reloadItems(at: [provIndexPath])
+        } else {
+            // on reload tout au cas où...
+            provisionsCollectionView.reloadData()
+        }
+        
     }
 }

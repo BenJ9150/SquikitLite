@@ -18,6 +18,7 @@ import Foundation
 extension Notification.Name {
     static let userProvisionsAdded = Notification.Name("UserProvisionsAdded")
     static let userProvisionsDeleted = Notification.Name("UserProvisionsDeleted")
+    static let userProvisionUpdated = Notification.Name("UserProvisionUpdated")
 }
 
 
@@ -39,6 +40,44 @@ extension String {
     
     var cleanUpForComparaison: String {
         return self.lowercased().folding(options: .diacriticInsensitive, locale: .none).replacingOccurrences(of: "’", with: "'")
+    }
+    
+    mutating func toConvertibleString() {
+        self = self.replacingOccurrences(of: ",", with: ".")
+    }
+}
+
+
+
+//===========================================================
+// MARK: Double
+//===========================================================
+
+
+
+extension Double {
+    
+    var toRoundedString: String {
+        /*
+        let roundedQty = self.rounded()
+        if roundedQty == self {
+            return "\(self.formatted(.number.precision(.fractionLength(0))))"
+        } else {
+            return "\(self.formatted(.number.precision(.fractionLength(1))))"
+        }
+         */
+        
+        let roundedQty = self.rounded()
+        if roundedQty == self {
+           // pas de virgule
+            return String(format: "%.0f", self)
+            
+        } else {
+            if let language = Locale.current.language.languageCode?.identifier, language == "fr" {
+                return String(format: "%.1f", self).replacingOccurrences(of: ".", with: ",")
+            }
+            return String(format: "%.1f", self)
+        }
     }
 }
 
