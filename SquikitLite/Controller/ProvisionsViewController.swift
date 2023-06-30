@@ -27,7 +27,17 @@ class ProvisionsViewController: UIViewController {
 
     @IBOutlet weak var provisionsCollectionView: UICollectionView!
     
-    // MARK: View did load
+}
+
+
+
+//===========================================================
+// MARK: View did load
+//===========================================================
+
+
+
+extension ProvisionsViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -160,18 +170,9 @@ extension ProvisionsViewController: UICollectionViewDelegateFlowLayout {
 extension ProvisionsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let alert = UIAlertController(title: "Delete?", message: "", preferredStyle: .alert)
-        
-        let okButton = UIAlertAction(title: "Ok", style: .destructive) { _ in
-            // delete prov
-            ProvisionsGenericMethods.deleteUserProvision(ofProvDisplayProvider: self.provsDisplayProvider[indexPath.row])
-        }
-        alert.addAction(okButton)
-        
-        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
-        alert.addAction(cancelButton)
-        
-        present(alert, animated: true)
+        let bsdVC = storyboard?.instantiateViewController(withIdentifier: ProvisionsBSDViewController.STORYBOARD_ID) as! ProvisionsBSDViewController
+        bsdVC.provDisplayProvider = provsDisplayProvider[indexPath.row]
+        present(bsdVC, animated: true)
     }
 }
 
@@ -255,7 +256,13 @@ extension ProvisionsViewController {
     }
     
     @objc func userProvisionDeleted(_ notif: NSNotification) {
-        provsDisplayProvider = ProvisionsGenericMethods.getUserProvisionsDisplayProvider()
+        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
+            // on supprime du provider existant
+            provsDisplayProvider.removeAll { $0.provisionOfDP.uuid == providerInNotif.provisionOfDP.uuid }
+        } else {
+            // on update tout au cas où...
+            provsDisplayProvider = ProvisionsGenericMethods.getUserProvisionsDisplayProvider()
+        }
         provisionsCollectionView.reloadData()
     }
 }

@@ -20,20 +20,20 @@ class ProvisionDisplayProvider {
     
     // MARK: Properties
     
-    private let provOfDisplayProvider: Provision
+    private let provision: Provision
     
     private var product: Product {
-        return provOfDisplayProvider.product
+        return provision.product
     }
     
-    var provision: Provision {
-        return provOfDisplayProvider
+    var provisionOfDP: Provision {
+        return provision
     }
     
     // MARK: Init
     
     init(forProvision provision: Provision) {
-        self.provOfDisplayProvider = provision
+        self.provision = provision
     }
 }
 
@@ -74,13 +74,21 @@ extension ProvisionDisplayProvider {
 
 extension ProvisionDisplayProvider {
     
-    var quantityAndShoppingUnit: String {
-        let roundedQty = provOfDisplayProvider.quantity.rounded()
-        if roundedQty == provOfDisplayProvider.quantity {
-            return "\(provOfDisplayProvider.quantity.formatted(.number.precision(.fractionLength(0))))" + " " + product.ShoppingUnit
+    var quantityToString: String {
+        let roundedQty = provision.quantity.rounded()
+        if roundedQty == provision.quantity {
+            return "\(provision.quantity.formatted(.number.precision(.fractionLength(0))))"
         } else {
-            return "\(provOfDisplayProvider.quantity.formatted(.number.precision(.fractionLength(1))))" + " " + product.ShoppingUnit
+            return "\(provision.quantity.formatted(.number.precision(.fractionLength(1))))"
         }
+    }
+    
+    var unit: String {
+        return product.ShoppingUnit
+    }
+    
+    var quantityAndShoppingUnit: String {
+        return quantityToString + " " + product.ShoppingUnit
     }
 }
 
@@ -120,7 +128,7 @@ extension ProvisionDisplayProvider {
         if !havePeremption {
             return Int.max
         }
-        let nbOfDaysSincePurchase = Calendar.current.numberOfDaysBetween(from: provOfDisplayProvider.purchaseDate, to: Date())
+        let nbOfDaysSincePurchase = Calendar.current.numberOfDaysBetween(from: provision.purchaseDate, to: Date())
         return product.Preservation - nbOfDaysSincePurchase
     }
     
@@ -139,6 +147,20 @@ extension ProvisionDisplayProvider {
             return NSLocalizedString("dlcLabel_longTime", comment: "")
         }
         return NSLocalizedString("dlcLabel_day", comment: "") + "\(expirationCountDown)"
+    }
+    
+    var dlcToString: String {
+        if !havePeremption {
+            return NSLocalizedString("dlcNoPeremptionMessage", comment: "")
+        }
+        // add preservation to purchase date
+        var perempDate = provision.purchaseDate
+        perempDate.addTimeInterval(Double(product.Preservation))
+        // date formatter
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = AppSettings.dateFormat
+        
+        return NSLocalizedString("dlcSuffixString", comment: "") + dateFormatter.string(from: perempDate)
     }
 }
 

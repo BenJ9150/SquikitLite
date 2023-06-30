@@ -17,12 +17,16 @@ import Foundation
 
 class AppSettings {
     
-    // MARK: peremption
+    // MARK: Peremption
     
     // Valeur de passage de Warning à critique
     static let ConsoLimitNowValue: Int = 2 // en jours
     // Valeur de passage de Ok à Warning
     static let ConsoLimitSoonValue: Int = 5; // en jours
     // Valeur de désactivation d'une DLC dans la péremption
-    static let DLCDisablePeremption: Int = -1;
+    static let dlcDisablePeremption: Int = -1;
+    
+    // MARK: Date
+    
+    static let dateFormat = "dd/MM/YY"
 }

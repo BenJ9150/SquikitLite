@@ -67,12 +67,12 @@ extension ProvisionsGenericMethods {
     }
     
     static func addUserProvision(ofProvDisplayProvider provProvider: ProvisionDisplayProvider) {
-        UserProvisionsManager.shared.saveNewUserProvision(provision: provProvider.provision)
+        UserProvisionsManager.shared.saveNewUserProvision(provision: provProvider.provisionOfDP)
         NotificationCenter.default.post(name: .userProvisionsAdded, object: provProvider)
     }
     
     static func deleteUserProvision(ofProvDisplayProvider provProvider: ProvisionDisplayProvider) {
-        UserProvisionsManager.shared.deleteUserProvision(provision: provProvider.provision)
+        UserProvisionsManager.shared.deleteUserProvision(provision: provProvider.provisionOfDP)
         NotificationCenter.default.post(name: .userProvisionsDeleted, object: provProvider)
     }
 }

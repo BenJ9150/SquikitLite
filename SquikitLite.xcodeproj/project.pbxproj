@@ -25,6 +25,7 @@
 		432A85762A44F68F00225150 /* nofoodsCollection.json in Resources */ = {isa = PBXBuildFile; fileRef = 432A85752A44F68F00225150 /* nofoodsCollection.json */; };
 		432A85782A44F8BE00225150 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A85772A44F8BE00225150 /* Product.swift */; };
 		432A857A2A44FBB600225150 /* DatabaseProvisionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A85792A44FBB600225150 /* DatabaseProvisionsManager.swift */; };
+		434E17BA2A4EC91A0086FC28 /* ProvisionsBSDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434E17B92A4EC91A0086FC28 /* ProvisionsBSDViewController.swift */; };
 		43584B7C2A4C6D3D00EEFA8A /* ProductsGenericMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43584B7B2A4C6D3D00EEFA8A /* ProductsGenericMethods.swift */; };
 		43584B7E2A4C789800EEFA8A /* ProvisionDisplayProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43584B7D2A4C789800EEFA8A /* ProvisionDisplayProvider.swift */; };
 		43584B802A4C7FD100EEFA8A /* ProvisionsGenericMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43584B7F2A4C7FD100EEFA8A /* ProvisionsGenericMethods.swift */; };
@@ -60,6 +61,7 @@
 		432A85752A44F68F00225150 /* nofoodsCollection.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nofoodsCollection.json; sourceTree = "<group>"; };
 		432A85772A44F8BE00225150 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		432A85792A44FBB600225150 /* DatabaseProvisionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseProvisionsManager.swift; sourceTree = "<group>"; };
+		434E17B92A4EC91A0086FC28 /* ProvisionsBSDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionsBSDViewController.swift; sourceTree = "<group>"; };
 		43584B7B2A4C6D3D00EEFA8A /* ProductsGenericMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsGenericMethods.swift; sourceTree = "<group>"; };
 		43584B7D2A4C789800EEFA8A /* ProvisionDisplayProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionDisplayProvider.swift; sourceTree = "<group>"; };
 		43584B7F2A4C7FD100EEFA8A /* ProvisionsGenericMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionsGenericMethods.swift; sourceTree = "<group>"; };
@@ -128,8 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				432A85772A44F8BE00225150 /* Product.swift */,
-				43CB192D2A4D8E840035620D /* Categories.swift */,
 				432A856D2A44E95C00225150 /* Provision.swift */,
+				43CB192D2A4D8E840035620D /* Categories.swift */,
 				435F8B322A49BC3200E54573 /* Database */,
 				43584B822A4C801200EEFA8A /* DisplayProviders */,
 				43584B812A4C7FF800EEFA8A /* GenericMethods */,
@@ -141,10 +143,11 @@
 		432A855B2A44B8D000225150 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				432A856B2A44DD1800225150 /* AddprovisionViewController.swift */,
-				432A855F2A44BB8C00225150 /* CoursesViewController.swift */,
 				432A85652A44C57800225150 /* MainTabBarViewController.swift */,
 				432A85612A44BC0800225150 /* ProvisionsViewController.swift */,
+				432A856B2A44DD1800225150 /* AddprovisionViewController.swift */,
+				434E17B92A4EC91A0086FC28 /* ProvisionsBSDViewController.swift */,
+				432A855F2A44BB8C00225150 /* CoursesViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				432A856C2A44DD1800225150 /* AddprovisionViewController.swift in Sources */,
 				432A857A2A44FBB600225150 /* DatabaseProvisionsManager.swift in Sources */,
 				432A85622A44BC0800225150 /* ProvisionsViewController.swift in Sources */,
+				434E17BA2A4EC91A0086FC28 /* ProvisionsBSDViewController.swift in Sources */,
 				43584B7E2A4C789800EEFA8A /* ProvisionDisplayProvider.swift in Sources */,
 				43CB19302A4DE0BE0035620D /* UserProvisionsManager.swift in Sources */,
 				432A85642A44BEAE00225150 /* Colors.swift in Sources */,

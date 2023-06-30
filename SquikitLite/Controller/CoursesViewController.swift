@@ -17,7 +17,22 @@ import UIKit
 
 class CoursesViewController: UIViewController {
 
-    // MARK: View did load
+    // MARK: Properties
+    
+    
+    // MARK: Outlets
+    
+}
+
+
+
+//===========================================================
+// MARK: View did load
+//===========================================================
+
+
+
+extension CoursesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

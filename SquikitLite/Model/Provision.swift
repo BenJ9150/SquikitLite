@@ -23,11 +23,13 @@ class Provision: Codable {
     var isFood: Bool
     var quantity: Double = 0
     var purchaseDate: Date = Date()
+    let uuid: UUID
     
     // MARK: Init
     
     init(product: Product, isFood: Bool) {
         self.product = product
         self.isFood = isFood
+        self.uuid = UUID.init()
     }
 }

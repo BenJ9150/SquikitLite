@@ -29,7 +29,17 @@ class AddprovisionViewController: UIViewController {
     @IBOutlet weak var searchProvisionsTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    // MARK: View did load
+}
+
+
+
+//===========================================================
+// MARK: View did load
+//===========================================================
+
+
+
+extension AddprovisionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +75,10 @@ extension AddprovisionViewController: UISearchBarDelegate {
         searching = false
         searchBar.text = ""
         searchProvisionsTableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
 

@@ -17,4 +17,12 @@
 "dlcLabel_outdated"="Périm.";
 "dlcLabel_day"="J-";
 "dlcLabel_longTime"="+99j";
+"dlcSuffixString"="DLC :";
+"dlcNoPeremptionMessage"="Pas de DLC";
 
+/* Alert button */
+"alert_delete"="Supprimer";
+"alert_cancel"="Annuler";
+
+/* Alert delete provision */
+"alert_deleteProvTitle"="Supprimer la provision ?";

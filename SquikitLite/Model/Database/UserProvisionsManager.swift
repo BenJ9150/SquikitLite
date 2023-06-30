@@ -76,10 +76,7 @@ extension UserProvisionsManager {
         if !provisionsLoaded {
             loadUserProvisions()
         }
-        
-        //provisions.removeAll { $0.purchaseDate.timeIntervalSince1970 == provision.purchaseDate.timeIntervalSince1970 }
-        provisions.removeAll { $0.product.Id == provision.product.Id }
-        
+        provisions.removeAll { $0.uuid == provision.uuid }
         saveUserProvisionsToUserDefaults()
     }
 }
