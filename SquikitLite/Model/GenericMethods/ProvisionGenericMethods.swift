@@ -48,7 +48,9 @@ extension ProvisionGenericMethods {
     
     static func addUserProvision(withProductDP productDP: ProductDisplayProvider) {
         // on crée une nouvelle provision
-        let newProvProvider = ProvisionDisplayProvider(forProvision: Provision(product: productDP.getProduct, isFood: true))
+        let isNoFood = AppSettings.noFoodsRef.contains { $0 == productDP.getProduct.CategoryRef }
+        
+        let newProvProvider = ProvisionDisplayProvider(forProvision: Provision(product: productDP.getProduct, isFood: !isNoFood))
         
         UserProvisionsManager.shared.saveNewUserProvision(provision: newProvProvider.provOfDisplayProvider)
         NotificationCenter.default.post(name: .userProvisionsAdded, object: newProvProvider)
