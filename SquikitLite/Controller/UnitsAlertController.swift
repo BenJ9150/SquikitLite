@@ -68,7 +68,7 @@ extension UnitsAlertController {
         
         // select row
         if let unit =  o_selectedUnit {
-            pickerView.selectRow(ProductsGenericMethods.getUnitRow(ofUnit: unit), inComponent: 0, animated: false)
+            pickerView.selectRow(ProductGenericMethods.getUnitRow(ofUnit: unit), inComponent: 0, animated: false)
         }
     }
 }
@@ -89,7 +89,7 @@ extension UnitsAlertController: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return ProductsGenericMethods.getUnitsCount()
+        return ProductGenericMethods.getUnitsCount()
     }
 }
 
@@ -104,6 +104,6 @@ extension UnitsAlertController: UIPickerViewDataSource {
 extension UnitsAlertController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return ProductsGenericMethods.getUnit(ofRow: row)
+        return ProductGenericMethods.getUnit(ofRow: row)
     }
 }

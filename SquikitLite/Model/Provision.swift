@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 
 
@@ -43,16 +44,6 @@ class Provision: Codable {
         self.uuid = UUID.init()
         self.quantity = product.DefaultQuantity
         self.unit = product.ShoppingUnit
-    }
-    
-    convenience init(cloneFromProvision prov: Provision) {
-        self.init(product: prov.product, isFood: prov.isFood)
-        
-        // Editable properties
-        self.quantity = prov.quantity
-        self.unit = prov.unit
-        self.customDlc = prov.customDlc
-        self.imageUrl = prov.imageUrl
     }
 }
 

@@ -105,7 +105,7 @@ extension ProvisionDisplayProvider {
         if provision.quantity < 0 {return ""}
         if provision.quantity <= 1 {return quantityToString + " " + unit}
         
-        return quantityToString + " " + ProductsGenericMethods.getPluralUnit(ofUnit: unit)
+        return quantityToString + " " + ProductGenericMethods.getPluralUnit(ofUnit: unit)
     }
 }
 
@@ -120,7 +120,7 @@ extension ProvisionDisplayProvider {
 extension ProvisionDisplayProvider {
     
     var image: UIImage {
-        return ProductsGenericMethods.getDefaultImage(forCategoryRef: product.CategoryRef)
+        return ProductGenericMethods.getDefaultImage(forCategoryRef: product.CategoryRef)
     }
 }
 
@@ -207,11 +207,11 @@ extension ProvisionDisplayProvider {
 extension ProvisionDisplayProvider {
     
     var category: String {
-        return ProductsGenericMethods.getCategory(withRef: product.CategoryRef).capitalizedSentence
+        return ProductGenericMethods.getCategory(withRef: product.CategoryRef).capitalizedSentence
     }
     
     var subCategory: String {
-        return ProductsGenericMethods.getSubCategory(withSubCatRef: product.SubCategoryRef, inCatRef: product.CategoryRef)
+        return ProductGenericMethods.getSubCategory(withSubCatRef: product.SubCategoryRef, inCatRef: product.CategoryRef)
     }
     
     var categoryAndSubCategory: String {

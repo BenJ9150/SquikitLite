@@ -17,6 +17,10 @@ import Foundation
 
 class AppSettings {
     
+    // MARK: JSON file database
+    static let foodsCollectionFileName = "foodsCollection"
+    static let noFoodsCollectionFileName = "nofoodsCollection"
+    
     // MARK: Peremption
     
     // Valeur de passage de Warning à critique
@@ -29,4 +33,8 @@ class AppSettings {
     // MARK: Date
     
     static let dateFormat = "dd/MM/YY"
+    
+    // MARK: Persistent container
+    
+    static let persistentContainerName = "SquikitLite"
 }

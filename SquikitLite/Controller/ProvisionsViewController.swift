@@ -256,7 +256,7 @@ extension ProvisionsViewController: UICollectionViewDataSource {
 extension ProvisionsViewController {
     
     private func getUserProvisions() {
-        provsDisplayProvider = ProvisionsGenericMethods.getUserProvisionsDisplayProvider()
+        provsDisplayProvider = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
     }
     
     @objc func userProvisionsAdded(_ notif: NSNotification) {
@@ -268,7 +268,7 @@ extension ProvisionsViewController {
             provsDisplayProvider.append(contentsOf: providersInNotif)
         } else {
             // on update tout au cas où...
-            provsDisplayProvider = ProvisionsGenericMethods.getUserProvisionsDisplayProvider()
+            provsDisplayProvider = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
         }
         provisionsCollectionView.reloadData()
     }
@@ -279,7 +279,7 @@ extension ProvisionsViewController {
             provsDisplayProvider.removeAll { $0.uuid == providerInNotif.uuid }
         } else {
             // on update tout au cas où...
-            provsDisplayProvider = ProvisionsGenericMethods.getUserProvisionsDisplayProvider()
+            provsDisplayProvider = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
         }
         provisionsCollectionView.reloadData()
     }

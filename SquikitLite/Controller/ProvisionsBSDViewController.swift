@@ -210,7 +210,7 @@ extension ProvisionsBSDViewController {
         
         // ok button
         let okButton = UIAlertAction(title: NSLocalizedString("alert_choose", comment: ""), style: .default) { _ in
-            let newUnit = ProductsGenericMethods.getUnit(ofRow: alertUnits.pickerView.selectedRow(inComponent: 0))
+            let newUnit = ProductGenericMethods.getUnit(ofRow: alertUnits.pickerView.selectedRow(inComponent: 0))
             if newUnit != "" {
                 self.unitLabel.text = newUnit
             }
@@ -348,7 +348,7 @@ extension ProvisionsBSDViewController {
         // Notif si update
         if updated {
             if updated, let provIndexPath = o_provIndexPath {
-                ProvisionsGenericMethods.updateUserProvision(atIndexPath: provIndexPath)
+                ProvisionGenericMethods.updateUserProvision(atIndexPath: provIndexPath)
             }
         }
     }
@@ -390,7 +390,7 @@ extension ProvisionsBSDViewController {
         let deleteButton = UIAlertAction(title: NSLocalizedString("alert_delete", comment: ""), style: .destructive) { _ in
             guard let provProvider = self.o_provDisplayProvider else {return}
             
-            ProvisionsGenericMethods.deleteUserProvision(ofProvDisplayProvider: provProvider)
+            ProvisionGenericMethods.deleteUserProvision(ofProvDisplayProvider: provProvider)
             self.dismiss(animated: true)
         }
         

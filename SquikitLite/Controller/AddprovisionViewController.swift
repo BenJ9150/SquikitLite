@@ -20,8 +20,8 @@ class AddprovisionViewController: UIViewController {
     // MARK: Properties
     
     static let STORYBOARD_ID = "AddprovisionViewController"
-    private var databaseProvsProvider = [ProvisionDisplayProvider]()
-    private var searchedProvsProvider = [ProvisionDisplayProvider]()
+    private var o_productsDP = [ProductDisplayProvider]()
+    private var o_searchedProductsDP = [ProductDisplayProvider]()
     private var searching = false
     
     // MARK: Outlets
@@ -45,7 +45,7 @@ extension AddprovisionViewController {
         super.viewDidLoad()
         
         // get all provions from database
-        databaseProvsProvider = ProvisionsGenericMethods.getDataBaseProvisionsDisplayProvider()
+        o_productsDP = ProductGenericMethods.productsDisplayProviderFromDatabase()
         
         // search provisions tableView
         searchProvisionsTableView.register(SearchProvisionsCell.nib, forCellReuseIdentifier: SearchProvisionsCell.key)
@@ -66,7 +66,7 @@ extension AddprovisionViewController {
 extension AddprovisionViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchedProvsProvider = ProvisionsGenericMethods.filterProvisionsByName(fromProvsProvider: databaseProvsProvider, withText: searchText)
+        o_searchedProductsDP = ProductGenericMethods.filterProductsByName(fromProductsDP: o_productsDP, withText: searchText)
         searching = true
         searchProvisionsTableView.reloadData()
     }
@@ -94,24 +94,24 @@ extension AddprovisionViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searching {
-            return searchedProvsProvider.count
+            return o_searchedProductsDP.count
         }
-        return databaseProvsProvider.count
+        return o_productsDP.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let searchProvCell = tableView.dequeueReusableCell(withIdentifier: SearchProvisionsCell.key, for: indexPath) as! SearchProvisionsCell
         
-        let provsProvider: ProvisionDisplayProvider
+        let productsDP: ProductDisplayProvider
         if searching {
-            provsProvider = searchedProvsProvider[indexPath.row]
+            productsDP = o_searchedProductsDP[indexPath.row]
         } else {
-            provsProvider = databaseProvsProvider[indexPath.row]
+            productsDP = o_productsDP[indexPath.row]
         }
         
-        searchProvCell.nameLabel.text = provsProvider.name
-        searchProvCell.categoryLabel.text = provsProvider.categoryAndSubCategory
-        searchProvCell.productImageView.image = provsProvider.image
+        searchProvCell.nameLabel.text = productsDP.name
+        searchProvCell.categoryLabel.text = productsDP.categoryAndSubCategory
+        searchProvCell.productImageView.image = productsDP.image
         
         return searchProvCell
     }
@@ -129,11 +129,11 @@ extension AddprovisionViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // update user provisions
-        if searching && indexPath.row < searchedProvsProvider.count {
-            ProvisionsGenericMethods.addUserProvision(ofProvDisplayProvider: searchedProvsProvider[indexPath.row])
+        if searching && indexPath.row < o_searchedProductsDP.count {
+            ProvisionGenericMethods.addUserProvision(withProductDP: o_searchedProductsDP[indexPath.row])
             
-        } else if indexPath.row < databaseProvsProvider.count {
-            ProvisionsGenericMethods.addUserProvision(ofProvDisplayProvider: databaseProvsProvider[indexPath.row])
+        } else if indexPath.row < o_productsDP.count {
+            ProvisionGenericMethods.addUserProvision(withProductDP: o_productsDP[indexPath.row])
         }
         dismiss(animated: true)
     }

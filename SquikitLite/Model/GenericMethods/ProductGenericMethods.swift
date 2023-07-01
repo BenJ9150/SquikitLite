@@ -11,13 +11,21 @@ import UIKit
 
 
 //===========================================================
-// MARK: ProductsGenericMethods class
+// MARK: ProductGenericMethods class
 //===========================================================
 
 
 
-class ProductsGenericMethods {
+class ProductGenericMethods {
     
+    static func productsDisplayProviderFromDatabase() -> [ProductDisplayProvider] {
+        var productsDP = [ProductDisplayProvider]()
+        for product in ProductManager.shared.getProducts {
+            let productDP = ProductDisplayProvider(forProduct: product)
+            productsDP.append(productDP)
+        }
+        return productsDP
+    }
 }
 
 
@@ -28,7 +36,7 @@ class ProductsGenericMethods {
 
 
 
-extension ProductsGenericMethods {
+extension ProductGenericMethods {
     
     static func getCategory(withRef ref: Double) -> String {
         if let cat = Categories.shared.categories[ref] {
@@ -55,7 +63,7 @@ extension ProductsGenericMethods {
 
 
 
-extension ProductsGenericMethods {
+extension ProductGenericMethods {
     
     static func getUnitsCount() -> Int {
         return Units.shared.units.count
@@ -90,12 +98,56 @@ extension ProductsGenericMethods {
 
 
 //===========================================================
+// MARK: Filters
+//===========================================================
+
+
+
+extension ProductGenericMethods {
+    
+    static func filterProductsByName(fromProductsDP productsDP: [ProductDisplayProvider], withText searchText: String) -> [ProductDisplayProvider] {
+        
+        if searchText == "" {
+            return productsDP
+        }
+        
+        var searchedProvsProvider = productsDP.filter({ provProvider in
+            // name
+            if provProvider.name.cleanUpForComparaison.prefix(searchText.count) == searchText.cleanUpForComparaison {
+                return true
+            }
+            // subCat
+            if provProvider.subCategory.cleanUpForComparaison.prefix(searchText.count) == searchText.cleanUpForComparaison {
+                return true
+            }
+            // variants
+            for variant in provProvider.variants {
+                if String(variant).cleanUpForComparaison.prefix(searchText.count) == searchText.cleanUpForComparaison {
+                    return true
+                }
+            }
+            // cat
+            if provProvider.category.cleanUpForComparaison.prefix(searchText.count) == searchText.cleanUpForComparaison {
+                return true
+            }
+            return false
+        })
+        
+        searchedProvsProvider.sort { $0.name.count < $1.name.count }
+        
+        return searchedProvsProvider
+    }
+}
+
+
+
+//===========================================================
 // MARK: Images
 //===========================================================
 
 
 
-extension ProductsGenericMethods {
+extension ProductGenericMethods {
     
     static func getDefaultImage(forCategoryRef categoryRef: Double) -> UIImage {
         switch categoryRef {

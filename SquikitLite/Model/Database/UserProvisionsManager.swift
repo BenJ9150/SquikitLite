@@ -36,6 +36,7 @@ class UserProvisionsManager {
     // MARK: Singleton
     
     static let shared = UserProvisionsManager()
+    private init() {}
 }
 
 
