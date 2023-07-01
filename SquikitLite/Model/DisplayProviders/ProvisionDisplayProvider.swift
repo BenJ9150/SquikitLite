@@ -174,6 +174,27 @@ extension ProvisionDisplayProvider {
         return NSLocalizedString("dlcLabel_day", comment: "") + "\(expirationCountDown)"
     }
     
+    var dlc: Date {
+        // date formatter
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = AppSettings.dateFormat
+        
+        // vérif si custom dlc
+        if let customDlc = provision.customDlc {
+            return customDlc
+        }
+        
+        // vérif si product avec péremption
+        if !havePeremption {
+            return Date()
+        }
+        // add preservation to purchase date
+        var perempDate = provision.purchaseDate
+        perempDate.addTimeInterval(Double(product.Preservation))
+        
+        return perempDate
+    }
+    
     var dlcToString: String {
         // date formatter
         let dateFormatter = DateFormatter()

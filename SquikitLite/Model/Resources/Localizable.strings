@@ -39,6 +39,3 @@
 "alert_changeDlcTitle"="Nouvelle DLC";
 "alert_removeDlcTitle"="Retirer la DLC ?";
 "alert_chooseUnitTitle"="Nouvelle unité";
-
-/* Alert messages */
-"alert_chooseUnitMessage"="\n\n\n\n\n\n\n\n\n\n";

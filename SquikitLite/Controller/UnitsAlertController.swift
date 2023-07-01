@@ -20,7 +20,7 @@ class UnitsAlertController: UIAlertController {
     // MARK: Properties
     
     var o_selectedUnit: String?
-    let pickerView = UIPickerView(frame: CGRect.zero)
+    let o_pickerView = UIPickerView(frame: CGRect.zero)
 }
 
 
@@ -51,24 +51,26 @@ extension UnitsAlertController {
     
     private func addButtonsAndPicker() {
         // picker view
-        //let pickerView = UIPickerView(frame: CGRect.zero)
-        pickerView.delegate = self
-        pickerView.dataSource = self
+        o_pickerView.delegate = self
+        o_pickerView.dataSource = self
+        
+        // change message for space
+        message = "\n\n\n\n\n\n\n\n\n\n"
         
         // add cancel button and picker
         addAction(UIAlertAction.cancelButton)
-        view.addSubview(pickerView)
+        view.addSubview(o_pickerView)
         
         // picker contraintes
-        pickerView.translatesAutoresizingMaskIntoConstraints = false
-        pickerView.heightAnchor.constraint(equalToConstant: 180).isActive = true
-        pickerView.leadingAnchor.constraint(equalTo: view.subviews[0].leadingAnchor, constant: 16).isActive = true
-        pickerView.centerXAnchor.constraint(equalTo: view.subviews[0].centerXAnchor).isActive = true
-        pickerView.centerYAnchor.constraint(equalTo: view.subviews[0].centerYAnchor).isActive = true
+        o_pickerView.translatesAutoresizingMaskIntoConstraints = false
+        o_pickerView.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        o_pickerView.leadingAnchor.constraint(equalTo: view.subviews[0].leadingAnchor, constant: 16).isActive = true
+        o_pickerView.centerXAnchor.constraint(equalTo: view.subviews[0].centerXAnchor).isActive = true
+        o_pickerView.centerYAnchor.constraint(equalTo: view.subviews[0].centerYAnchor).isActive = true
         
         // select row
         if let unit =  o_selectedUnit {
-            pickerView.selectRow(ProductGenericMethods.getUnitRow(ofUnit: unit), inComponent: 0, animated: false)
+            o_pickerView.selectRow(ProductGenericMethods.getUnitRow(ofUnit: unit), inComponent: 0, animated: false)
         }
     }
 }

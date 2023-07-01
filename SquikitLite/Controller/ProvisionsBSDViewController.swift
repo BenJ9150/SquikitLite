@@ -20,7 +20,7 @@ class ProvisionsBSDViewController: UIViewController {
     // MARK: Properties
     
     static let STORYBOARD_ID = "ProvisionsBSDViewController"
-    var o_provDisplayProvider: ProvisionDisplayProvider?
+    var o_provisionDP: ProvisionDisplayProvider?
     var o_provIndexPath: IndexPath?
     private var o_newDlc: Date?
     
@@ -138,7 +138,7 @@ extension ProvisionsBSDViewController {
 extension ProvisionsBSDViewController {
     
     private func loadProduct() {
-        guard let provProvider = o_provDisplayProvider else {return}
+        guard let provProvider = o_provisionDP else {return}
         
         // Qty and unit
         qtyTextField.text = provProvider.quantityToString
@@ -202,15 +202,15 @@ extension ProvisionsBSDViewController {
 extension ProvisionsBSDViewController {
     
     private func changeUnitButtonTapAction() {
-        guard let provProvider = o_provDisplayProvider else {return}
+        guard let provProvider = o_provisionDP else {return}
         
         // create alert
-        let alertUnits = UnitsAlertController(title: NSLocalizedString("alert_chooseUnitTitle", comment: ""), message: NSLocalizedString("alert_chooseUnitMessage", comment: ""), preferredStyle: .alert)
+        let alertUnits = UnitsAlertController(title: NSLocalizedString("alert_chooseUnitTitle", comment: ""), message: "", preferredStyle: .alert)
         alertUnits.o_selectedUnit = provProvider.unit
         
         // ok button
         let okButton = UIAlertAction(title: NSLocalizedString("alert_choose", comment: ""), style: .default) { _ in
-            let newUnit = ProductGenericMethods.getUnit(ofRow: alertUnits.pickerView.selectedRow(inComponent: 0))
+            let newUnit = ProductGenericMethods.getUnit(ofRow: alertUnits.o_pickerView.selectedRow(inComponent: 0))
             if newUnit != "" {
                 self.unitLabel.text = newUnit
             }
@@ -232,49 +232,18 @@ extension ProvisionsBSDViewController {
 extension ProvisionsBSDViewController {
     
     private func editDlcButtonTapAction() {
-        let alertDLC = AlertWithDLCPickerViewController(title: NSLocalizedString("alert_changeDlcTitle", comment: ""), message: "", preferredStyle: .alert)
-        present(alertDLC, animated: true)
+        guard let provProvider = o_provisionDP else {return}
         
-        /*
-        let alertDLC = UIAlertController(title: NSLocalizedString("alert_changeDlcTitle", comment: ""), message: "", preferredStyle: .alert)
+        let alertDLC = DlcAlertController(title: NSLocalizedString("alert_changeDlcTitle", comment: ""), message: "", preferredStyle: .alert)
+        alertDLC.o_selectedDate = provProvider.dlc
         
-        // cancel button
-        let cancelButton = UIAlertAction(title: NSLocalizedString("alert_cancel", comment: ""), style: .cancel) { _ in
-            self.dismiss(animated: true)
+        // ok button
+        let okButton = UIAlertAction(title: NSLocalizedString("alert_choose", comment: ""), style: .default) { _ in
+            self.o_newDlc = alertDLC.o_datePicker.date
         }
-        alertDLC.addAction(cancelButton)
         
-        // remove DLC button
-        let removeDlcButton = UIAlertAction(title: NSLocalizedString("alert_removeDLC", comment: ""), style: .destructive) { _ in
-            self.removeDlcButtonTapAction()
-        }
-        alertDLC.addAction(removeDlcButton)
-        
-        
-        // add date picker
-        let pickerVC = UIViewController()
-        pickerVC.preferredContentSize = CGSize(width: 250,height: 300)
-        let datePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: 250, height: 300))
-        //datePicker.delegate = self
-        pickerVC.view.addSubview(datePicker)
-        alertDLC.view.addSubview(datePicker)//alertDLC.setValue(pickerVC, forKey: "PickerViewController")
-        
-        // present alert
+        alertDLC.addAction(okButton)
         present(alertDLC, animated: true)
-        */
-        
-        
-        
-        /*
-        let dateChooserAlert = UIAlertController(title: "Choose date...", message: nil, preferredStyle: .actionSheet)
-        dateChooserAlert.view.addSubview(datePicker)
-        dateChooserAlert.addAction(UIAlertAction(title: "Done", style: .cancel, handler: { action in
-                // Your actions here if "Done" clicked...
-            }))
-        let height: NSLayoutConstraint = NSLayoutConstraint(item: dateChooserAlert.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
-        dateChooserAlert.view.addConstraint(height)
-        self.present(dateChooserAlert, animated: true, completion: nil)
-         */
     }
 }
 
@@ -326,7 +295,7 @@ extension ProvisionsBSDViewController {
     
     private func checkIfUpdate() {
         // on met à jour si modification
-        guard let provProvider = o_provDisplayProvider else {return}
+        guard let provProvider = o_provisionDP else {return}
         
         var updated = false
         
@@ -388,7 +357,7 @@ extension ProvisionsBSDViewController {
         
         // delete provision button
         let deleteButton = UIAlertAction(title: NSLocalizedString("alert_delete", comment: ""), style: .destructive) { _ in
-            guard let provProvider = self.o_provDisplayProvider else {return}
+            guard let provProvider = self.o_provisionDP else {return}
             
             ProvisionGenericMethods.deleteUserProvision(ofProvDisplayProvider: provProvider)
             self.dismiss(animated: true)

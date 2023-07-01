@@ -19,9 +19,9 @@ class ProvisionsViewController: UIViewController {
     
     // MARK: properties
     
-    var tabBarTransforming = false
-    var tabBarIsHidden = false
-    var provsDisplayProvider = [ProvisionDisplayProvider]()
+    var o_tabBarTransforming = false
+    var o_tabBarIsHidden = false
+    var o_provisionsDP = [ProvisionDisplayProvider]()
     
     // MARK: Outlets
 
@@ -113,24 +113,24 @@ extension ProvisionsViewController {
     
     private func changeTabBar(hide: Bool) {
         guard let tabBar = tabBarController?.tabBar else {return}
-        if tabBarTransforming {return}
-        if tabBarIsHidden == hide {return}
-        tabBarTransforming = true
+        if o_tabBarTransforming {return}
+        if o_tabBarIsHidden == hide {return}
+        o_tabBarTransforming = true
         
         if hide {
             UIView.animate(withDuration: 0.3) {
                 tabBar.frame = CGRect(origin: CGPoint(x: tabBar.frame.origin.x, y: tabBar.frame.origin.y + tabBar.frame.height*2), size: tabBar.frame.size)
             } completion: { _ in
-                self.tabBarIsHidden = true
-                self.tabBarTransforming = false
+                self.o_tabBarIsHidden = true
+                self.o_tabBarTransforming = false
             }
 
         } else {
             UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
                 tabBar.frame = CGRect(origin: CGPoint(x: tabBar.frame.origin.x, y: tabBar.frame.origin.y - tabBar.frame.height*2), size: tabBar.frame.size)
             } completion: { _ in
-                self.tabBarIsHidden = false
-                self.tabBarTransforming = false
+                self.o_tabBarIsHidden = false
+                self.o_tabBarTransforming = false
             }
         }
     }
@@ -188,7 +188,7 @@ extension ProvisionsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let provisionBSD = storyboard?.instantiateViewController(withIdentifier: ProvisionsBSDViewController.STORYBOARD_ID) as! ProvisionsBSDViewController
-        provisionBSD.o_provDisplayProvider = provsDisplayProvider[indexPath.row]
+        provisionBSD.o_provisionDP = o_provisionsDP[indexPath.row]
         provisionBSD.o_provIndexPath = indexPath
         present(provisionBSD, animated: true)
     }
@@ -205,7 +205,7 @@ extension ProvisionsViewController: UICollectionViewDelegate {
 extension ProvisionsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return provsDisplayProvider.count
+        return o_provisionsDP.count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -214,7 +214,7 @@ extension ProvisionsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProvisionCell.key, for: indexPath) as! ProvisionCell
-        let provisionCell = provsDisplayProvider[indexPath.row]
+        let provisionCell = o_provisionsDP[indexPath.row]
         
         // Info cell
         cell.nameLabel.text = provisionCell.name
@@ -256,19 +256,19 @@ extension ProvisionsViewController: UICollectionViewDataSource {
 extension ProvisionsViewController {
     
     private func getUserProvisions() {
-        provsDisplayProvider = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
+        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
     }
     
     @objc func userProvisionsAdded(_ notif: NSNotification) {
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on ajoute au provider existant
-            provsDisplayProvider.append(providerInNotif)
+            o_provisionsDP.append(providerInNotif)
         } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
             // on ajoute au provider existant
-            provsDisplayProvider.append(contentsOf: providersInNotif)
+            o_provisionsDP.append(contentsOf: providersInNotif)
         } else {
             // on update tout au cas où...
-            provsDisplayProvider = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
+            o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
         }
         provisionsCollectionView.reloadData()
     }
@@ -276,10 +276,10 @@ extension ProvisionsViewController {
     @objc func userProvisionDeleted(_ notif: NSNotification) {
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on supprime du provider existant
-            provsDisplayProvider.removeAll { $0.uuid == providerInNotif.uuid }
+            o_provisionsDP.removeAll { $0.uuid == providerInNotif.uuid }
         } else {
             // on update tout au cas où...
-            provsDisplayProvider = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
+            o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
         }
         provisionsCollectionView.reloadData()
     }

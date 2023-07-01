@@ -22,7 +22,7 @@ class AddprovisionViewController: UIViewController {
     static let STORYBOARD_ID = "AddprovisionViewController"
     private var o_productsDP = [ProductDisplayProvider]()
     private var o_searchedProductsDP = [ProductDisplayProvider]()
-    private var searching = false
+    private var o_searching = false
     
     // MARK: Outlets
     
@@ -67,12 +67,12 @@ extension AddprovisionViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         o_searchedProductsDP = ProductGenericMethods.filterProductsByName(fromProductsDP: o_productsDP, withText: searchText)
-        searching = true
+        o_searching = true
         searchProvisionsTableView.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searching = false
+        o_searching = false
         searchBar.text = ""
         searchProvisionsTableView.reloadData()
     }
@@ -93,7 +93,7 @@ extension AddprovisionViewController: UISearchBarDelegate {
 extension AddprovisionViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searching {
+        if o_searching {
             return o_searchedProductsDP.count
         }
         return o_productsDP.count
@@ -103,7 +103,7 @@ extension AddprovisionViewController: UITableViewDataSource {
         let searchProvCell = tableView.dequeueReusableCell(withIdentifier: SearchProvisionsCell.key, for: indexPath) as! SearchProvisionsCell
         
         let productsDP: ProductDisplayProvider
-        if searching {
+        if o_searching {
             productsDP = o_searchedProductsDP[indexPath.row]
         } else {
             productsDP = o_productsDP[indexPath.row]
@@ -129,7 +129,7 @@ extension AddprovisionViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // update user provisions
-        if searching && indexPath.row < o_searchedProductsDP.count {
+        if o_searching && indexPath.row < o_searchedProductsDP.count {
             ProvisionGenericMethods.addUserProvision(withProductDP: o_searchedProductsDP[indexPath.row])
             
         } else if indexPath.row < o_productsDP.count {

@@ -17,21 +17,7 @@ import UIKit
 
 class MainTabBarViewController: UITabBarController {
     
-    // MARK: Properties
-    
-    var middleButton: UIButton?
-    
-}
-
-
-
-//===========================================================
-// MARK: View did load
-//===========================================================
-
-
-
-extension MainTabBarViewController {
+    // MARK: View did load
     
     override func viewDidLoad() {
         super.viewDidLoad()
