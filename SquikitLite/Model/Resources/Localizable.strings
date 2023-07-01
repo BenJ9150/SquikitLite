@@ -26,9 +26,17 @@
 "dlcSuffixString"="DLC :";
 "dlcNoPeremptionMessage"="Pas de DLC";
 
-/* Alert button */
+/* Alert buttons */
+"alert_choose"="Choisir";
 "alert_delete"="Supprimer";
 "alert_cancel"="Annuler";
+"alert_removeDLC"="Aucune DLC";
 
-/* Alert delete provision */
+/* Alert titles */
 "alert_deleteProvTitle"="Supprimer la provision ?";
+"alert_changeDlcTitle"="Nouvelle DLC";
+"alert_removeDlcTitle"="Retirer la DLC ?";
+"alert_chooseUnitTitle"="Nouvelle unité";
+
+/* Alert messages */
+"alert_chooseUnitMessage"="\n\n\n\n\n\n\n\n\n\n";

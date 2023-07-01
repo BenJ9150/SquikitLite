@@ -18,6 +18,17 @@ import UIKit
 
 class ProductsGenericMethods {
     
+}
+
+
+
+//===========================================================
+// MARK: Categories, subCategories
+//===========================================================
+
+
+
+extension ProductsGenericMethods {
     
     static func getCategory(withRef ref: Double) -> String {
         if let cat = Categories.shared.categories[ref] {
@@ -34,6 +45,57 @@ class ProductsGenericMethods {
         }
         return ""
     }
+}
+
+
+
+//===========================================================
+// MARK: Units
+//===========================================================
+
+
+
+extension ProductsGenericMethods {
+    
+    static func getUnitsCount() -> Int {
+        return Units.shared.units.count
+    }
+    
+    static func getUnit(ofRow row: Int) -> String {
+        if row < Units.shared.units.count {
+            return Units.shared.units[row]
+        }
+        return ""
+    }
+    
+    static func getUnitRow(ofUnit unit: String) -> Int {
+        if let row = Units.shared.units.firstIndex(where: { $0.cleanUpForComparaison == unit.cleanUpForComparaison }) {
+            return row
+        }
+        return 0
+    }
+    
+    static func getPluralUnit(ofUnit unit: String) -> String {
+        if unit == "" {return ""}
+        
+        if let keyValue = Units.shared.unitsSingPlural.keys.first(where: { $0.cleanUpForComparaison == unit.cleanUpForComparaison }) {
+            if let pluralUnit = Units.shared.unitsSingPlural[keyValue] {
+                return pluralUnit
+            }
+        }
+        return unit
+    }
+}
+
+
+
+//===========================================================
+// MARK: Images
+//===========================================================
+
+
+
+extension ProductsGenericMethods {
     
     static func getDefaultImage(forCategoryRef categoryRef: Double) -> UIImage {
         switch categoryRef {
@@ -47,19 +109,6 @@ class ProductsGenericMethods {
             return UIImage(named: "ic_rayon_autres")!
         }
     }
-    
-    static func getPluralUnit(ofUnit unit: String) -> String {
-        if unit == "" {return ""}
-        
-        if let keyValue = Units.shared.unitsSingPlural.keys.first(where: { $0.cleanUpForComparaison == unit.cleanUpForComparaison }) {
-            if let pluralUnit = Units.shared.unitsSingPlural[keyValue] {
-                return pluralUnit
-            }
-        }
-        return unit
-    }
-    
-    
     /*
     public static UIImage GetDrawableId(decimal? a_categoryRef)
             {

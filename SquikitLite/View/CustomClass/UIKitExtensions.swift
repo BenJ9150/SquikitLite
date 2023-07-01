@@ -73,3 +73,16 @@ extension UITextField {
         self.inputAccessoryView = keypadToolbar
     }
 }
+
+
+
+//===========================================================
+// MARK: UIAlertAction
+//===========================================================
+
+
+
+extension UIAlertAction {
+    
+    static let cancelButton = UIAlertAction(title: NSLocalizedString("alert_cancel", comment: ""), style: .cancel)
+}
