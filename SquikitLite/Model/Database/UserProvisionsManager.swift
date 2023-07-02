@@ -10,7 +10,7 @@ import Foundation
 
 
 //===========================================================
-// MARK: ProductManager class
+// MARK: UserProvisionsManager class
 //===========================================================
 
 
@@ -42,7 +42,7 @@ class UserProvisionsManager {
 
 
 //===========================================================
-// MARK: Add new score
+// MARK: save provisions
 //===========================================================
 
 
@@ -57,6 +57,48 @@ extension UserProvisionsManager {
         // add and save
         provisions.append(provision)
         saveUserProvisionsToUserDefaults()
+    }
+    
+    private func saveUserProvisionsToUserDefaults() {
+        // vérif tableau chargé
+        if !provisionsLoaded {
+            loadUserProvisions()
+        }
+        
+        // encoder en JSON
+        do {
+            let encodedProvisions = try JSONEncoder().encode(provisions)
+            // on sauvegarde
+            UserDefaults.standard.set(encodedProvisions, forKey: USER_PROVISIONS_BACKUP)
+            
+        } catch let error {
+            print(error)
+        }
+    }
+}
+
+
+
+//===========================================================
+// MARK: Load provisions
+//===========================================================
+
+
+
+extension UserProvisionsManager {
+    
+    private func loadUserProvisions() {
+        // récupère SVG
+        if let encodedProvisions = UserDefaults.standard.object(forKey: USER_PROVISIONS_BACKUP) as? Data {
+            // on décode la sauvegarde
+            do {
+                provisions = try JSONDecoder().decode([Provision].self, from: encodedProvisions)
+                
+            } catch let error {
+                print(error)
+            }
+        }
+        provisionsLoaded = true // à la fin pour indiquer qu'on a chargé même si 1ere utilisation donc pas de sauvegarde existante
     }
 }
 
@@ -92,48 +134,6 @@ extension UserProvisionsManager {
     
     func updateUserProvisions() {
         saveUserProvisionsToUserDefaults()
-    }
-}
-
-
-
-//===========================================================
-// MARK: Load or save scoreboard
-//===========================================================
-
-
-
-extension UserProvisionsManager {
-    
-    private func loadUserProvisions() {
-        // récupère SVG
-        if let encodedProvisions = UserDefaults.standard.object(forKey: USER_PROVISIONS_BACKUP) as? Data {
-            // on décode la sauvegarde
-            do {
-                provisions = try JSONDecoder().decode([Provision].self, from: encodedProvisions)
-                
-            } catch let error {
-                print(error)
-            }
-        }
-        provisionsLoaded = true // à la fin pour indiquer qu'on a chargé même si 1ere utilisation donc pas de sauvegarde existante
-    }
-    
-    private func saveUserProvisionsToUserDefaults() {
-        // vérif tableau chargé
-        if !provisionsLoaded {
-            loadUserProvisions()
-        }
-        
-        // encoder en JSON
-        do {
-            let encodedProvisions = try JSONEncoder().encode(provisions)
-            // on sauvegarde
-            UserDefaults.standard.set(encodedProvisions, forKey: USER_PROVISIONS_BACKUP)
-            
-        } catch let error {
-            print(error)
-        }
     }
 }
 

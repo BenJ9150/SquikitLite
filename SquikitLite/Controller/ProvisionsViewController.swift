@@ -154,7 +154,7 @@ extension ProvisionsViewController {
             o_provisionsDP.append(contentsOf: providersInNotif)
         } else {
             // on update tout au cas où...
-            o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
+            getUserProvisions()
         }
         provisionsCollectionView.reloadData()
     }
@@ -165,7 +165,7 @@ extension ProvisionsViewController {
             o_provisionsDP.removeAll { $0.uuid == providerInNotif.uuid }
         } else {
             // on update tout au cas où...
-            o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
+            getUserProvisions()
         }
         provisionsCollectionView.reloadData()
     }

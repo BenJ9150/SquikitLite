@@ -24,14 +24,17 @@ class Provision: Codable {
     let product: Product
     let isFood: Bool
     let uuid: UUID
+    var quantity: Double
     
     var purchaseDate: Date {
         return purchaseDateAtCreation
     }
     
+    
+    
     // MARK: Editable properties (by user)
     
-    var quantity: Double
+    var defaultQuantity: Double
     var unit: String
     var customDlc: Date?
     var imageUrl: String?
@@ -44,6 +47,7 @@ class Provision: Codable {
         self.isFood = isFood
         self.uuid = UUID.init()
         self.quantity = product.DefaultQuantity
+        self.defaultQuantity = product.DefaultQuantity
         self.unit = product.ShoppingUnit
         self.preservation = product.Preservation
     }
