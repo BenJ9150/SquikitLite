@@ -83,12 +83,7 @@ extension ProvisionsViewController {
 
 
 extension ProvisionsViewController {
-    /*
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        provisionsCollectionView.reloadData()
-    }
-    */
+    
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         provisionsCollectionView.reloadData()
@@ -133,6 +128,103 @@ extension ProvisionsViewController {
                 self.o_tabBarTransforming = false
             }
         }
+    }
+}
+
+
+
+//===========================================================
+// MARK: User provisions
+//===========================================================
+
+
+
+extension ProvisionsViewController {
+    
+    private func getUserProvisions() {
+        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
+    }
+    
+    @objc func userProvisionsAdded(_ notif: NSNotification) {
+        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
+            // on ajoute au provider existant
+            o_provisionsDP.append(providerInNotif)
+        } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
+            // on ajoute au provider existant
+            o_provisionsDP.append(contentsOf: providersInNotif)
+        } else {
+            // on update tout au cas où...
+            o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
+        }
+        provisionsCollectionView.reloadData()
+    }
+    
+    @objc func userProvisionDeleted(_ notif: NSNotification) {
+        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
+            // on supprime du provider existant
+            o_provisionsDP.removeAll { $0.uuid == providerInNotif.uuid }
+        } else {
+            // on update tout au cas où...
+            o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
+        }
+        provisionsCollectionView.reloadData()
+    }
+    
+    @objc func userProvisionUpdated(_ notif: NSNotification) {
+        if let provIndexPath = notif.object as? IndexPath {
+            // on reload la cellule
+            provisionsCollectionView.reloadItems(at: [provIndexPath])
+        } else {
+            // on reload tout au cas où...
+            provisionsCollectionView.reloadData()
+        }
+    }
+}
+
+
+
+//===========================================================
+// MARK: Update DLC
+//===========================================================
+
+
+
+extension ProvisionsViewController {
+    
+    @IBAction func updateProvisionDlc(_ sender: UIButton) {
+        // get indexPath
+        var optCollecViewCell = sender.superview
+        while let view = optCollecViewCell, !(view is UICollectionViewCell) {
+            optCollecViewCell = view.superview
+        }
+        guard let collecViewCell = optCollecViewCell as? UICollectionViewCell else {
+            print("button is not contained in a collection view cell")
+            return
+        }
+        guard let indexPath = provisionsCollectionView.indexPath(for: collecViewCell) else {
+            print("failed to get index path for cell containing button")
+            return
+        }
+        if indexPath.row >= o_provisionsDP.count {
+            print("index path out of range for cell containing button")
+            return
+        }
+        
+        // display alert
+        let alertDLC = DlcAlertController(title: NSLocalizedString("alert_changeDlcTitle", comment: ""), message: "", preferredStyle: .alert)
+        alertDLC.o_dateToDisplay = o_provisionsDP[indexPath.row].dlc
+        
+        // ok button
+        let okButton = UIAlertAction(title: NSLocalizedString("alert_choose", comment: ""), style: .default) { _ in
+            // maj provision
+            self.o_provisionsDP[indexPath.row].dlc = alertDLC.o_datePicker.date
+            ProvisionGenericMethods.updateUserProvision(atIndexPath: indexPath)
+            // maj IHM
+            self.provisionsCollectionView.reloadItems(at: [indexPath])
+        }
+        
+        alertDLC.addAction(okButton)
+        present(alertDLC, animated: true)
     }
 }
 
@@ -223,11 +315,14 @@ extension ProvisionsViewController: UICollectionViewDataSource {
         cell.expirationButton.setTitle(provisionCell.stringExpirationCountDown, for: .normal)
         setColorExpiration(forButton: cell.expirationButton, inProvProvider: provisionCell)
         
+        // DLC button action
+        cell.expirationButton.addTarget(self, action: #selector(updateProvisionDlc), for: .touchUpInside)
+        
         return cell
     }
     
     private func setColorExpiration(forButton button: UIButton, inProvProvider provProvider: ProvisionDisplayProvider) {
-        if !provProvider.havePeremption || provProvider.expirationCountDown == Int.max {
+        if provProvider.expirationCountDown == Int.max {
             button.backgroundColor = UIColor.dlcDesactivated
             return
         }
@@ -242,56 +337,5 @@ extension ProvisionsViewController: UICollectionViewDataSource {
         
         button.backgroundColor = UIColor.dlcNormal
         return
-    }
-}
-
-
-
-//===========================================================
-// MARK: User provisions
-//===========================================================
-
-
-
-extension ProvisionsViewController {
-    
-    private func getUserProvisions() {
-        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
-    }
-    
-    @objc func userProvisionsAdded(_ notif: NSNotification) {
-        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
-            // on ajoute au provider existant
-            o_provisionsDP.append(providerInNotif)
-        } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
-            // on ajoute au provider existant
-            o_provisionsDP.append(contentsOf: providersInNotif)
-        } else {
-            // on update tout au cas où...
-            o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
-        }
-        provisionsCollectionView.reloadData()
-    }
-    
-    @objc func userProvisionDeleted(_ notif: NSNotification) {
-        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
-            // on supprime du provider existant
-            o_provisionsDP.removeAll { $0.uuid == providerInNotif.uuid }
-        } else {
-            // on update tout au cas où...
-            o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
-        }
-        provisionsCollectionView.reloadData()
-    }
-    
-    @objc func userProvisionUpdated(_ notif: NSNotification) {
-        if let provIndexPath = notif.object as? IndexPath {
-            // on reload la cellule
-            provisionsCollectionView.reloadItems(at: [provIndexPath])
-        } else {
-            // on reload tout au cas où...
-            provisionsCollectionView.reloadData()
-        }
-        
     }
 }

@@ -76,3 +76,26 @@ extension ProvisionGenericMethods {
         print("\nUser provisions updated\n")
     }
 }
+
+
+
+//===========================================================
+// MARK: DLC formatter
+//===========================================================
+
+
+
+extension ProvisionGenericMethods {
+    
+    static func dlcToString(fromDLC dlc: Date?) -> String {
+        guard let dlc = dlc else {
+            return NSLocalizedString("dlcNoPeremptionMessage", comment: "")
+        }
+        
+        // date formatter
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = AppSettings.dateFormat
+        
+        return NSLocalizedString("dlcSuffixString", comment: "") + dateFormatter.string(from: dlc)
+    }
+}

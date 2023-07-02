@@ -133,32 +133,50 @@ extension ProvisionDisplayProvider {
 
 extension ProvisionDisplayProvider {
     
-    var customDlc: Date? {
-        get {
-            return provision.customDlc
-        } set {
-            provision.customDlc = newValue
-        }
-    }
-    
-    var havePeremption: Bool {
-        if product.Preservation < 0 {
+    private var havePeremption: Bool {
+        if provision.preservation < 0 {
             return false
         }
         return true
     }
     
-    /// - returns: Int.max if error, or number of days
+    var dlc: Date? {
+        get {
+            if let customDlc = provision.customDlc {
+                return customDlc
+            }
+            if !havePeremption {
+                return nil
+            }
+            // on retourne la date d'achat + durée préservation
+            return Calendar.current.date(byAdding: .day, value: provision.preservation, to: provision.purchaseDate)
+            
+        } set {
+            provision.customDlc = newValue
+        }
+    }
+    
+    var dlcToString: String {
+        return ProvisionGenericMethods.dlcToString(fromDLC: dlc)
+    }
+    
+    /// - returns: Int.max if no peremption, or number of days
     var expirationCountDown: Int {
+        // vérif custom dlc
+        if let customDlc = provision.customDlc {
+            // on retourne dlc - date actuelle
+            return Calendar.current.numberOfDaysBetween(from: Date(), to: customDlc)
+        }
+        // vérif si périssable
         if !havePeremption {
             return Int.max
         }
-        let nbOfDaysSincePurchase = Calendar.current.numberOfDaysBetween(from: provision.purchaseDate, to: Date())
-        return product.Preservation - nbOfDaysSincePurchase
+        // on retourne la préservation - nb jours depuis achat
+        return provision.preservation - Calendar.current.numberOfDaysBetween(from: provision.purchaseDate, to: Date())
     }
     
     var stringExpirationCountDown: String {
-        if !havePeremption || expirationCountDown == Int.max {
+        if expirationCountDown == Int.max {
             return ""
         }
         
@@ -172,48 +190,6 @@ extension ProvisionDisplayProvider {
             return NSLocalizedString("dlcLabel_longTime", comment: "")
         }
         return NSLocalizedString("dlcLabel_day", comment: "") + "\(expirationCountDown)"
-    }
-    
-    var dlc: Date {
-        // date formatter
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = AppSettings.dateFormat
-        
-        // vérif si custom dlc
-        if let customDlc = provision.customDlc {
-            return customDlc
-        }
-        
-        // vérif si product avec péremption
-        if !havePeremption {
-            return Date()
-        }
-        // add preservation to purchase date
-        var perempDate = provision.purchaseDate
-        perempDate.addTimeInterval(Double(product.Preservation))
-        
-        return perempDate
-    }
-    
-    var dlcToString: String {
-        // date formatter
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = AppSettings.dateFormat
-        
-        // vérif si custom dlc
-        if let customDlc = provision.customDlc {
-            return NSLocalizedString("dlcSuffixString", comment: "") + dateFormatter.string(from: customDlc)
-        }
-        
-        // vérif si product avec péremption
-        if !havePeremption {
-            return NSLocalizedString("dlcNoPeremptionMessage", comment: "")
-        }
-        // add preservation to purchase date
-        var perempDate = provision.purchaseDate
-        perempDate.addTimeInterval(Double(product.Preservation))
-        
-        return NSLocalizedString("dlcSuffixString", comment: "") + dateFormatter.string(from: perempDate)
     }
 }
 

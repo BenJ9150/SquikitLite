@@ -34,11 +34,11 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OPB-lD-a5e">
-                                <rect key="frame" x="119" y="7" width="30" height="30"/>
+                                <rect key="frame" x="118" y="6" width="32" height="32"/>
                                 <color key="backgroundColor" name="color_mainBackground"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="TX6-PF-dPx"/>
-                                    <constraint firstAttribute="height" constant="30" id="isR-w0-buv"/>
+                                    <constraint firstAttribute="width" constant="32" id="TX6-PF-dPx"/>
+                                    <constraint firstAttribute="height" constant="32" id="isR-w0-buv"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -47,8 +47,9 @@
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="CornerRadius">
-                                        <integer key="value" value="15"/>
+                                        <integer key="value" value="16"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="titleLabel.adjustsFontSizeToFitWidth" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YOx-h0-Z2f">
@@ -62,9 +63,9 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="jIo-GL-CyZ" secondAttribute="trailing" constant="8" id="4dq-Sg-mpp"/>
                             <constraint firstAttribute="trailing" secondItem="YOx-h0-Z2f" secondAttribute="trailing" constant="8" id="5Dc-Wh-Hr0"/>
-                            <constraint firstItem="OPB-lD-a5e" firstAttribute="top" secondItem="Add-Bm-NA9" secondAttribute="top" constant="7" id="G68-TT-cNY"/>
+                            <constraint firstItem="OPB-lD-a5e" firstAttribute="top" secondItem="Add-Bm-NA9" secondAttribute="top" constant="6" id="G68-TT-cNY"/>
                             <constraint firstItem="sK5-es-gav" firstAttribute="leading" secondItem="Add-Bm-NA9" secondAttribute="leading" constant="8" id="H4q-O9-Nf7"/>
-                            <constraint firstAttribute="trailing" secondItem="OPB-lD-a5e" secondAttribute="trailing" constant="7" id="OIo-Lr-rZC"/>
+                            <constraint firstAttribute="trailing" secondItem="OPB-lD-a5e" secondAttribute="trailing" constant="6" id="OIo-Lr-rZC"/>
                             <constraint firstItem="sK5-es-gav" firstAttribute="top" secondItem="Add-Bm-NA9" secondAttribute="top" constant="8" id="QkJ-Vf-hjs"/>
                             <constraint firstItem="jIo-GL-CyZ" firstAttribute="leading" secondItem="Add-Bm-NA9" secondAttribute="leading" constant="14" id="geg-6F-u9e"/>
                             <constraint firstAttribute="bottom" secondItem="jIo-GL-CyZ" secondAttribute="bottom" constant="14" id="j30-nn-Qnc"/>

@@ -22,7 +22,7 @@
 
 /* DLC */
 "dlcLabel_today"="Auj.";
-"dlcLabel_outdated"="Périm.";
+"dlcLabel_outdated"="Péri.";
 "dlcLabel_day"="J-";
 "dlcLabel_longTime"="+99j";
 "dlcSuffixString"="DLC :";

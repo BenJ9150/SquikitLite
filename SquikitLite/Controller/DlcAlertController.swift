@@ -19,7 +19,7 @@ class DlcAlertController: UIAlertController {
 
     // MARK: Properties
     
-    var o_selectedDate: Date?
+    var o_dateToDisplay: Date?
     let o_datePicker = UIDatePicker(frame: CGRect.zero)
 }
 
@@ -69,7 +69,7 @@ extension DlcAlertController {
         o_datePicker.centerYAnchor.constraint(equalTo: view.subviews[0].centerYAnchor).isActive = true
         
         // select row
-        if let date =  o_selectedDate {
+        if let date =  o_dateToDisplay {
             o_datePicker.setDate(date, animated: false)
         }
     }

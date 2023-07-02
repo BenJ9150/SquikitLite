@@ -32,7 +32,7 @@ class AppSettings {
     
     // MARK: Date
     
-    static let dateFormat = "dd/MM/YY"
+    static let dateFormat = "dd/MM/YYYY"
     
     // MARK: Persistent container
     

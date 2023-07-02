@@ -35,6 +35,7 @@ class Provision: Codable {
     var unit: String
     var customDlc: Date?
     var imageUrl: String?
+    var preservation: Int
     
     // MARK: Inits
     
@@ -44,6 +45,7 @@ class Provision: Codable {
         self.uuid = UUID.init()
         self.quantity = product.DefaultQuantity
         self.unit = product.ShoppingUnit
+        self.preservation = product.Preservation
     }
 }
 

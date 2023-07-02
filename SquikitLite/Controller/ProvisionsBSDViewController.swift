@@ -148,7 +148,6 @@ extension ProvisionsBSDViewController {
         nameLabel.text = provProvider.name
         dlcLabel.text = provProvider.dlcToString
     }
-    
 }
 
 
@@ -235,11 +234,13 @@ extension ProvisionsBSDViewController {
         guard let provProvider = o_provisionDP else {return}
         
         let alertDLC = DlcAlertController(title: NSLocalizedString("alert_changeDlcTitle", comment: ""), message: "", preferredStyle: .alert)
-        alertDLC.o_selectedDate = provProvider.dlc
+        alertDLC.o_dateToDisplay = provProvider.dlc
         
         // ok button
         let okButton = UIAlertAction(title: NSLocalizedString("alert_choose", comment: ""), style: .default) { _ in
             self.o_newDlc = alertDLC.o_datePicker.date
+            // maj IHM
+            self.dlcLabel.text = ProvisionGenericMethods.dlcToString(fromDLC: self.o_newDlc)
         }
         
         alertDLC.addAction(okButton)
@@ -310,7 +311,7 @@ extension ProvisionsBSDViewController {
         }
         // DLC
         if let newDlc = o_newDlc {
-            provProvider.customDlc = newDlc
+            provProvider.dlc = newDlc
             updated = true
         }
         
