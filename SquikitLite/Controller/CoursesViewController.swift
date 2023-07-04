@@ -143,7 +143,7 @@ extension CoursesViewController {
 extension CoursesViewController {
     
     private func getUserProvisions() {
-        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
+        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProviderOLD()
     }
     
     @objc func userProvisionsAdded(_ notif: NSNotification) {

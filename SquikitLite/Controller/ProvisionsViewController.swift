@@ -21,7 +21,7 @@ class ProvisionsViewController: UIViewController {
     
     var o_tabBarTransforming = false
     var o_tabBarIsHidden = false
-    var o_provisionsDP = [Int: [ProvisionDisplayProvider]]()
+    var o_provisionsDP = [String: [ProvisionDisplayProvider]]()
     var o_headers = [String]()
     
     // MARK: Outlets
@@ -145,14 +145,7 @@ extension ProvisionsViewController {
 extension ProvisionsViewController {
     
     private func getUserProvisions() {
-        o_provisionsDP = [Int: [ProvisionDisplayProvider]]()
-        
-        let provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider()
-        if provisionsDP.count <= 0 {return}
-        
-        for provisionDP in provisionsDP {
-            addProvToProvsProvider(provisionDP: provisionDP)
-        }
+        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider(andUpadeCategories: &o_headers)
     }
 }
 
@@ -166,69 +159,29 @@ extension ProvisionsViewController {
 
 extension ProvisionsViewController {
     
-    private func addProvToProvsProvider(provisionDP: ProvisionDisplayProvider) -> IndexPath? {
-        // ajout catégorie au headerTab
-        if !o_headers.contains(provisionDP.category) {
-            o_headers.append(provisionDP.category)
-        }
-        // ajout du provider au dico des provisions
-        if let section = o_headers.firstIndex(of: provisionDP.category) {
-            // add to dico
-            let dicoContainsKey = o_provisionsDP.contains { $0.key == section }
-            if dicoContainsKey {
-                o_provisionsDP[section]?.append(provisionDP)
-            } else {
-                o_provisionsDP[section] = [provisionDP]
-            }
-            // on retourne l'indexPath
-            if let row = o_provisionsDP[section]?.firstIndex(where: { $0.uuid == provisionDP.uuid }) {
-                return IndexPath(row: row, section: section)
-            }
-        }
-        return nil
-    }
-    
     @objc func userProvisionsAdded(_ notif: NSNotification) {
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on ajoute au provider existant
-            if let indexPath = addProvToProvsProvider(provisionDP: providerInNotif) {
-                // on update la section
-                if indexPath.section < provisionsCollectionView.numberOfSections {
-                    // pas d'ajout de section, on reload
-                    provisionsCollectionView.reloadSections(IndexSet(integer: indexPath.section))
+            let result = ProvisionGenericMethods.addItemToProvsDisplayProvider(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            if let indexPath = result.index {
+                if result.newSection {
+                    provisionsCollectionView.insertSections(IndexSet(integer: indexPath.section))
                 } else {
-                    provisionsCollectionView.reloadData()
+                    provisionsCollectionView.insertItems(at: [indexPath])
                 }
                 return
             }
         } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
             // on ajoute au provider existant chaque provision
-            for provisionDP in providersInNotif {
-                let _ = addProvToProvsProvider(provisionDP: provisionDP)
+            for providerInNotif in providersInNotif {
+                let _ = ProvisionGenericMethods.addItemToProvsDisplayProvider(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
             }
             provisionsCollectionView.reloadData()
             return
         }
-        
         // on update tout au cas où...
         getUserProvisions()
         provisionsCollectionView.reloadData()
-        
-        /*
-        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
-            // on ajoute au provider existant
-            addProvToProvsProvider(provisionDP: providerInNotif)
-        } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
-            // on ajoute au provider existant
-            for provisionDP in providersInNotif {
-                addProvToProvsProvider(provisionDP: provisionDP)
-            }
-        } else {
-            // on update tout au cas où...
-            getUserProvisions()
-        }
-        provisionsCollectionView.reloadData()
-         */
     }
 }
 
@@ -245,8 +198,13 @@ extension ProvisionsViewController {
     @objc func userProvisionDeleted(_ notif: NSNotification) {
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on supprime du provider existant
-            if deleteProvToProvsProvider(provisionDP: providerInNotif) {
-                // prov supprimée et collectionView updated
+            let result = ProvisionGenericMethods.deleteItemFromProvsDisplayProvider(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            if let indexPath = result.index {
+                if let sectionToDelete = result.deleteSection {
+                    provisionsCollectionView.deleteSections(IndexSet(integer: sectionToDelete))
+                } else {
+                    provisionsCollectionView.deleteItems(at: [indexPath])
+                }
                 return
             }
         }
@@ -254,58 +212,6 @@ extension ProvisionsViewController {
         getUserProvisions()
         provisionsCollectionView.reloadData()
     }
-    
-    private func deleteProvToProvsProvider(provisionDP: ProvisionDisplayProvider) -> Bool {
-        guard let section = o_headers.firstIndex(of: provisionDP.category) else {return false}
-        if section >= o_provisionsDP.count {return false}
-        guard let row = o_provisionsDP[section]?.firstIndex(where: { $0.uuid == provisionDP.uuid }) else {return false}
-            
-        // on retire la provision
-        o_provisionsDP[section]?.remove(at: row)//?.removeAll { $0.uuid == provisionDP.uuid }
-        // on supprime la section si vide
-        if let count = o_provisionsDP[section]?.count, count <= 0 {
-            o_provisionsDP.removeValue(forKey: section)
-            o_headers.remove(at: section)
-            provisionsCollectionView.reloadData()
-        } else {
-            provisionsCollectionView.deleteItems(at: [IndexPath(row: row, section: section)])
-        }
-        return true
-    }
-    
-    /*
-    private func deleteProvToProvsProvider(provisionDP: ProvisionDisplayProvider) -> IndexPath? {
-        guard let section = o_headers.firstIndex(of: provisionDP.category) else {return nil}
-        if section >= o_provisionsDP.count {return nil}
-        
-        if let row = o_provisionsDP[section]?.firstIndex(where: { $0.uuid == provisionDP.uuid }) {
-            // on retire la provision
-            o_provisionsDP[section]?.remove(at: row)//?.removeAll { $0.uuid == provisionDP.uuid }
-            // on supprime la section si vide
-            if let count = o_provisionsDP[section]?.count, count <= 0 {
-                o_provisionsDP.removeValue(forKey: section)
-                o_headers.remove(at: section)
-            }
-            // on retourne l'indexPath de la prov supprimée
-            return IndexPath(row: row, section: section)
-        }
-        return nil
-    }
-     
-    @objc func userProvisionDeleted(_ notif: NSNotification) {
-        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
-            // on supprime du provider existant
-            if let indexPath = deleteProvToProvsProvider(provisionDP: providerInNotif) {
-                // on supprime la cellule
-                provisionsCollectionView.deleteItems(at: [indexPath])
-                return
-            }
-        }
-        // on update tout au cas où...
-        getUserProvisions()
-        provisionsCollectionView.reloadData()
-    }
-     */
 }
 
 
@@ -355,7 +261,7 @@ extension ProvisionsViewController {
         }
         
         // get section
-        guard indexPath.section < o_provisionsDP.count, let provsDPInSection = o_provisionsDP[indexPath.section] else {
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {
             print("failed to get section for cell containing button")
             return
         }
@@ -439,7 +345,7 @@ extension ProvisionsViewController: UICollectionViewDelegateFlowLayout {
 extension ProvisionsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard indexPath.section < o_provisionsDP.keys.count, let provsDPInSection = o_provisionsDP[indexPath.section] else {return}
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return}
         if indexPath.row >= provsDPInSection.count {return}
         
         // BSD détail provision
@@ -461,13 +367,14 @@ extension ProvisionsViewController: UICollectionViewDelegate {
 extension ProvisionsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section < o_provisionsDP.keys.count, let provsDPInSection = o_provisionsDP[section] {
+        if section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[section]] {
             return provsDPInSection.count
         }
         return 0
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
+        print(o_provisionsDP.keys.count)
         return o_provisionsDP.keys.count
     }
     
@@ -476,12 +383,12 @@ extension ProvisionsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProvisionHeader.key, for: indexPath) as! ProvisionHeader
         
-        if indexPath.section >= o_headers.count {
+        guard indexPath.section < o_headers.count, let firstProvInSection = o_provisionsDP[o_headers[indexPath.section]]?.first else {
             headerView.headerLabel.text = ""
             return headerView
         }
-        headerView.headerLabel.text = o_headers[indexPath.section]
         
+        headerView.headerLabel.text = firstProvInSection.category
         return headerView
     }
     
@@ -490,7 +397,7 @@ extension ProvisionsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProvisionCell.key, for: indexPath) as! ProvisionCell
         
-        guard indexPath.section < o_provisionsDP.keys.count, let provsDPInSection = o_provisionsDP[indexPath.section] else {
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {
             return cell
         }
         if indexPath.row >= provsDPInSection.count {return cell}
