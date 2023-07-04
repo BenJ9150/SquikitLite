@@ -27,6 +27,8 @@ class ShoppingCell: UITableViewCell {
     
     override func draw(_ rect: CGRect) {
         background.addSmallShadow()
+        background.layer.cornerRadius = (Dimensions.shoppingRowHeight - Dimensions.shoppingRowSpace)/2
+        background.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
     }
     
 

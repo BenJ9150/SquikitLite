@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4309C6F32A51D4CA00C0ED5A /* ShoppingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4309C6F12A51D4CA00C0ED5A /* ShoppingCell.swift */; };
 		4309C6F42A51D4CA00C0ED5A /* ShoppingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4309C6F22A51D4CA00C0ED5A /* ShoppingCell.xib */; };
+		431B608D2A5473D60012A574 /* ShoppingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431B608C2A5473D60012A574 /* ShoppingHeader.swift */; };
+		431B60972A5478710012A574 /* ShoppingHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 431B60962A5478710012A574 /* ShoppingHeader.xib */; };
 		432A85462A44B8A200225150 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A85452A44B8A200225150 /* AppDelegate.swift */; };
 		432A85482A44B8A200225150 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A85472A44B8A200225150 /* SceneDelegate.swift */; };
 		432A854D2A44B8A200225150 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 432A854B2A44B8A200225150 /* Main.storyboard */; };
@@ -53,6 +55,8 @@
 /* Begin PBXFileReference section */
 		4309C6F12A51D4CA00C0ED5A /* ShoppingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCell.swift; sourceTree = "<group>"; };
 		4309C6F22A51D4CA00C0ED5A /* ShoppingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShoppingCell.xib; sourceTree = "<group>"; };
+		431B608C2A5473D60012A574 /* ShoppingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingHeader.swift; sourceTree = "<group>"; };
+		431B60962A5478710012A574 /* ShoppingHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShoppingHeader.xib; sourceTree = "<group>"; };
 		432A85422A44B8A200225150 /* SquikitLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SquikitLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		432A85452A44B8A200225150 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		432A85472A44B8A200225150 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -139,6 +143,8 @@
 		432A85592A44B8B500225150 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				432A85632A44BEAE00225150 /* Colors.swift */,
+				435F8B362A49BC7A00E54573 /* Dimensions.swift */,
 				432A85452A44B8A200225150 /* AppDelegate.swift */,
 				432A85472A44B8A200225150 /* SceneDelegate.swift */,
 				432A85532A44B8A400225150 /* Info.plist */,
@@ -149,6 +155,7 @@
 		432A855A2A44B8C900225150 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				435F8B352A49BC6300E54573 /* Resources */,
 				43F1CD392A50841B00A6E6B6 /* CoreData */,
 				432A85772A44F8BE00225150 /* Product.swift */,
 				432A856D2A44E95C00225150 /* Provision.swift */,
@@ -157,7 +164,6 @@
 				435F8B322A49BC3200E54573 /* Database */,
 				43584B822A4C801200EEFA8A /* DisplayProviders */,
 				43584B812A4C7FF800EEFA8A /* GenericMethods */,
-				435F8B352A49BC6300E54573 /* Resources */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -217,6 +223,8 @@
 				435C02E82A4D7A78000AB320 /* SearchProvisionsCell.xib */,
 				4309C6F12A51D4CA00C0ED5A /* ShoppingCell.swift */,
 				4309C6F22A51D4CA00C0ED5A /* ShoppingCell.xib */,
+				431B608C2A5473D60012A574 /* ShoppingHeader.swift */,
+				431B60962A5478710012A574 /* ShoppingHeader.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -245,10 +253,8 @@
 			isa = PBXGroup;
 			children = (
 				43CB192B2A4D8B420035620D /* Localizable.strings */,
-				432A85632A44BEAE00225150 /* Colors.swift */,
 				43584B852A4C98AD00EEFA8A /* AppSettings.swift */,
 				43584B832A4C86D700EEFA8A /* FoundationExtensions.swift */,
-				435F8B362A49BC7A00E54573 /* Dimensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -322,6 +328,7 @@
 			files = (
 				432A85522A44B8A400225150 /* LaunchScreen.storyboard in Resources */,
 				432A854F2A44B8A400225150 /* Assets.xcassets in Resources */,
+				431B60972A5478710012A574 /* ShoppingHeader.xib in Resources */,
 				432A854D2A44B8A200225150 /* Main.storyboard in Resources */,
 				432A85722A44EAAA00225150 /* ProvisionCell.xib in Resources */,
 				435C02EA2A4D7A78000AB320 /* SearchProvisionsCell.xib in Resources */,
@@ -344,6 +351,7 @@
 				432A856C2A44DD1800225150 /* AddprovisionViewController.swift in Sources */,
 				43EF08882A4FFD6D00499940 /* DlcAlertController.swift in Sources */,
 				43AA34592A4F435100EC03BC /* Units.swift in Sources */,
+				431B608D2A5473D60012A574 /* ShoppingHeader.swift in Sources */,
 				432A857A2A44FBB600225150 /* ProductManager.swift in Sources */,
 				43F1CD3C2A5084B200A6E6B6 /* SquikitLite.xcdatamodeld in Sources */,
 				432A85622A44BC0800225150 /* ProvisionsViewController.swift in Sources */,

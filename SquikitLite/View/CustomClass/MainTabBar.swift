@@ -131,6 +131,7 @@ extension MainTabBar {
         if let middleButton = currentMiddleButton {
             // bouton déjà créé, update du frame
             middleButton.frame = CGRect(x: (frame.width / 2) - Dimensions.floatingButtonDim/2, y: -Dimensions.floatingButtonDim/2 - Dimensions.mainTabBarMiddleButtonOffset, width: Dimensions.floatingButtonDim, height: Dimensions.floatingButtonDim)
+            return
         }
         // création bouton
         currentMiddleButton = UIButton(frame: CGRect(x: (frame.width / 2) - Dimensions.floatingButtonDim/2, y: -Dimensions.floatingButtonDim/2 - Dimensions.mainTabBarMiddleButtonOffset, width: Dimensions.floatingButtonDim, height: Dimensions.floatingButtonDim))

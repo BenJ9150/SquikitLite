@@ -89,7 +89,9 @@ extension ProvisionsViewController {
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
-        provisionsCollectionView.reloadData()
+        if isViewLoaded {
+            provisionsCollectionView.reloadData()
+        }
     }
 }
 
@@ -162,7 +164,7 @@ extension ProvisionsViewController {
     @objc func userProvisionsAdded(_ notif: NSNotification) {
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on ajoute au provider existant
-            let result = ProvisionGenericMethods.addItemToProvsDisplayProvider(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            let result = ProvisionGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
             if let indexPath = result.index {
                 if result.newSection {
                     provisionsCollectionView.insertSections(IndexSet(integer: indexPath.section))
@@ -174,7 +176,7 @@ extension ProvisionsViewController {
         } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
             // on ajoute au provider existant chaque provision
             for providerInNotif in providersInNotif {
-                let _ = ProvisionGenericMethods.addItemToProvsDisplayProvider(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+                let _ = ProvisionGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
             }
             provisionsCollectionView.reloadData()
             return
@@ -198,7 +200,7 @@ extension ProvisionsViewController {
     @objc func userProvisionDeleted(_ notif: NSNotification) {
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on supprime du provider existant
-            let result = ProvisionGenericMethods.deleteItemFromProvsDisplayProvider(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            let result = ProvisionGenericMethods.deleteItemFromDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
             if let indexPath = result.index {
                 if let sectionToDelete = result.deleteSection {
                     provisionsCollectionView.deleteSections(IndexSet(integer: sectionToDelete))
@@ -331,7 +333,7 @@ extension ProvisionsViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: Dimensions.provisionsHeaderHeight)
+        return CGSize(width: collectionView.bounds.width, height: Dimensions.headerHeight)
     }
 }
 
@@ -365,24 +367,15 @@ extension ProvisionsViewController: UICollectionViewDelegate {
 
 
 extension ProvisionsViewController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[section]] {
-            return provsDPInSection.count
-        }
-        return 0
-    }
+        
+    // MARK: CollectionView headers
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        print(o_provisionsDP.keys.count)
-        return o_provisionsDP.keys.count
+        return o_headers.count
     }
-    
-    // MARK: CollectionView headers
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProvisionHeader.key, for: indexPath) as! ProvisionHeader
-        
         guard indexPath.section < o_headers.count, let firstProvInSection = o_provisionsDP[o_headers[indexPath.section]]?.first else {
             headerView.headerLabel.text = ""
             return headerView
@@ -394,12 +387,16 @@ extension ProvisionsViewController: UICollectionViewDataSource {
     
     // MARK: CollectionView Cell
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[section]] {
+            return provsDPInSection.count
+        }
+        return 0
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProvisionCell.key, for: indexPath) as! ProvisionCell
-        
-        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {
-            return cell
-        }
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return cell}
         if indexPath.row >= provsDPInSection.count {return cell}
         
         // Info cell

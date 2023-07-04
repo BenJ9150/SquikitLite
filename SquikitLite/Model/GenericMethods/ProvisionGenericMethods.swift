@@ -58,24 +58,15 @@ class ProvisionGenericMethods {
 
 extension ProvisionGenericMethods {
     
-    static func getUserProvisionsDisplayProviderOLD() -> [ProvisionDisplayProvider] { // A SUPPRIMER
-        var provsDisplayProvider = [ProvisionDisplayProvider]()
-        for prov in UserProvisionsManager.shared.userProvisions {
-            let provProvider = ProvisionDisplayProvider(forProvision: prov)
-            provsDisplayProvider.append(provProvider)
-        }
-        return provsDisplayProvider
-    }
-    
     static func getUserProvisionsDisplayProvider(andUpadeCategories categories: inout [String]) -> [String: [ProvisionDisplayProvider]] {
         var provisionsDP = [String: [ProvisionDisplayProvider]]()
         for prov in UserProvisionsManager.shared.userProvisions {
-            let _ = addItemToProvsDisplayProvider(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
+            let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
         }
         return provisionsDP
     }
     
-    static func addItemToProvsDisplayProvider(provDP: ProvisionDisplayProvider, toDico dico: inout [String: [ProvisionDisplayProvider]], andUpadeCategories categories: inout [String]) -> (index: IndexPath?, newSection: Bool) {
+    static func addItemToProvsDP(provDP: ProvisionDisplayProvider, toDico dico: inout [String: [ProvisionDisplayProvider]], andUpadeCategories categories: inout [String]) -> (index: IndexPath?, newSection: Bool) {
         // on recherche si une section existe déjà
         var newSection = false
         if !categories.contains(provDP.category) {
@@ -93,7 +84,7 @@ extension ProvisionGenericMethods {
         return (IndexPath(row: row, section: section), newSection)
     }
     
-    static func deleteItemFromProvsDisplayProvider(provDP: ProvisionDisplayProvider, toDico dico: inout [String: [ProvisionDisplayProvider]], andUpadeCategories categories: inout [String]) -> (index: IndexPath?, deleteSection: Int?) {
+    static func deleteItemFromDP(provDP: ProvisionDisplayProvider, toDico dico: inout [String: [ProvisionDisplayProvider]], andUpadeCategories categories: inout [String]) -> (index: IndexPath?, deleteSection: Int?) {
         // on récupère l'indexPath de la provision à supprimer (pour update IHM)
         guard let row = dico[provDP.category]?.firstIndex(where: { $0.uuid == provDP.uuid }) else {return (nil, nil)}
         guard let section = categories.firstIndex(of: provDP.category) else {return (nil, nil)}
@@ -106,21 +97,6 @@ extension ProvisionGenericMethods {
             return (IndexPath(row: row, section: section), section)
         }
         return (IndexPath(row: row, section: section), nil)
-        
-        /*
-        guard let section = dico.first(where: { $1.first?.category == provDP.category })?.key  else {return (false, nil, nil)}
-        if section >= dico.count {return (false, nil, nil)}
-        guard let row = dico[section]?.firstIndex(where: { $0.uuid == provDP.uuid }) else {return (false, nil, nil)}
-            
-        // on retire la provision
-        dico[section]?.remove(at: row)//?.removeAll { $0.uuid == provisionDP.uuid }
-        // on supprime la section si vide
-        if let count = dico[section]?.count, count <= 0 {
-            dico.removeValue(forKey: section)
-            return (true, IndexPath(row: row, section: section), section)
-        }
-        return (true, IndexPath(row: row, section: section), nil)
-         */
     }
 }
 

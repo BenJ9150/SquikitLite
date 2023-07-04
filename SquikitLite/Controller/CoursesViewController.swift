@@ -21,7 +21,8 @@ class CoursesViewController: UIViewController {
     
     var o_tabBarTransforming = false
     var o_tabBarIsHidden = false
-    var o_provisionsDP = [ProvisionDisplayProvider]()
+    var o_provisionsDP = [String: [ProvisionDisplayProvider]]()
+    var o_headers = [String]()
     
     // MARK: Outlets
     
@@ -46,9 +47,11 @@ extension CoursesViewController {
         
         // tableView des provisions
         shoppingTableView.register(ShoppingCell.nib, forCellReuseIdentifier: ShoppingCell.key)
+        shoppingTableView.register(ShoppingHeader.nib, forHeaderFooterViewReuseIdentifier: ShoppingHeader.key)
         shoppingTableView.backgroundColor = UIColor.clear
-        shoppingTableView.contentInset = UIEdgeInsets(top: Dimensions.shoppingTableViewTopInset, left: 0, bottom: Dimensions.shoppingTableViewBottomInset, right: 0)
+        shoppingTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Dimensions.shoppingTableViewBottomInset, right: 0)
         shoppingTableView.separatorStyle = .none
+        shoppingTableView.sectionHeaderTopPadding = Dimensions.shoppingTableViewTopInset
         
         // notifications
         addNotificationObservers()
@@ -82,15 +85,17 @@ extension CoursesViewController {
 //===========================================================
 
 
-
+/*
 extension CoursesViewController {
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
-        shoppingTableView.reloadData()
+        if isViewLoaded {
+            shoppingTableView.reloadData()
+        }
     }
 }
-
+*/
 
 
 //===========================================================
@@ -134,6 +139,105 @@ extension CoursesViewController {
 
 
 
+//===========================================================
+// MARK: Get user provisions
+//===========================================================
+
+
+
+extension CoursesViewController {
+    
+    private func getUserProvisions() {
+        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider(andUpadeCategories: &o_headers)
+    }
+}
+
+
+
+//===========================================================
+// MARK: Add user provisions
+//===========================================================
+
+
+
+extension CoursesViewController {
+    
+    @objc func userProvisionsAdded(_ notif: NSNotification) {
+        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
+            // on ajoute au provider existant
+            let result = ProvisionGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            if let indexPath = result.index {
+                if result.newSection {
+                    shoppingTableView.insertSections(IndexSet(integer: indexPath.section), with: .automatic)
+                } else {
+                    shoppingTableView.insertRows(at: [indexPath], with: .automatic)
+                }
+                return
+            }
+        } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
+            // on ajoute au provider existant chaque provision
+            for providerInNotif in providersInNotif {
+                let _ = ProvisionGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            }
+            shoppingTableView.reloadData()
+            return
+        }
+        // on update tout au cas où...
+        getUserProvisions()
+        shoppingTableView.reloadData()
+    }
+}
+
+
+
+//===========================================================
+// MARK: Delete user provisions
+//===========================================================
+
+
+
+extension CoursesViewController {
+    
+    @objc func userProvisionDeleted(_ notif: NSNotification) {
+        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
+            // on supprime du provider existant
+            let result = ProvisionGenericMethods.deleteItemFromDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            if let indexPath = result.index {
+                if let sectionToDelete = result.deleteSection {
+                    shoppingTableView.deleteSections(IndexSet(integer: sectionToDelete), with: .automatic)
+                } else {
+                    shoppingTableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+                return
+            }
+        }
+        // on update tout au cas où...
+        getUserProvisions()
+        shoppingTableView.reloadData()
+    }
+}
+
+
+
+//===========================================================
+// MARK: Update user provisions
+//===========================================================
+
+
+
+extension CoursesViewController {
+    
+    @objc func userProvisionUpdated(_ notif: NSNotification) {
+        if let provIndexPath = notif.object as? IndexPath {
+            // on reload la cellule
+            shoppingTableView.reloadRows(at: [provIndexPath], with: .automatic)
+        } else {
+            // on reload tout au cas où...
+            shoppingTableView.reloadData()
+        }
+    }
+}
+/*
 //===========================================================
 // MARK: User provisions
 //===========================================================
@@ -181,7 +285,7 @@ extension CoursesViewController {
         }
     }
 }
-
+*/
 
 
 //===========================================================
@@ -192,19 +296,49 @@ extension CoursesViewController {
 
 extension CoursesViewController: UITableViewDataSource {
     
+    // MARK: TableView headers
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return o_headers.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return Dimensions.headerHeight
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ShoppingHeader.key) as! ShoppingHeader
+        guard section < o_headers.count, let firstProvInSection = o_provisionsDP[o_headers[section]]?.first else {
+            headerView.headerLabel.text = ""
+            return headerView
+        }
+        
+        headerView.headerLabel.text = firstProvInSection.category
+        return headerView
+    }
+    
+    // MARK: TableView Cell
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        o_provisionsDP.count
+        if section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[section]] {
+            return provsDPInSection.count
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Dimensions.shoppingRowHeight
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let shoppingCell = tableView.dequeueReusableCell(withIdentifier: ShoppingCell.key, for: indexPath) as! ShoppingCell
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return shoppingCell}
+        if indexPath.row >= provsDPInSection.count {return shoppingCell}
         
-        let provisionDP = o_provisionsDP[indexPath.row]
-        
-        shoppingCell.productImageView.image = provisionDP.image
-        shoppingCell.nameLabel.text = provisionDP.name
-        shoppingCell.qtyAndUnitLabel.text = provisionDP.quantityAndShoppingUnit
-        shoppingCell.dlcLabel.text = provisionDP.dlcToString
+        shoppingCell.productImageView.image = provsDPInSection[indexPath.row].image
+        shoppingCell.nameLabel.text = provsDPInSection[indexPath.row].name
+        shoppingCell.qtyAndUnitLabel.text = provsDPInSection[indexPath.row].quantityAndShoppingUnit
+        shoppingCell.dlcLabel.text = provsDPInSection[indexPath.row].dlcToString
         
         return shoppingCell
     }

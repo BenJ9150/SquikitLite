@@ -21,17 +21,21 @@ class Dimensions {
     
     // MARK: Headers
     
-    static let provisionsHeaderHeight: CGFloat = 48
+    static let headerHeight: CGFloat = 48
     
-    // MARK: Cells
+    // MARK: Provisions CollectionView
     
     static let provisionsCellWidth: CGFloat = 156
     static let provisionsCellHeight: CGFloat = 152
     static let provisionsCellSpace: CGFloat = 16
     static let provisionCollectionViewTopInset: CGFloat = provisionsCellSpace
     static let provisionCollectionViewBottomInset: CGFloat = 100
-    static let shoppingTableViewTopInset: CGFloat = 24
-    static let shoppingTableViewBottomInset: CGFloat = 100
+    
+    // MARK: Shopping TableView
+    static let shoppingRowSpace: CGFloat = 6
+    static let shoppingRowHeight: CGFloat = 64 + shoppingRowSpace // espace dans le Xib (on ne peut pas mettre d'espace entre les lignes)
+    static let shoppingTableViewTopInset: CGFloat = provisionCollectionViewTopInset
+    static let shoppingTableViewBottomInset: CGFloat = provisionCollectionViewBottomInset
 
     
     // MARK: Floating buttons
