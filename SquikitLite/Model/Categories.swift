@@ -84,8 +84,8 @@ extension Categories {
             guard let catRef = Double(String(splitRef[0])), let subCatRef = Double(String(splitRef[1])) else {continue}
             
             // add to dico
-            let result = subCategoriesDico.contains { $0.key == catRef }
-            if result {
+            let dicoContainsKey = subCategoriesDico.contains { $0.key == catRef }
+            if dicoContainsKey {
                 subCategoriesDico[catRef]?.updateValue(String(splitValue[1]), forKey: subCatRef)
             } else {
                 subCategoriesDico[catRef] = [subCatRef: String(splitValue[1])]

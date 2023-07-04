@@ -19,11 +19,17 @@ import Foundation
 
 class Dimensions {
     
+    // MARK: Headers
+    
+    static let provisionsHeaderHeight: CGFloat = 48
+    
     // MARK: Cells
     
     static let provisionsCellWidth: CGFloat = 156
     static let provisionsCellHeight: CGFloat = 152
     static let provisionsCellSpace: CGFloat = 16
+    static let provisionCollectionViewTopInset: CGFloat = provisionsCellSpace
+    static let provisionCollectionViewBottomInset: CGFloat = 100
     static let shoppingTableViewTopInset: CGFloat = 24
     static let shoppingTableViewBottomInset: CGFloat = 100
 
