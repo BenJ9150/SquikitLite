@@ -69,12 +69,14 @@ extension CoursesViewController {
 extension CoursesViewController {
     
     private func addNotificationObservers() {
+        /*
         // notification user provisions added
         NotificationCenter.default.addObserver(self, selector: #selector(userProvisionsAdded(_ :)), name: .userProvisionsAdded, object: nil)
         // notification user provision deleted
         NotificationCenter.default.addObserver(self, selector: #selector(userProvisionDeleted(_ :)), name: .userProvisionsDeleted, object: nil)
         // notification user provision updated
         NotificationCenter.default.addObserver(self, selector: #selector(userProvisionUpdated(_ :)), name: .userProvisionUpdated, object: nil)
+         */
     }
 }
 
@@ -199,21 +201,22 @@ extension CoursesViewController {
 extension CoursesViewController {
     
     @objc func userProvisionDeleted(_ notif: NSNotification) {
-        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
-            // on supprime du provider existant
-            let result = ProvisionGenericMethods.deleteItemFromDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
-            if let indexPath = result.index {
-                if let sectionToDelete = result.deleteSection {
-                    shoppingTableView.deleteSections(IndexSet(integer: sectionToDelete), with: .automatic)
-                } else {
-                    shoppingTableView.deleteRows(at: [indexPath], with: .automatic)
-                }
-                return
+        guard let providerInNotif = notif.object as? ProvisionDisplayProvider else {return}
+        
+        // on supprime du provider existant
+        let result = ProvisionGenericMethods.deleteItemFromDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+        if let indexPath = result.index {
+            if let sectionToDelete = result.deleteSection {
+                shoppingTableView.deleteSections(IndexSet(integer: sectionToDelete), with: .automatic)
+            } else {
+                shoppingTableView.deleteRows(at: [indexPath], with: .automatic)
             }
+        } else {
+            // on reload tout au cas où...
+            shoppingTableView.reloadData()
         }
-        // on update tout au cas où...
-        getUserProvisions()
-        shoppingTableView.reloadData()
+        // on supprime des provisions
+        let _ = Provision.deleteProvision(providerInNotif.provision)
     }
 }
 
@@ -235,57 +238,11 @@ extension CoursesViewController {
             // on reload tout au cas où...
             shoppingTableView.reloadData()
         }
+        // save modification
+        let _ = Provision.updateProvisions()
     }
 }
-/*
-//===========================================================
-// MARK: User provisions
-//===========================================================
 
-
-
-extension CoursesViewController {
-    
-    private func getUserProvisions() {
-        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProviderOLD()
-    }
-    
-    @objc func userProvisionsAdded(_ notif: NSNotification) {
-        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
-            // on ajoute au provider existant
-            o_provisionsDP.append(providerInNotif)
-        } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
-            // on ajoute au provider existant
-            o_provisionsDP.append(contentsOf: providersInNotif)
-        } else {
-            // on update tout au cas où...
-            getUserProvisions()
-        }
-        shoppingTableView.reloadData()
-    }
-    
-    @objc func userProvisionDeleted(_ notif: NSNotification) {
-        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
-            // on supprime du provider existant
-            o_provisionsDP.removeAll { $0.uuid == providerInNotif.uuid }
-        } else {
-            // on update tout au cas où...
-            getUserProvisions()
-        }
-        shoppingTableView.reloadData()
-    }
-    
-    @objc func userProvisionUpdated(_ notif: NSNotification) {
-        if let provIndexPath = notif.object as? IndexPath {
-            // on reload la cellule
-            shoppingTableView.reloadRows(at: [provIndexPath], with: .automatic)
-        } else {
-            // on reload tout au cas où...
-            shoppingTableView.reloadData()
-        }
-    }
-}
-*/
 
 
 //===========================================================

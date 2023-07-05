@@ -198,21 +198,22 @@ extension ProvisionsViewController {
 extension ProvisionsViewController {
     
     @objc func userProvisionDeleted(_ notif: NSNotification) {
-        if let providerInNotif = notif.object as? ProvisionDisplayProvider {
-            // on supprime du provider existant
-            let result = ProvisionGenericMethods.deleteItemFromDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
-            if let indexPath = result.index {
-                if let sectionToDelete = result.deleteSection {
-                    provisionsCollectionView.deleteSections(IndexSet(integer: sectionToDelete))
-                } else {
-                    provisionsCollectionView.deleteItems(at: [indexPath])
-                }
-                return
+        guard let providerInNotif = notif.object as? ProvisionDisplayProvider else {return}
+        
+        // on supprime du provider existant
+        let result = ProvisionGenericMethods.deleteItemFromDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+        if let indexPath = result.index {
+            if let sectionToDelete = result.deleteSection {
+                provisionsCollectionView.deleteSections(IndexSet(integer: sectionToDelete))
+            } else {
+                provisionsCollectionView.deleteItems(at: [indexPath])
             }
+        } else {
+            // on reload tout au cas où...
+            provisionsCollectionView.reloadData()
         }
-        // on update tout au cas où...
-        getUserProvisions()
-        provisionsCollectionView.reloadData()
+        // on supprime des provisions
+        let _ = Provision.deleteProvision(providerInNotif.provision)
     }
 }
 
@@ -234,6 +235,8 @@ extension ProvisionsViewController {
             // on reload tout au cas où...
             provisionsCollectionView.reloadData()
         }
+        // save modification
+        let _ = Provision.updateProvisions()
     }
 }
 
@@ -282,9 +285,10 @@ extension ProvisionsViewController {
         let okButton = UIAlertAction(title: NSLocalizedString("alert_choose", comment: ""), style: .default) { _ in
             // maj provision
             provsDPInSection[indexPath.row].dlc = alertDLC.o_datePicker.date
-            ProvisionGenericMethods.updateUserProvision(provision: provsDPInSection[indexPath.row].provOfDisplayProvider, atIndexPath: indexPath)
             // maj IHM
             self.provisionsCollectionView.reloadItems(at: [indexPath])
+            // save modification
+            let _ = Provision.updateProvisions()
         }
         
         alertDLC.addAction(okButton)

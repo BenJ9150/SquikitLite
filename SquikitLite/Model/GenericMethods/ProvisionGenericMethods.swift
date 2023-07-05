@@ -17,42 +17,12 @@ import Foundation
 
 class ProvisionGenericMethods {
     
-    static func addUserProvision(withProductDP productDP: ProductDisplayProvider) {
-        // on crée une nouvelle provision
-        let isNoFood = AppSettings.noFoodsRef.contains { $0 == productDP.product.CategoryRef }
-        let newProv = Provision(product: productDP.product, isFood: !isNoFood, purchaseDate: Date(), quantity: productDP.product.DefaultQuantity, uuid: UUID.init())
-        
-        let newProvProvider = ProvisionDisplayProvider(forProvision: newProv)
-        
-        UserProvisionsManager.shared.saveNewUserProvision(provision: newProvProvider.provOfDisplayProvider)
-        NotificationCenter.default.post(name: .userProvisionsAdded, object: newProvProvider)
-        
-        print("\nUser provision \"" + newProvProvider.name + "\" added")
-        print("(UUID: " + newProvProvider.uuidToString)
-        print("Purchase date: \(newProvProvider.provOfDisplayProvider.purchaseDate)\n")
-    }
-    
-    static func deleteUserProvision(ofProvDisplayProvider provProvider: ProvisionDisplayProvider) {
-        UserProvisionsManager.shared.deleteUserProvision(provision: provProvider.provOfDisplayProvider)
-        NotificationCenter.default.post(name: .userProvisionsDeleted, object: provProvider)
-        
-        print("\nUser provision \"" + provProvider.name + "\" deleted")
-        print("(UUID: " + provProvider.uuidToString)
-        print("Purchase date: \(provProvider.provOfDisplayProvider.purchaseDate)\n")
-    }
-    
-    static func updateUserProvision(provision: Provision, atIndexPath indexpath: IndexPath) {
-        UserProvisionsManager.shared.updateUserProvisions(provision: provision)
-        NotificationCenter.default.post(name: .userProvisionUpdated, object: indexpath)
-        
-        print("\nUser provisions updated\n")
-    }
 }
 
 
 
 //===========================================================
-// MARK: display provider
+// MARK: Dico provisions display provider
 //===========================================================
 
 
@@ -61,7 +31,7 @@ extension ProvisionGenericMethods {
     
     static func getUserProvisionsDisplayProvider(andUpadeCategories categories: inout [String]) -> [String: [ProvisionDisplayProvider]] {
         var provisionsDP = [String: [ProvisionDisplayProvider]]()
-        for prov in UserProvisionsManager.shared.provisions {
+        for prov in Provision.all {
             let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
         }
         return provisionsDP

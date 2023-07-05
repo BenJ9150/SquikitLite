@@ -128,13 +128,31 @@ extension AddprovisionViewController: UITableViewDataSource {
 extension AddprovisionViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // update user provisions
         if o_searching && indexPath.row < o_searchedProductsDP.count {
-            ProvisionGenericMethods.addUserProvision(withProductDP: o_searchedProductsDP[indexPath.row])
-            
+            addNewProvision(fromProductDP: o_searchedProductsDP[indexPath.row])
         } else if indexPath.row < o_productsDP.count {
-            ProvisionGenericMethods.addUserProvision(withProductDP: o_productsDP[indexPath.row])
+            addNewProvision(fromProductDP: o_productsDP[indexPath.row])
         }
+    }
+    
+    private func addNewProvision(fromProductDP productDP: ProductDisplayProvider) {
+        // check if product already in stock
+        if Provision.checkIfProductAlreadyAdded(withProductId: productDP.product.Id) {
+            let alert = UIAlertController(title: NSLocalizedString("alert_provAlreadyInStock", comment: ""), message: "", preferredStyle: .alert)
+            let okButton = UIAlertAction(title: NSLocalizedString("alert_ok", comment: ""), style: .cancel) { _ in
+                self.dismiss(animated: true)
+            }
+            alert.addAction(okButton)
+            present(alert, animated: true)
+            return
+        }
+
+        // on crée une nouvelle provision
+        guard let newProv = Provision.addNewProvision(fromProduct: productDP.product) else {return}
+        // on crée un nouveau display provider
+        let newProvProvider = ProvisionDisplayProvider(forProvision: newProv)
+        NotificationCenter.default.post(name: .userProvisionsAdded, object: newProvProvider)
+        
         dismiss(animated: true)
     }
 }

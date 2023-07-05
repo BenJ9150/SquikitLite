@@ -17,8 +17,6 @@ import Foundation
 
 struct Product: Codable {
     
-    var isCustom: Bool = false // new par rapport aux JSON, à vérifier lors de la sauvegarde d'une provision dans coreData
-    
     // MARK: Customizable properties (saved in customProduct)
     
     var DefaultQuantity: Double
@@ -50,9 +48,8 @@ struct Product: Codable {
     
     // MARK: Init
     
-    init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws { // juste pour enlever ShoppingNote du decodage...
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.isCustom = false
         self.DefaultQuantity = try container.decode(Double.self, forKey: .DefaultQuantity)
         self.CategoryRef = try container.decode(Double.self, forKey: .CategoryRef)
         self.SubCategoryRef = try container.decode(Double.self, forKey: .SubCategoryRef)

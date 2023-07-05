@@ -29,6 +29,7 @@
 "dlcNoPeremptionMessage"="Pas de DLC";
 
 /* Alert buttons */
+"alert_ok"="Ok";
 "alert_choose"="Choisir";
 "alert_delete"="Supprimer";
 "alert_cancel"="Annuler";
@@ -39,3 +40,4 @@
 "alert_changeDlcTitle"="Nouvelle DLC";
 "alert_removeDlcTitle"="Retirer la DLC ?";
 "alert_chooseUnitTitle"="Nouvelle unité";
+"alert_provAlreadyInStock"="Cette provision est déjà dans votre stock !";

@@ -53,19 +53,9 @@ class ProductManager {
 
 extension ProductManager {
     
-    static func getProduct(fromId productId: String) -> Product? {
-        guard var product = ProductManager.shared.o_products.first(where: { $0.Id == productId }) else {
-            return nil
-        }
-        
-        // on vérifie si product présent dans CustomProduct
-        if let customProduct = CustomProduct.getCustomProduct(fromID: productId) {
-            product.isCustom = true
-            // on update les valeurs
-            if let unit = customProduct.shoppingUnit { product.ShoppingUnit = unit }
-            // TODO le reste...
-        }
-        return product
+    static func getProduct(fromId productId: String?) -> Product? {
+        guard let productId = productId else {return nil}
+        return ProductManager.shared.o_products.first(where: { $0.Id == productId })
     }
     
     private func getProductsFromFile(fileName: String, completionHandler: @escaping ([Product]) -> ()) {

@@ -20,20 +20,25 @@ class ProvisionDisplayProvider {
     
     // MARK: Properties
     
-    private let provision: Provision
+    private let o_provision: Provision
+    private var o_customProduct: CustomProduct?
     
-    private var product: Product {
-        return provision.product
-    }
+    private lazy var product: Product? = { // lazy pour ne pas rechercher tout le temps dans les products (grosse base de données)
+        return ProductManager.getProduct(fromId: o_provision.productId)
+    }()
     
-    var provOfDisplayProvider: Provision {
-        return provision
+    var provision: Provision {
+        return o_provision
     }
     
     // MARK: Init
     
     init(forProvision provision: Provision) {
-        self.provision = provision
+        self.o_provision = provision
+        if let productId = self.o_provision.productId {
+            self.o_customProduct = CustomProduct.getCustomProduct(fromID: productId)
+        }
+        
     }
 }
 
@@ -47,23 +52,18 @@ class ProvisionDisplayProvider {
 
 extension ProvisionDisplayProvider {
     
-    var uuid: UUID {
-        return provision.uuid
-    }
-    
-    var uuidToString: String {
-        return provision.uuid.uuidString
+    var uuid: UUID? {
+        return o_provision.uuid
     }
     
     var name: String {
+        guard let product = product else {return ""}
         return product.Name.capitalizedSentence
     }
     
     var variants: [String.SubSequence] {
-        if product.Variants == "" {
-            return [String.SubSequence]()
-        }
-        // split
+        guard let product = product else {return [String.SubSequence]()}
+        if product.Variants == "" {return [String.SubSequence]()}
         return product.Variants.split(separator: ";")
     }
 }
@@ -80,33 +80,43 @@ extension ProvisionDisplayProvider {
     
     var quantity: Double {
         get {
-            return provision.quantity
+            return o_provision.quantity
         } set {
-            provision.quantity = newValue
+            o_provision.quantity = newValue
         }
     }
     
     var quantityToString: String {
-        if provision.quantity < 0 {return ""}
-        return provision.quantity.toRoundedString
+        if o_provision.quantity < 0 {return ""}
+        return o_provision.quantity.toRoundedString
     }
     
     var unit: String {
         get {
-            if let unit = provision.shoppingUnit {
+            // custom
+            if let custom = o_customProduct, let unit = custom.shoppingUnit {
                 return unit
             }
+            // generic
+            guard let product = product else {return ""}
             return product.ShoppingUnit
         } set {
-            if newValue != "" {
-                provision.shoppingUnit = newValue
+            if newValue == "" {return}
+            if let custom = o_customProduct {
+                custom.shoppingUnit = newValue
+                CustomProduct.saveCustomProduct()
+                return
             }
+            // on crée un custom product
+            guard var product = product else {return}
+            product.ShoppingUnit = newValue
+            o_customProduct = CustomProduct.addNewCustomProduct(fromProduct: product)
         }
     }
     
     var quantityAndShoppingUnit: String {
-        if provision.quantity < 0 {return ""}
-        if provision.quantity <= 1 {return quantityToString + " " + unit}
+        if o_provision.quantity < 0 {return ""}
+        if o_provision.quantity <= 1 {return quantityToString + " " + unit}
         
         return quantityToString + " " + ProductGenericMethods.getPluralUnit(ofUnit: unit)
     }
@@ -123,6 +133,10 @@ extension ProvisionDisplayProvider {
 extension ProvisionDisplayProvider {
     
     var image: UIImage {
+        // custom
+        
+        // generic
+        guard let product = product else {return UIImage()}
         return ProductGenericMethods.getDefaultImage(forCategoryRef: product.CategoryRef)
     }
 }
@@ -137,25 +151,41 @@ extension ProvisionDisplayProvider {
 extension ProvisionDisplayProvider {
     
     private var havePeremption: Bool {
-        if product.Preservation < 0 {
-            return false
+        // custom
+        if let custom = o_customProduct {
+            if custom.preservation < 0 {return false}
+            return true
         }
+        // generic
+        guard let product = product else {return false}
+        if product.Preservation < 0 {return false}
         return true
+    }
+    
+    private var preservation: Int {
+        // custom
+        if let custom = o_customProduct {
+            return Int(custom.preservation)
+        }
+        // generic
+        guard let product = product else {return 0}
+        return product.Preservation
     }
     
     var dlc: Date? {
         get {
-            if let customDlc = provision.customDlc {
+            if let customDlc = o_provision.customDlc {
                 return customDlc
             }
             if !havePeremption {
                 return nil
             }
             // on retourne la date d'achat + durée préservation
-            return Calendar.current.date(byAdding: .day, value: product.Preservation, to: provision.purchaseDate)
+            guard let purchaseDate = o_provision.purchaseDate else {return nil}
+            return Calendar.current.date(byAdding: .day, value: preservation, to: purchaseDate)
             
         } set {
-            provision.customDlc = newValue
+            o_provision.customDlc = newValue
         }
     }
     
@@ -166,7 +196,7 @@ extension ProvisionDisplayProvider {
     /// - returns: Int.max if no peremption, or number of days
     var expirationCountDown: Int {
         // vérif custom dlc
-        if let customDlc = provision.customDlc {
+        if let customDlc = o_provision.customDlc {
             // on retourne dlc - date actuelle
             return Calendar.current.numberOfDaysBetween(from: Date(), to: customDlc)
         }
@@ -175,7 +205,8 @@ extension ProvisionDisplayProvider {
             return Int.max
         }
         // on retourne la préservation - nb jours depuis achat
-        return product.Preservation - Calendar.current.numberOfDaysBetween(from: provision.purchaseDate, to: Date())
+        guard let purchaseDate = o_provision.purchaseDate else {return Int.max}
+        return preservation - Calendar.current.numberOfDaysBetween(from: purchaseDate, to: Date())
     }
     
     var stringExpirationCountDown: String {
@@ -207,10 +238,22 @@ extension ProvisionDisplayProvider {
 extension ProvisionDisplayProvider {
     
     var category: String {
+        // custom
+        if let custom = o_customProduct {
+            return ProductGenericMethods.getCategory(withRef: custom.categoryRef).capitalizedSentence
+        }
+        // generic
+        guard let product = product else {return ""}
         return ProductGenericMethods.getCategory(withRef: product.CategoryRef).capitalizedSentence
     }
     
     var subCategory: String {
+        // custom
+        if let custom = o_customProduct {
+            return ProductGenericMethods.getCategory(withRef: custom.subCatagoryRef).capitalizedSentence
+        }
+        // generic
+        guard let product = product else {return ""}
         return ProductGenericMethods.getSubCategory(withSubCatRef: product.SubCategoryRef, inCatRef: product.CategoryRef)
     }
     
