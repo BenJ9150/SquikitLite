@@ -1,5 +1,5 @@
 //
-//  ProvisionManager.swift
+//  ProductManager.swift
 //  SquikitLite
 //
 //  Created by Benjamin on 22/06/2023.
@@ -19,23 +19,28 @@ class ProductManager {
     
     // MARK: Properties
     
-    private var products = [Product]()
+    var products: [Product] {
+        return o_products
+    }
     
-    var getProducts: [Product] {
+    private lazy var o_products: [Product] = {
+        var products = [Product]()
+        // foods
+        getProductsFromFile(fileName: AppSettings.foodsCollectionFileName) { foods in
+            products.append(contentsOf: foods)
+        }
+        // noFoods
+        getProductsFromFile(fileName: AppSettings.noFoodsCollectionFileName) { noFoods in
+            products.append(contentsOf: noFoods)
+        }
         return products
-    }
+    }()
     
-    var count: Int {
-        return products.count
-    }
     
     // MARK: Singleton
     
     static let shared = ProductManager()
-    
-    private init() {
-        getFoodsAndNoFoods()
-    }
+    private init() {}
 }
 
 
@@ -48,15 +53,19 @@ class ProductManager {
 
 extension ProductManager {
     
-    private func getFoodsAndNoFoods() {
-        // foods
-        getProductsFromFile(fileName: AppSettings.foodsCollectionFileName) { foods in
-            self.products.append(contentsOf: foods)
+    static func getProduct(fromId productId: String) -> Product? {
+        guard var product = ProductManager.shared.o_products.first(where: { $0.Id == productId }) else {
+            return nil
         }
-        // noFoods
-        getProductsFromFile(fileName: AppSettings.noFoodsCollectionFileName) { noFoods in
-            self.products.append(contentsOf: noFoods)
+        
+        // on vérifie si product présent dans CustomProduct
+        if let customProduct = CustomProduct.getCustomProduct(fromID: productId) {
+            product.isCustom = true
+            // on update les valeurs
+            if let unit = customProduct.shoppingUnit { product.ShoppingUnit = unit }
+            // TODO le reste...
         }
+        return product
     }
     
     private func getProductsFromFile(fileName: String, completionHandler: @escaping ([Product]) -> ()) {

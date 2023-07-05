@@ -1,5 +1,5 @@
 //
-//  ProvisionDisplayProvider.swift
+//  ProductDisplayProvider.swift
 //  SquikitLite
 //
 //  Created by Benjamin on 28/06/2023.
@@ -20,11 +20,7 @@ class ProductDisplayProvider {
     
     // MARK: Properties
     
-    private let product: Product
-    
-    var getProduct: Product {
-        return product
-    }
+    let product: Product
     
     // MARK: Init
     
@@ -36,7 +32,7 @@ class ProductDisplayProvider {
 
 
 //===========================================================
-// MARK: UUID, Name and variants
+// MARK: Name and variants
 //===========================================================
 
 

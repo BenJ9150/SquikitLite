@@ -282,7 +282,7 @@ extension ProvisionsViewController {
         let okButton = UIAlertAction(title: NSLocalizedString("alert_choose", comment: ""), style: .default) { _ in
             // maj provision
             provsDPInSection[indexPath.row].dlc = alertDLC.o_datePicker.date
-            ProvisionGenericMethods.updateUserProvision(atIndexPath: indexPath)
+            ProvisionGenericMethods.updateUserProvision(provision: provsDPInSection[indexPath.row].provOfDisplayProvider, atIndexPath: indexPath)
             // maj IHM
             self.provisionsCollectionView.reloadItems(at: [indexPath])
         }

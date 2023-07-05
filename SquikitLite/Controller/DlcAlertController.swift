@@ -1,5 +1,5 @@
 //
-//  AlertWithDLCPickerViewController.swift
+//  DlcAlertController.swift
 //  SquikitLite
 //
 //  Created by Benjamin on 01/07/2023.
@@ -10,7 +10,7 @@ import UIKit
 
 
 //===========================================================
-// MARK: CoursesViewController class
+// MARK: DlcAlertController class
 //===========================================================
 
 

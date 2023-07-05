@@ -318,7 +318,7 @@ extension ProvisionsBSDViewController {
         // Notif si update
         if updated {
             if updated, let provIndexPath = o_provIndexPath {
-                ProvisionGenericMethods.updateUserProvision(atIndexPath: provIndexPath)
+                ProvisionGenericMethods.updateUserProvision(provision: provProvider.provOfDisplayProvider, atIndexPath: provIndexPath)
             }
         }
     }

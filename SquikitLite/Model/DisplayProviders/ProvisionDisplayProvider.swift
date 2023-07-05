@@ -93,10 +93,13 @@ extension ProvisionDisplayProvider {
     
     var unit: String {
         get {
-            return provision.unit
+            if let unit = provision.shoppingUnit {
+                return unit
+            }
+            return product.ShoppingUnit
         } set {
             if newValue != "" {
-                provision.unit = newValue
+                provision.shoppingUnit = newValue
             }
         }
     }
@@ -134,7 +137,7 @@ extension ProvisionDisplayProvider {
 extension ProvisionDisplayProvider {
     
     private var havePeremption: Bool {
-        if provision.preservation < 0 {
+        if product.Preservation < 0 {
             return false
         }
         return true
@@ -149,7 +152,7 @@ extension ProvisionDisplayProvider {
                 return nil
             }
             // on retourne la date d'achat + durée préservation
-            return Calendar.current.date(byAdding: .day, value: provision.preservation, to: provision.purchaseDate)
+            return Calendar.current.date(byAdding: .day, value: product.Preservation, to: provision.purchaseDate)
             
         } set {
             provision.customDlc = newValue
@@ -172,7 +175,7 @@ extension ProvisionDisplayProvider {
             return Int.max
         }
         // on retourne la préservation - nb jours depuis achat
-        return provision.preservation - Calendar.current.numberOfDaysBetween(from: provision.purchaseDate, to: Date())
+        return product.Preservation - Calendar.current.numberOfDaysBetween(from: provision.purchaseDate, to: Date())
     }
     
     var stringExpirationCountDown: String {

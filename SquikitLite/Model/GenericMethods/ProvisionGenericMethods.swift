@@ -1,5 +1,5 @@
 //
-//  ProvisionsGenericMethods.swift
+//  ProvisionGenericMethods.swift
 //  SquikitLite
 //
 //  Created by Benjamin on 28/06/2023.
@@ -19,9 +19,10 @@ class ProvisionGenericMethods {
     
     static func addUserProvision(withProductDP productDP: ProductDisplayProvider) {
         // on crée une nouvelle provision
-        let isNoFood = AppSettings.noFoodsRef.contains { $0 == productDP.getProduct.CategoryRef }
+        let isNoFood = AppSettings.noFoodsRef.contains { $0 == productDP.product.CategoryRef }
+        let newProv = Provision(product: productDP.product, isFood: !isNoFood, purchaseDate: Date(), quantity: productDP.product.DefaultQuantity, uuid: UUID.init())
         
-        let newProvProvider = ProvisionDisplayProvider(forProvision: Provision(product: productDP.getProduct, isFood: !isNoFood))
+        let newProvProvider = ProvisionDisplayProvider(forProvision: newProv)
         
         UserProvisionsManager.shared.saveNewUserProvision(provision: newProvProvider.provOfDisplayProvider)
         NotificationCenter.default.post(name: .userProvisionsAdded, object: newProvProvider)
@@ -40,8 +41,8 @@ class ProvisionGenericMethods {
         print("Purchase date: \(provProvider.provOfDisplayProvider.purchaseDate)\n")
     }
     
-    static func updateUserProvision(atIndexPath indexpath: IndexPath) {
-        UserProvisionsManager.shared.updateUserProvisions()
+    static func updateUserProvision(provision: Provision, atIndexPath indexpath: IndexPath) {
+        UserProvisionsManager.shared.updateUserProvisions(provision: provision)
         NotificationCenter.default.post(name: .userProvisionUpdated, object: indexpath)
         
         print("\nUser provisions updated\n")
@@ -60,7 +61,7 @@ extension ProvisionGenericMethods {
     
     static func getUserProvisionsDisplayProvider(andUpadeCategories categories: inout [String]) -> [String: [ProvisionDisplayProvider]] {
         var provisionsDP = [String: [ProvisionDisplayProvider]]()
-        for prov in UserProvisionsManager.shared.userProvisions {
+        for prov in UserProvisionsManager.shared.provisions {
             let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
         }
         return provisionsDP

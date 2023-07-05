@@ -1,5 +1,5 @@
 //
-//  ProductsMethods.swift
+//  ProductGenericMethods.swift
 //  SquikitLite
 //
 //  Created by Benjamin on 28/06/2023.
@@ -20,7 +20,7 @@ class ProductGenericMethods {
     
     static func productsDisplayProviderFromDatabase() -> [ProductDisplayProvider] {
         var productsDP = [ProductDisplayProvider]()
-        for product in ProductManager.shared.getProducts {
+        for product in ProductManager.shared.products {
             let productDP = ProductDisplayProvider(forProduct: product)
             productsDP.append(productDP)
         }

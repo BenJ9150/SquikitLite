@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import CoreData
 
 
@@ -28,7 +29,7 @@ final class CoreDataStack {
 
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: AppSettings.persistentContainerName)
-      container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
         if let error = error as NSError? {
           fatalError("Unresolved error \(error), \(error.userInfo)")
         }
@@ -41,3 +42,4 @@ final class CoreDataStack {
     static let shared = CoreDataStack()
     private init() {}
 }
+

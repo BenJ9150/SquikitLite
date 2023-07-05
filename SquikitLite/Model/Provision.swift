@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreData
 
 
 
@@ -18,38 +17,66 @@ import CoreData
 
 class Provision: Codable {
     
-    // MARK: Properties
+    // MARK: Public properties
     
-    private var purchaseDateAtCreation = Date()
-    let product: Product
+    let purchaseDate: Date
     let isFood: Bool
     let uuid: UUID
-    var quantity: Double
     
-    var purchaseDate: Date {
-        return purchaseDateAtCreation
+    var quantity: Double
+    var customDlc: Date?
+    
+    var product: Product {
+        return o_product
     }
     
+    // MARK: Private properties
     
+    private var o_product: Product
     
-    // MARK: Editable properties (by user)
+    // MARK: Private customizable properties of product
     
-    var defaultQuantity: Double
-    var unit: String
-    var customDlc: Date?
-    var imageUrl: String?
-    var preservation: Int
+    private var defaultQuantity: Double?
+    private var categoryRef: Double?
+    private var subCategoryRef: Double?
+    private var o_shoppingUnit: String?
+    private var preservation: Int?
+    private var preservationAfterOpening: Int?
+    private var defaultNote: String?
+    private var storageZoneId: Int?
+    private var thumbnailUrl: String?
+    private var shoppingNote: String?
     
     // MARK: Inits
     
-    init(product: Product, isFood: Bool) {
-        self.product = product
+    init(product: Product, isFood: Bool, purchaseDate: Date, quantity: Double, uuid: UUID) {
+        self.o_product = product
         self.isFood = isFood
-        self.uuid = UUID.init()
-        self.quantity = product.DefaultQuantity
-        self.defaultQuantity = product.DefaultQuantity
-        self.unit = product.ShoppingUnit
-        self.preservation = product.Preservation
+        self.purchaseDate = purchaseDate
+        self.uuid = uuid
+        self.quantity = quantity
     }
 }
 
+
+
+//===========================================================
+// MARK: Edit customizable properties of product
+//===========================================================
+
+
+
+extension Provision {
+    
+    var shoppingUnit: String? {
+        get { return o_shoppingUnit}
+        set {
+            if let unit = newValue, unit != "" {
+                o_product.isCustom = true
+                o_shoppingUnit = unit
+            }
+        }
+    }
+    
+    // TODO le reste...
+}

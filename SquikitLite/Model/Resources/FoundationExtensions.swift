@@ -1,5 +1,5 @@
 //
-//  CustomString.swift
+//  FoundationExtensions.swift
 //  SquikitLite
 //
 //  Created by Benjamin on 28/06/2023.
