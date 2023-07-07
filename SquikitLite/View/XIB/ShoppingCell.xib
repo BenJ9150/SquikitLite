@@ -27,23 +27,23 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PNE-0c-NRY">
-                                <rect key="frame" x="84" y="14.666666666666668" width="154" height="29.000000000000004"/>
+                                <rect key="frame" x="84" y="11" width="154" height="36"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rvc-s9-tS0">
-                                        <rect key="frame" x="0.0" y="16.999999999999996" width="28" height="12"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                                        <rect key="frame" x="0.0" y="19.333333333333336" width="30.333333333333332" height="16.666666666666664"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="12"/>
                                         <color key="textColor" name="color_quantityAndUnit"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lpy-MY-8d8">
-                                        <rect key="frame" x="0.0" y="0.0" width="154" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="154" height="19.333333333333332"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
                                         <color key="textColor" name="color_provisionName"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lUG-F8-Fbt">
-                                        <rect key="frame" x="38" y="16.999999999999996" width="116" height="12"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                                        <rect key="frame" x="40.333333333333321" y="19.333333333333336" width="113.66666666666669" height="16.666666666666664"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="12"/>
                                         <color key="textColor" name="color_quantityAndUnit"/>
                                         <nil key="highlightedColor"/>
                                     </label>

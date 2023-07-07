@@ -267,7 +267,7 @@ extension ProvisionsBSDViewController {
         }
         
         alert.addAction(deleteButton)
-        alert.addAction(UIAlertAction.cancelButton)
+        alert.addAction(AlertButton().cancel)
         present(alert, animated: true)
     }
 }
@@ -364,7 +364,7 @@ extension ProvisionsBSDViewController {
         }
         
         alert.addAction(deleteButton)
-        alert.addAction(UIAlertAction.cancelButton)
+        alert.addAction(AlertButton().cancel)
         present(alert, animated: true)
     }
 }

@@ -58,7 +58,7 @@ extension DlcAlertController {
         message = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
         
         // add cancel button and picker
-        addAction(UIAlertAction.cancelButton)
+        addAction(AlertButton().cancel)
         view.addSubview(o_datePicker)
         
         // picker contraintes

@@ -27,17 +27,17 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bKE-ol-Q5c">
-                                <rect key="frame" x="70.666666666666671" y="9.6666666666666643" width="201.33333333333331" height="29"/>
+                                <rect key="frame" x="70.666666666666671" y="7.6666666666666679" width="201.33333333333331" height="33"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OyC-nW-bmW">
-                                        <rect key="frame" x="0.0" y="17" width="201.33333333333334" height="12"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                                        <rect key="frame" x="0.0" y="19.333333333333332" width="201.33333333333334" height="13.666666666666668"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="10"/>
                                         <color key="textColor" name="color_quantityAndUnit"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P73-Km-Ys6">
-                                        <rect key="frame" x="0.0" y="0.0" width="201.33333333333334" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="201.33333333333334" height="19.333333333333332"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
                                         <color key="textColor" name="color_provisionName"/>
                                         <nil key="highlightedColor"/>
                                     </label>

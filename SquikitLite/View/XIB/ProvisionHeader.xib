@@ -18,11 +18,11 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f5v-BU-6Vo" userLabel="Header background">
-                            <rect key="frame" x="-100" y="13" width="168.66666666666666" height="24"/>
+                            <rect key="frame" x="-100" y="13" width="167.33333333333334" height="24"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oaz-hw-7Zf">
-                                    <rect key="frame" x="116.00000000000001" y="3.6666666666666679" width="36.666666666666671" height="17"/>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                    <rect key="frame" x="115.99999999999999" y="2.3333333333333339" width="35.333333333333329" height="19.333333333333329"/>
+                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>

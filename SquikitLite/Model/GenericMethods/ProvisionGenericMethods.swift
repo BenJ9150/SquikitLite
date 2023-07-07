@@ -90,6 +90,6 @@ extension ProvisionGenericMethods {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = AppSettings.dateFormat
         
-        return NSLocalizedString("dlcSuffixString", comment: "") + dateFormatter.string(from: dlc)
+        return NSLocalizedString("dlcSuffixString", comment: "") + " " + dateFormatter.string(from: dlc)
     }
 }
