@@ -19,10 +19,10 @@ class ProvisionsViewController: UIViewController {
     
     // MARK: properties
     
-    var o_tabBarTransforming = false
-    var o_tabBarIsHidden = false
-    var o_provisionsDP = [String: [ProvisionDisplayProvider]]()
-    var o_headers = [String]()
+    private var o_tabBarTransforming = false
+    private var o_tabBarIsHidden = false
+    private var o_provisionsDP = [String: [ProvisionDisplayProvider]]()
+    private var o_headers = [String]()
     
     // MARK: Outlets
 
@@ -47,10 +47,7 @@ extension ProvisionsViewController {
         getUserProvisions()
         
         // collectionView des provisions
-        provisionsCollectionView.register(ProvisionCell.nib, forCellWithReuseIdentifier: ProvisionCell.key)
-        provisionsCollectionView.register(ProvisionHeader.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProvisionHeader.key)
-        provisionsCollectionView.backgroundColor = UIColor.clear
-        provisionsCollectionView.contentInset = UIEdgeInsets(top: Dimensions.provisionCollectionViewTopInset, left: 0, bottom: Dimensions.provisionCollectionViewBottomInset, right: 0)
+        initCollectionView()
         
         // notifications
         addNotificationObservers()
@@ -71,9 +68,9 @@ extension ProvisionsViewController {
         // notification user provisions added
         NotificationCenter.default.addObserver(self, selector: #selector(userProvisionsAdded(_ :)), name: .userProvisionsAdded, object: nil)
         // notification user provision deleted
-        NotificationCenter.default.addObserver(self, selector: #selector(userProvisionDeleted(_ :)), name: .userProvisionsDeleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteUserProvision(_ :)), name: .deleteUserProvision, object: nil)
         // notification user provision updated
-        NotificationCenter.default.addObserver(self, selector: #selector(userProvisionUpdated(_ :)), name: .userProvisionUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUserProvision(_ :)), name: .updateUserProvision, object: nil)
     }
 }
 
@@ -197,7 +194,7 @@ extension ProvisionsViewController {
 
 extension ProvisionsViewController {
     
-    @objc func userProvisionDeleted(_ notif: NSNotification) {
+    @objc func deleteUserProvision(_ notif: NSNotification) {
         guard let providerInNotif = notif.object as? ProvisionDisplayProvider else {return}
         
         // on supprime du provider existant
@@ -227,7 +224,7 @@ extension ProvisionsViewController {
 
 extension ProvisionsViewController {
     
-    @objc func userProvisionUpdated(_ notif: NSNotification) {
+    @objc func updateUserProvision(_ notif: NSNotification) {
         if let provIndexPath = notif.object as? IndexPath {
             // on reload la cellule
             provisionsCollectionView.reloadItems(at: [provIndexPath])
@@ -243,56 +240,18 @@ extension ProvisionsViewController {
 
 
 //===========================================================
-// MARK: Update DLC
+// MARK: Init collectionView
 //===========================================================
 
 
 
 extension ProvisionsViewController {
     
-    @IBAction func updateProvisionDlc(_ sender: UIButton) {
-        // get indexPath
-        var optCollecViewCell = sender.superview
-        while let view = optCollecViewCell, !(view is UICollectionViewCell) {
-            optCollecViewCell = view.superview
-        }
-        guard let collecViewCell = optCollecViewCell as? UICollectionViewCell else {
-            print("button is not contained in a collection view cell")
-            return
-        }
-        guard let indexPath = provisionsCollectionView.indexPath(for: collecViewCell) else {
-            print("failed to get index path for cell containing button")
-            return
-        }
-        
-        // get section
-        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {
-            print("failed to get section for cell containing button")
-            return
-        }
-        
-        // vérif index row dans section
-        if indexPath.row >= provsDPInSection.count {
-            print("index path out of range for cell containing button")
-            return
-        }
-        
-        // display alert
-        let alertDLC = DlcAlertController(title: NSLocalizedString("alert_changeDlcTitle", comment: ""), message: "", preferredStyle: .alert)
-        alertDLC.o_dateToDisplay = provsDPInSection[indexPath.row].dlc
-        
-        // ok button
-        let okButton = UIAlertAction(title: NSLocalizedString("alert_choose", comment: ""), style: .default) { _ in
-            // maj provision
-            provsDPInSection[indexPath.row].dlc = alertDLC.o_datePicker.date
-            // maj IHM
-            self.provisionsCollectionView.reloadItems(at: [indexPath])
-            // save modification
-            let _ = ProvisionGenericMethods.updateProvisions()
-        }
-        
-        alertDLC.addAction(okButton)
-        present(alertDLC, animated: true)
+    private func initCollectionView() {
+        provisionsCollectionView.register(ProvisionCell.nib, forCellWithReuseIdentifier: ProvisionCell.key)
+        provisionsCollectionView.register(ProvisionHeader.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProvisionHeader.key)
+        provisionsCollectionView.backgroundColor = UIColor.clear
+        provisionsCollectionView.contentInset = UIEdgeInsets(top: Dimensions.provisionCollectionViewTopInset, left: 0, bottom: Dimensions.provisionCollectionViewBottomInset, right: 0)
     }
 }
 
@@ -411,7 +370,9 @@ extension ProvisionsViewController: UICollectionViewDataSource {
         setColorExpiration(forButton: cell.expirationButton, inProvProvider: provsDPInSection[indexPath.row])
         
         // DLC button action
-        cell.expirationButton.addTarget(self, action: #selector(updateProvisionDlc), for: .touchUpInside)
+        cell.expirationButton.addAction(forControlEvent: .touchUpInside) {
+            self.updateDlcOf(provisionDP: provsDPInSection[indexPath.row], atIndexPath: indexPath)
+        }
         
         return cell
     }
@@ -434,3 +395,35 @@ extension ProvisionsViewController: UICollectionViewDataSource {
         return
     }
 }
+
+
+
+//===========================================================
+// MARK: Update DLC
+//===========================================================
+
+
+
+extension ProvisionsViewController {
+    
+    
+    private func updateDlcOf(provisionDP: ProvisionDisplayProvider, atIndexPath indexPath: IndexPath) {
+        // display alert
+        let alertDLC = DlcAlertController(title: NSLocalizedString("alert_changeDlcTitle", comment: ""), message: "", preferredStyle: .alert)
+        alertDLC.o_dateToDisplay = provisionDP.dlc
+        
+        // ok button
+        let okButton = UIAlertAction(title: NSLocalizedString("alert_choose", comment: ""), style: .default) { _ in
+            // maj provision
+            provisionDP.dlc = alertDLC.o_datePicker.date
+            // maj IHM
+            self.provisionsCollectionView.reloadItems(at: [indexPath])
+            // save modification
+            let _ = ProvisionGenericMethods.updateProvisions()
+        }
+        alertDLC.addAction(okButton)
+        present(alertDLC, animated: true)
+    }
+}
+
+

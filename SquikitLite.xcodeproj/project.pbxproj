@@ -12,6 +12,9 @@
 		431B608D2A5473D60012A574 /* ShoppingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431B608C2A5473D60012A574 /* ShoppingHeader.swift */; };
 		431B60972A5478710012A574 /* ShoppingHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 431B60962A5478710012A574 /* ShoppingHeader.xib */; };
 		431B60992A549C1A0012A574 /* Provision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431B60982A549C1A0012A574 /* Provision.swift */; };
+		43285B462A587634002229F0 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43285B452A587634002229F0 /* CartViewController.swift */; };
+		43285B4A2A588C03002229F0 /* BarButtonItemWithBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43285B492A588C03002229F0 /* BarButtonItemWithBadge.swift */; };
+		43285B4C2A589655002229F0 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43285B4B2A589655002229F0 /* Font.swift */; };
 		432A85462A44B8A200225150 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A85452A44B8A200225150 /* AppDelegate.swift */; };
 		432A85482A44B8A200225150 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A85472A44B8A200225150 /* SceneDelegate.swift */; };
 		432A854D2A44B8A200225150 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 432A854B2A44B8A200225150 /* Main.storyboard */; };
@@ -60,6 +63,9 @@
 		431B608C2A5473D60012A574 /* ShoppingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingHeader.swift; sourceTree = "<group>"; };
 		431B60962A5478710012A574 /* ShoppingHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShoppingHeader.xib; sourceTree = "<group>"; };
 		431B60982A549C1A0012A574 /* Provision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provision.swift; sourceTree = "<group>"; };
+		43285B452A587634002229F0 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
+		43285B492A588C03002229F0 /* BarButtonItemWithBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarButtonItemWithBadge.swift; sourceTree = "<group>"; };
+		43285B4B2A589655002229F0 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		432A85422A44B8A200225150 /* SquikitLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SquikitLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		432A85452A44B8A200225150 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		432A85472A44B8A200225150 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +157,7 @@
 				4395A3932A58108900303651 /* Nexa-Light.otf */,
 				432A85632A44BEAE00225150 /* Colors.swift */,
 				435F8B362A49BC7A00E54573 /* Dimensions.swift */,
+				43285B4B2A589655002229F0 /* Font.swift */,
 				432A85452A44B8A200225150 /* AppDelegate.swift */,
 				432A85472A44B8A200225150 /* SceneDelegate.swift */,
 				432A85532A44B8A400225150 /* Info.plist */,
@@ -183,6 +190,7 @@
 				43EF08872A4FFD6D00499940 /* DlcAlertController.swift */,
 				43EF088B2A502B6E00499940 /* UnitsAlertController.swift */,
 				432A855F2A44BB8C00225150 /* CoursesViewController.swift */,
+				43285B452A587634002229F0 /* CartViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -239,6 +247,7 @@
 			children = (
 				432A85692A44D43800225150 /* MainTabBar.swift */,
 				435C02E52A4D6CF3000AB320 /* UIKitExtensions.swift */,
+				43285B492A588C03002229F0 /* BarButtonItemWithBadge.swift */,
 			);
 			path = CustomClass;
 			sourceTree = "<group>";
@@ -357,11 +366,13 @@
 			files = (
 				435A3B242A54001C007CB122 /* ProvisionHeader.swift in Sources */,
 				432A856C2A44DD1800225150 /* AddprovisionViewController.swift in Sources */,
+				43285B4C2A589655002229F0 /* Font.swift in Sources */,
 				43EF08882A4FFD6D00499940 /* DlcAlertController.swift in Sources */,
 				431B60992A549C1A0012A574 /* Provision.swift in Sources */,
 				43AA34592A4F435100EC03BC /* Units.swift in Sources */,
 				431B608D2A5473D60012A574 /* ShoppingHeader.swift in Sources */,
 				432A857A2A44FBB600225150 /* ProductManager.swift in Sources */,
+				43285B462A587634002229F0 /* CartViewController.swift in Sources */,
 				43F1CD3C2A5084B200A6E6B6 /* SquikitLite.xcdatamodeld in Sources */,
 				432A85622A44BC0800225150 /* ProvisionsViewController.swift in Sources */,
 				434E17BA2A4EC91A0086FC28 /* ProvisionsBSDViewController.swift in Sources */,
@@ -370,6 +381,7 @@
 				432A85642A44BEAE00225150 /* Colors.swift in Sources */,
 				432A856A2A44D43800225150 /* MainTabBar.swift in Sources */,
 				43584B802A4C7FD100EEFA8A /* ProvisionGenericMethods.swift in Sources */,
+				43285B4A2A588C03002229F0 /* BarButtonItemWithBadge.swift in Sources */,
 				435C02E92A4D7A78000AB320 /* SearchProvisionsCell.swift in Sources */,
 				43CB192E2A4D8E840035620D /* Categories.swift in Sources */,
 				43F1CD402A508E5E00A6E6B6 /* ProductDisplayProvider.swift in Sources */,

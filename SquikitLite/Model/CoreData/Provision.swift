@@ -42,6 +42,15 @@ class Provision: NSManagedObject {
         request.predicate = NSPredicate(format: "state == %@", ProvisionState.inCart.rawValue)
         return fetchInContext(forRequest: request)
     }
+    
+    static var cartCount: Int {
+        let request: NSFetchRequest<Provision> = Provision.fetchRequest()
+        request.predicate = NSPredicate(format: "state == %@", ProvisionState.inCart.rawValue)
+        guard let cartCount = try? CoreDataStack.shared.viewContext.count(for: request) else {
+            return 0
+        }
+        return cartCount
+    }
 }
 
 

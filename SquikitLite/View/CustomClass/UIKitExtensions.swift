@@ -86,3 +86,20 @@ class AlertButton {
     
     let cancel = UIAlertAction(title: NSLocalizedString("alert_cancel", comment: ""), style: .cancel)
 }
+
+
+
+//===========================================================
+// MARK: UIControl
+//===========================================================
+
+
+
+extension UIControl {
+    
+    // pour réaliser une action en closure sur clic d'un bouton dans une cellule (collection ou tableView)
+    func addAction(forControlEvent controlEvents: UIControl.Event, _ closure: @escaping()->()) {
+        addAction(UIAction { (action: UIAction) in closure() }, for: controlEvents)
+    }
+}
+

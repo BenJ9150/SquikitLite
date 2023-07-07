@@ -136,6 +136,17 @@ extension AddprovisionViewController: UITableViewDelegate {
             addNewProvision(fromProductDP: o_productsDP[indexPath.row])
         }
     }
+}
+
+
+
+//===========================================================
+// MARK: Add provision
+//===========================================================
+
+
+
+extension AddprovisionViewController {
     
     private func addNewProvision(fromProductDP productDP: ProductDisplayProvider) {
         if ProvisionGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC) {

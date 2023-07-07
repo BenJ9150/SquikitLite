@@ -18,12 +18,12 @@ import Foundation
 extension Notification.Name {
     // Provisions
     static let userProvisionsAdded = Notification.Name("UserProvisionsAdded")
-    static let userProvisionsDeleted = Notification.Name("UserProvisionsDeleted")
-    static let userProvisionUpdated = Notification.Name("UserProvisionUpdated")
+    static let deleteUserProvision = Notification.Name("DeleteUserProvision")
+    static let updateUserProvision = Notification.Name("updateUserProvision")
     // Shopping
     static let provAddedToShop = Notification.Name("ProvAddedToShop")
-    static let provDeletedFromShop = Notification.Name("ProvDeletedFromShop")
-    static let provInShopUpdated = Notification.Name("ProvInShopUpdated")
+    static let deleteProvFromShop = Notification.Name("DeleteProvFromShop")
+    static let updateProvInShop = Notification.Name("UpdateProvInShop")
     // cart
     static let provAddedToCart = Notification.Name("ProvAddedToCart")
 }

@@ -337,7 +337,7 @@ extension ProvisionsBSDViewController {
         // Notif si update
         if updated {
             if updated, let provIndexPath = o_provIndexPath {
-                NotificationCenter.default.post(name: .userProvisionUpdated, object: provIndexPath)
+                NotificationCenter.default.post(name: .updateUserProvision, object: provIndexPath)
             }
         }
     }
@@ -378,7 +378,7 @@ extension ProvisionsBSDViewController {
         // delete provision button
         let deleteButton = UIAlertAction(title: NSLocalizedString("alert_delete", comment: ""), style: .destructive) { _ in
             guard let provProvider = self.o_provisionDP else {return}
-            NotificationCenter.default.post(name: .userProvisionsDeleted, object: provProvider)
+            NotificationCenter.default.post(name: .deleteUserProvision, object: provProvider)
             self.dismiss(animated: true)
         }
         

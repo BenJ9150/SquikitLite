@@ -19,10 +19,10 @@ class CoursesViewController: UIViewController {
 
     // MARK: Properties
     
-    var o_tabBarTransforming = false
-    var o_tabBarIsHidden = false
-    var o_provisionsDP = [String: [ProvisionDisplayProvider]]()
-    var o_headers = [String]()
+    private var o_tabBarTransforming = false
+    private var o_tabBarIsHidden = false
+    private var o_provisionsDP = [String: [ProvisionDisplayProvider]]()
+    private var o_headers = [String]()
     
     // MARK: Outlets
     
@@ -46,12 +46,7 @@ extension CoursesViewController {
         getUserProvisions()
         
         // tableView des provisions
-        shoppingTableView.register(ShoppingCell.nib, forCellReuseIdentifier: ShoppingCell.key)
-        shoppingTableView.register(ShoppingHeader.nib, forHeaderFooterViewReuseIdentifier: ShoppingHeader.key)
-        shoppingTableView.backgroundColor = UIColor.clear
-        shoppingTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Dimensions.shoppingTableViewBottomInset, right: 0)
-        shoppingTableView.separatorStyle = .none
-        shoppingTableView.sectionHeaderTopPadding = Dimensions.shoppingTableViewTopInset
+        initTableView()
         
         // notifications
         addNotificationObservers()
@@ -72,9 +67,9 @@ extension CoursesViewController {
         // notification user provisions added
         NotificationCenter.default.addObserver(self, selector: #selector(provAddedToShop(_ :)), name: .provAddedToShop, object: nil)
         // notification user provision deleted
-        NotificationCenter.default.addObserver(self, selector: #selector(provDeletedFromShop(_ :)), name: .provDeletedFromShop, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteProvFromShop(_ :)), name: .deleteProvFromShop, object: nil)
         // notification user provision updated
-        NotificationCenter.default.addObserver(self, selector: #selector(provInShopUpdated(_ :)), name: .provInShopUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateProvInShop(_ :)), name: .updateProvInShop, object: nil)
     }
 }
 
@@ -93,6 +88,12 @@ extension CoursesViewController {
         if isViewLoaded {
             shoppingTableView.reloadData()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // update badge
+        updateCartBadge()
     }
 }
 
@@ -148,7 +149,7 @@ extension CoursesViewController {
 extension CoursesViewController {
     
     private func getUserProvisions() {
-        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider(fromState: .inShopOrCart, andUpadeCategories: &o_headers)
+        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider(fromState: .inShop, andUpadeCategories: &o_headers)
     }
 }
 
@@ -198,11 +199,17 @@ extension CoursesViewController {
 
 extension CoursesViewController {
     
-    @objc func provDeletedFromShop(_ notif: NSNotification) {
+    @objc func deleteProvFromShop(_ notif: NSNotification) {
         guard let providerInNotif = notif.object as? ProvisionDisplayProvider else {return}
-        
         // on supprime du provider existant
-        let result = ProvisionGenericMethods.deleteItemFromDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+        deleteItemFromDP(provisionDP: providerInNotif)
+        // on supprime des courses
+        let _ = ProvisionGenericMethods.deleteProvision(providerInNotif.provision)
+    }
+    
+    private func deleteItemFromDP(provisionDP: ProvisionDisplayProvider) {
+        // on supprime du provider existant
+        let result = ProvisionGenericMethods.deleteItemFromDP(provDP: provisionDP, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
         if let indexPath = result.index {
             if let sectionToDelete = result.deleteSection {
                 shoppingTableView.deleteSections(IndexSet(integer: sectionToDelete), with: .automatic)
@@ -213,8 +220,6 @@ extension CoursesViewController {
             // on reload tout au cas où...
             shoppingTableView.reloadData()
         }
-        // on supprime des courses
-        let _ = ProvisionGenericMethods.deleteProvision(providerInNotif.provision)
     }
 }
 
@@ -228,7 +233,7 @@ extension CoursesViewController {
 
 extension CoursesViewController {
     
-    @objc func provInShopUpdated(_ notif: NSNotification) {
+    @objc func updateProvInShop(_ notif: NSNotification) {
         if let provIndexPath = notif.object as? IndexPath {
             // on reload la cellule
             shoppingTableView.reloadRows(at: [provIndexPath], with: .automatic)
@@ -238,6 +243,26 @@ extension CoursesViewController {
         }
         // save modification
         let _ = ProvisionGenericMethods.updateProvisions()
+    }
+}
+
+
+
+//===========================================================
+// MARK: Init tableView
+//===========================================================
+
+
+
+extension CoursesViewController {
+    
+    private func initTableView() {
+        shoppingTableView.register(ShoppingCell.nib, forCellReuseIdentifier: ShoppingCell.key)
+        shoppingTableView.register(ShoppingHeader.nib, forHeaderFooterViewReuseIdentifier: ShoppingHeader.key)
+        shoppingTableView.backgroundColor = UIColor.clear
+        shoppingTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Dimensions.shoppingTableViewBottomInset, right: 0)
+        shoppingTableView.separatorStyle = .none
+        shoppingTableView.sectionHeaderTopPadding = Dimensions.shoppingTableViewTopInset
     }
 }
 
@@ -255,10 +280,6 @@ extension CoursesViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return o_headers.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return Dimensions.headerHeight
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -281,10 +302,6 @@ extension CoursesViewController: UITableViewDataSource {
         return 0
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Dimensions.shoppingRowHeight
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let shoppingCell = tableView.dequeueReusableCell(withIdentifier: ShoppingCell.key, for: indexPath) as! ShoppingCell
         guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return shoppingCell}
@@ -301,7 +318,10 @@ extension CoursesViewController: UITableViewDataSource {
             shoppingCell.qtyAndUnitLabel.isHidden = false
         }
         
-        shoppingCell.addToCartButton.addTarget(self, action: #selector(addToCartButtonTap), for: .touchUpInside)
+        // add to cart button
+        shoppingCell.addToCartButton.addAction(forControlEvent: .touchUpInside) {
+            self.addToCart(provisionDP: provsDPInSection[indexPath.row], atIndexPath: indexPath)
+        }
         
         return shoppingCell
     }
@@ -317,6 +337,14 @@ extension CoursesViewController: UITableViewDataSource {
 
 extension CoursesViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return Dimensions.headerHeight
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Dimensions.shoppingRowHeight
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // BSD edit
     }
@@ -325,14 +353,38 @@ extension CoursesViewController: UITableViewDelegate {
 
 
 //===========================================================
-// MARK: Add to cart
+// MARK: Add and remove from cart
 //===========================================================
 
 
 
 extension CoursesViewController {
     
-    @objc func addToCartButtonTap(_ sender: UIButton) {
-        
+    private func addToCart(provisionDP: ProvisionDisplayProvider, atIndexPath indexPath: IndexPath) {
+        // on change l'état de la provision
+        provisionDP.provision.state = ProvisionState.inCart.rawValue
+        // on supprime du provider existant
+        deleteItemFromDP(provisionDP: provisionDP)
+        // save modification
+        let _ = ProvisionGenericMethods.updateProvisions()
+        // update badge
+        updateCartBadge()
+    }
+}
+
+
+
+//===========================================================
+// MARK: Update cart badge
+//===========================================================
+
+
+
+extension CoursesViewController {
+    
+    private func updateCartBadge() {
+        if let item = navigationItem.rightBarButtonItem as? BarButtonItemWithBadge {
+            item.badgeNumber = Provision.cartCount
+        }
     }
 }
