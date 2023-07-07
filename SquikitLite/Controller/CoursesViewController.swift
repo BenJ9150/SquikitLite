@@ -69,14 +69,12 @@ extension CoursesViewController {
 extension CoursesViewController {
     
     private func addNotificationObservers() {
-        /*
         // notification user provisions added
-        NotificationCenter.default.addObserver(self, selector: #selector(userProvisionsAdded(_ :)), name: .userProvisionsAdded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(provAddedToShop(_ :)), name: .provAddedToShop, object: nil)
         // notification user provision deleted
-        NotificationCenter.default.addObserver(self, selector: #selector(userProvisionDeleted(_ :)), name: .userProvisionsDeleted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(provDeletedFromShop(_ :)), name: .provDeletedFromShop, object: nil)
         // notification user provision updated
-        NotificationCenter.default.addObserver(self, selector: #selector(userProvisionUpdated(_ :)), name: .userProvisionUpdated, object: nil)
-         */
+        NotificationCenter.default.addObserver(self, selector: #selector(provInShopUpdated(_ :)), name: .provInShopUpdated, object: nil)
     }
 }
 
@@ -87,7 +85,7 @@ extension CoursesViewController {
 //===========================================================
 
 
-/*
+
 extension CoursesViewController {
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -97,7 +95,7 @@ extension CoursesViewController {
         }
     }
 }
-*/
+
 
 
 //===========================================================
@@ -150,7 +148,7 @@ extension CoursesViewController {
 extension CoursesViewController {
     
     private func getUserProvisions() {
-        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider(andUpadeCategories: &o_headers)
+        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider(fromState: .inShopOrCart, andUpadeCategories: &o_headers)
     }
 }
 
@@ -164,7 +162,7 @@ extension CoursesViewController {
 
 extension CoursesViewController {
     
-    @objc func userProvisionsAdded(_ notif: NSNotification) {
+    @objc func provAddedToShop(_ notif: NSNotification) {
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on ajoute au provider existant
             let result = ProvisionGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
@@ -200,7 +198,7 @@ extension CoursesViewController {
 
 extension CoursesViewController {
     
-    @objc func userProvisionDeleted(_ notif: NSNotification) {
+    @objc func provDeletedFromShop(_ notif: NSNotification) {
         guard let providerInNotif = notif.object as? ProvisionDisplayProvider else {return}
         
         // on supprime du provider existant
@@ -215,8 +213,8 @@ extension CoursesViewController {
             // on reload tout au cas où...
             shoppingTableView.reloadData()
         }
-        // on supprime des provisions
-        let _ = Provision.deleteProvision(providerInNotif.provision)
+        // on supprime des courses
+        let _ = ProvisionGenericMethods.deleteProvision(providerInNotif.provision)
     }
 }
 
@@ -230,7 +228,7 @@ extension CoursesViewController {
 
 extension CoursesViewController {
     
-    @objc func userProvisionUpdated(_ notif: NSNotification) {
+    @objc func provInShopUpdated(_ notif: NSNotification) {
         if let provIndexPath = notif.object as? IndexPath {
             // on reload la cellule
             shoppingTableView.reloadRows(at: [provIndexPath], with: .automatic)
@@ -239,7 +237,7 @@ extension CoursesViewController {
             shoppingTableView.reloadData()
         }
         // save modification
-        let _ = Provision.updateProvisions()
+        let _ = ProvisionGenericMethods.updateProvisions()
     }
 }
 
@@ -297,6 +295,14 @@ extension CoursesViewController: UITableViewDataSource {
         shoppingCell.qtyAndUnitLabel.text = provsDPInSection[indexPath.row].quantityAndShoppingUnit
         shoppingCell.dlcLabel.text = provsDPInSection[indexPath.row].dlcToString
         
+        if provsDPInSection[indexPath.row].quantityAndShoppingUnit == "" {
+            shoppingCell.qtyAndUnitLabel.isHidden = true
+        } else {
+            shoppingCell.qtyAndUnitLabel.isHidden = false
+        }
+        
+        shoppingCell.addToCartButton.addTarget(self, action: #selector(addToCartButtonTap), for: .touchUpInside)
+        
         return shoppingCell
     }
 }
@@ -312,6 +318,21 @@ extension CoursesViewController: UITableViewDataSource {
 extension CoursesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // add to cart
+        // BSD edit
+    }
+}
+
+
+
+//===========================================================
+// MARK: Add to cart
+//===========================================================
+
+
+
+extension CoursesViewController {
+    
+    @objc func addToCartButtonTap(_ sender: UIButton) {
+        
     }
 }

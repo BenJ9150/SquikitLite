@@ -41,3 +41,4 @@
 "alert_removeDlcTitle"="Retirer la DLC ?";
 "alert_chooseUnitTitle"="Nouvelle unité";
 "alert_provAlreadyInStock"="Cette provision est déjà dans votre stock !";
+"alert_provAlreadyInShop"="Cette provision est déjà dans vos courses !";

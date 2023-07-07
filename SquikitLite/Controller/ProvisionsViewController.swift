@@ -147,7 +147,7 @@ extension ProvisionsViewController {
 extension ProvisionsViewController {
     
     private func getUserProvisions() {
-        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider(andUpadeCategories: &o_headers)
+        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider(fromState: .inStock, andUpadeCategories: &o_headers)
     }
 }
 
@@ -213,7 +213,7 @@ extension ProvisionsViewController {
             provisionsCollectionView.reloadData()
         }
         // on supprime des provisions
-        let _ = Provision.deleteProvision(providerInNotif.provision)
+        let _ = ProvisionGenericMethods.deleteProvision(providerInNotif.provision)
     }
 }
 
@@ -236,7 +236,7 @@ extension ProvisionsViewController {
             provisionsCollectionView.reloadData()
         }
         // save modification
-        let _ = Provision.updateProvisions()
+        let _ = ProvisionGenericMethods.updateProvisions()
     }
 }
 
@@ -288,7 +288,7 @@ extension ProvisionsViewController {
             // maj IHM
             self.provisionsCollectionView.reloadItems(at: [indexPath])
             // save modification
-            let _ = Provision.updateProvisions()
+            let _ = ProvisionGenericMethods.updateProvisions()
         }
         
         alertDLC.addAction(okButton)

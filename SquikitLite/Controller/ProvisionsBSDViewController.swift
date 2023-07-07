@@ -30,6 +30,7 @@ class ProvisionsBSDViewController: UIViewController {
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dlcLabel: UILabel!
+    @IBOutlet weak var addToShopButton: UIButton!
     
     // MARK: Actions
     
@@ -147,6 +148,12 @@ extension ProvisionsBSDViewController {
         productImageView.image = provProvider.image
         nameLabel.text = provProvider.name
         dlcLabel.text = provProvider.dlcToString
+        
+        // check if already in shop
+        guard let productId = provProvider.product?.Id else {return}
+        if ProvisionGenericMethods.checkIfProductAlreadyAdded(fromId: productId, withState: .inShopOrCart) {
+            addToShopButton.isEnabled = false
+        }
     }
 }
 
@@ -281,6 +288,18 @@ extension ProvisionsBSDViewController {
 extension ProvisionsBSDViewController {
     
     private func addToShopButtonTapAction() {
+        guard let product = o_provisionDP?.product else {return}
+        
+        if ProvisionGenericMethods.addNewProvision(fromProduct: product, withState: .inShop) {
+            dismiss(animated: true)
+            return
+        }
+        let alert = UIAlertController(title: NSLocalizedString("alert_provAlreadyInShop", comment: ""), message: "", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: NSLocalizedString("alert_ok", comment: ""), style: .cancel) { _ in
+            self.dismiss(animated: true)
+        }
+        alert.addAction(okButton)
+        present(alert, animated: true)
     }
 }
 

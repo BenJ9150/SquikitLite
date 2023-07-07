@@ -23,7 +23,7 @@ class ProvisionDisplayProvider {
     private let o_provision: Provision
     private var o_customProduct: CustomProduct?
     
-    private lazy var product: Product? = { // lazy pour ne pas rechercher tout le temps dans les products (grosse base de données)
+    lazy var product: Product? = { // lazy pour ne pas rechercher tout le temps dans les products (grosse base de données)
         return ProductManager.getProduct(fromId: o_provision.productId)
     }()
     
@@ -104,13 +104,13 @@ extension ProvisionDisplayProvider {
             if newValue == "" {return}
             if let custom = o_customProduct {
                 custom.shoppingUnit = newValue
-                CustomProduct.saveCustomProduct()
+                ProductGenericMethods.saveCustomProduct()
                 return
             }
             // on crée un custom product
             guard var product = product else {return}
             product.ShoppingUnit = newValue
-            o_customProduct = CustomProduct.addNewCustomProduct(fromProduct: product)
+            o_customProduct = ProductGenericMethods.addNewCustomProduct(fromProduct: product)
         }
     }
     

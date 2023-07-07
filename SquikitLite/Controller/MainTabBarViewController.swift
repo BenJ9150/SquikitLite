@@ -44,7 +44,17 @@ extension MainTabBarViewController {
     }
     
     func middleButtonTap() {
+        // get active item
+        guard let selectedItem = tabBar.selectedItem else {return}
+        guard let itemIndex = tabBar.items?.firstIndex(of: selectedItem) else {return}
         let addProvisionVC = storyboard?.instantiateViewController(withIdentifier: AddprovisionViewController.STORYBOARD_ID) as! AddprovisionViewController
+        
+        if itemIndex == 0 {
+            addProvisionVC.o_currentVC = .inStock // provisions is active
+        } else {
+            addProvisionVC.o_currentVC = .inShop // shopping is active
+        }
+        
         present(addProvisionVC, animated: true)
     }
 }

@@ -22,6 +22,139 @@ class ProvisionGenericMethods {
 
 
 //===========================================================
+// MARK: Add new provision
+//===========================================================
+
+
+
+extension ProvisionGenericMethods {
+    
+    static func addNewProvision(fromProduct product: Product, withState state: ProvisionState) -> Bool {
+        // si on ajoute au shop ou au panier, on vérifie dans les 2 status
+        if (state == .inShop || state == .inCart) && checkIfProductAlreadyAdded(fromId: product.Id, withState: .inShopOrCart) {
+            return false
+        }
+        // on vérifie si la provision n'existe pas avec le même status
+        if checkIfProductAlreadyAdded(fromId: product.Id, withState: state) {
+            return false
+        }
+        // on crée une nouvelle provision
+        guard let newProv = addNewProvisionToCoreData(fromProduct: product, withState: state) else {return false}
+        // on crée un nouveau display provider
+        let newProvProvider = ProvisionDisplayProvider(forProvision: newProv)
+        
+        switch state {
+        case .inStock:
+            NotificationCenter.default.post(name: .userProvisionsAdded, object: newProvProvider)
+        case .inShop:
+            NotificationCenter.default.post(name: .provAddedToShop, object: newProvProvider)
+        case .inCart:
+            NotificationCenter.default.post(name: .provAddedToCart, object: newProvProvider)
+        case .inShopOrCart:
+            return false
+        }
+        return true
+    }
+    
+    private static func addNewProvisionToCoreData(fromProduct product: Product, withState state: ProvisionState) -> Provision? {
+        let userProv = Provision(context: CoreDataStack.shared.viewContext)
+        // is food ?
+        let isFood = !AppSettings.noFoodsRef.contains { $0 == product.CategoryRef }
+        // add values
+        userProv.isFood = isFood
+        userProv.productId = product.Id
+        userProv.purchaseDate = Date()
+        userProv.quantity = product.DefaultQuantity
+        userProv.uuid = UUID.init()
+        userProv.state = state.rawValue
+        
+        do {
+            try CoreDataStack.shared.viewContext.save()
+        } catch let error {
+            print(error)
+            return nil
+        }
+        return userProv
+    }
+}
+
+
+
+
+//===========================================================
+// MARK: delete provisions
+//===========================================================
+
+
+
+extension ProvisionGenericMethods {
+    
+    static func deleteProvision(_ provision: Provision) -> Bool {
+        // delete from coreData
+        CoreDataStack.shared.viewContext.delete(provision)
+        do {
+            try CoreDataStack.shared.viewContext.save()
+        } catch let error {
+            print(error)
+            return false
+        }
+        return true
+    }
+}
+
+
+
+//===========================================================
+// MARK: update provisions
+//===========================================================
+
+
+
+extension ProvisionGenericMethods {
+    
+    static func updateProvisions() -> Bool {
+        // update in coreData
+        do {
+            try CoreDataStack.shared.viewContext.save()
+        } catch let error {
+            print(error)
+            return false
+        }
+        return true
+    }
+}
+
+
+
+//===========================================================
+// MARK: Check provision in stock
+//===========================================================
+
+
+
+extension ProvisionGenericMethods {
+    
+    static func checkIfProductAlreadyAdded(fromId productId: String, withState state: ProvisionState) -> Bool {
+        switch state {
+        case .inStock:
+            return Provision.allInStock.contains { $0.productId == productId }
+        case .inShop:
+            return Provision.allInShop.contains { $0.productId == productId }
+        case .inCart:
+            return Provision.allInCart.contains { $0.productId == productId }
+        case .inShopOrCart:
+            if Provision.allInShop.contains(where: { $0.productId == productId }) {
+                return true
+            }
+            return Provision.allInCart.contains { $0.productId == productId }
+        }
+    
+    }
+}
+
+
+
+//===========================================================
 // MARK: Dico provisions display provider
 //===========================================================
 
@@ -29,10 +162,29 @@ class ProvisionGenericMethods {
 
 extension ProvisionGenericMethods {
     
-    static func getUserProvisionsDisplayProvider(andUpadeCategories categories: inout [String]) -> [String: [ProvisionDisplayProvider]] {
+    static func getUserProvisionsDisplayProvider(fromState state: ProvisionState, andUpadeCategories categories: inout [String]) -> [String: [ProvisionDisplayProvider]] {
         var provisionsDP = [String: [ProvisionDisplayProvider]]()
-        for prov in Provision.all {
-            let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
+        
+        switch state {
+        case .inStock:
+            for prov in Provision.allInStock {
+                let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
+            }
+        case .inShop:
+            for prov in Provision.allInShop {
+                let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
+            }
+        case .inCart:
+            for prov in Provision.allInCart {
+                let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
+            }
+        case .inShopOrCart:
+            for prov in Provision.allInShop {
+                let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
+            }
+            for prov in Provision.allInCart {
+                let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
+            }
         }
         return provisionsDP
     }

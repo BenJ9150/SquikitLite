@@ -20,6 +20,8 @@ class AddprovisionViewController: UIViewController {
     // MARK: Properties
     
     static let STORYBOARD_ID = "AddprovisionViewController"
+    var o_currentVC: ProvisionState = .inStock
+    
     private var o_productsDP = [ProductDisplayProvider]()
     private var o_searchedProductsDP = [ProductDisplayProvider]()
     private var o_searching = false
@@ -136,23 +138,22 @@ extension AddprovisionViewController: UITableViewDelegate {
     }
     
     private func addNewProvision(fromProductDP productDP: ProductDisplayProvider) {
-        // check if product already in stock
-        if Provision.checkIfProductAlreadyAdded(withProductId: productDP.product.Id) {
-            let alert = UIAlertController(title: NSLocalizedString("alert_provAlreadyInStock", comment: ""), message: "", preferredStyle: .alert)
-            let okButton = UIAlertAction(title: NSLocalizedString("alert_ok", comment: ""), style: .cancel) { _ in
-                self.dismiss(animated: true)
-            }
-            alert.addAction(okButton)
-            present(alert, animated: true)
+        if ProvisionGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC) {
+            dismiss(animated: true)
             return
         }
-
-        // on crée une nouvelle provision
-        guard let newProv = Provision.addNewProvision(fromProduct: productDP.product) else {return}
-        // on crée un nouveau display provider
-        let newProvProvider = ProvisionDisplayProvider(forProvision: newProv)
-        NotificationCenter.default.post(name: .userProvisionsAdded, object: newProvProvider)
+        let mess: String
+        if o_currentVC == .inStock {
+            mess = NSLocalizedString("alert_provAlreadyInStock", comment: "")
+        } else {
+            mess = NSLocalizedString("alert_provAlreadyInShop", comment: "")
+        }
         
-        dismiss(animated: true)
+        let alert = UIAlertController(title: mess, message: "", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: NSLocalizedString("alert_ok", comment: ""), style: .cancel) { _ in
+            self.dismiss(animated: true)
+        }
+        alert.addAction(okButton)
+        present(alert, animated: true)
     }
 }

@@ -83,7 +83,7 @@
                         <inset key="imageInsets" minX="24" minY="24" maxX="24" maxY="24"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="E0D-Ri-FqB">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <navigationBarAppearance key="standardAppearance">
                             <color key="backgroundColor" name="color_mainNavigation"/>
@@ -513,6 +513,7 @@ provision</string>
                                                                             <constraint firstAttribute="height" constant="48" id="6w8-3X-kTD"/>
                                                                         </constraints>
                                                                         <state key="normal" image="ic_bsd_addToShop"/>
+                                                                        <state key="disabled" image="ic_bsd_alreadyInShop"/>
                                                                         <connections>
                                                                             <action selector="addToShopButtonTap" destination="mtk-fn-vFz" eventType="touchUpInside" id="IGa-An-WFc"/>
                                                                         </connections>
@@ -570,6 +571,7 @@ courses</string>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addToShopButton" destination="guc-ZY-GGw" id="8JN-4i-f2f"/>
                         <outlet property="dlcLabel" destination="fIg-rx-9if" id="aNz-FU-ITK"/>
                         <outlet property="nameLabel" destination="j0Q-GI-5qd" id="fde-kP-c42"/>
                         <outlet property="productImageView" destination="HbV-4p-Zwu" id="Jth-jQ-bse"/>
@@ -594,7 +596,7 @@ courses</string>
                         <inset key="imageInsets" minX="24" minY="24" maxX="24" maxY="24"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="b2z-wC-clF">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <navigationBarAppearance key="standardAppearance">
                             <color key="backgroundColor" name="color_mainNavigation"/>
@@ -664,6 +666,7 @@ courses</string>
     <resources>
         <image name="ic_addButton" width="72" height="72"/>
         <image name="ic_bsd_addToShop" width="144" height="144"/>
+        <image name="ic_bsd_alreadyInShop" width="144" height="144"/>
         <image name="ic_bsd_delete" width="144" height="144"/>
         <image name="ic_bsd_edit" width="72" height="72"/>
         <image name="ic_bsd_editProv" width="144" height="144"/>

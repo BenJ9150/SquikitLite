@@ -166,7 +166,7 @@
 				432A85772A44F8BE00225150 /* Product.swift */,
 				43CB192D2A4D8E840035620D /* Categories.swift */,
 				43AA34582A4F435100EC03BC /* Units.swift */,
-				435F8B322A49BC3200E54573 /* Database */,
+				435F8B322A49BC3200E54573 /* ProductDatabase */,
 				43584B822A4C801200EEFA8A /* DisplayProviders */,
 				43584B812A4C7FF800EEFA8A /* GenericMethods */,
 			);
@@ -243,14 +243,14 @@
 			path = CustomClass;
 			sourceTree = "<group>";
 		};
-		435F8B322A49BC3200E54573 /* Database */ = {
+		435F8B322A49BC3200E54573 /* ProductDatabase */ = {
 			isa = PBXGroup;
 			children = (
 				432A85732A44F68400225150 /* foodsCollection.json */,
 				432A85752A44F68F00225150 /* nofoodsCollection.json */,
 				432A85792A44FBB600225150 /* ProductManager.swift */,
 			);
-			path = Database;
+			path = ProductDatabase;
 			sourceTree = "<group>";
 		};
 		435F8B352A49BC6300E54573 /* Resources */ = {
