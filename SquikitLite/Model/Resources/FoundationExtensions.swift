@@ -26,6 +26,7 @@ extension Notification.Name {
     static let updateProvInShop = Notification.Name("UpdateProvInShop")
     // cart
     static let provAddedToCart = Notification.Name("ProvAddedToCart")
+    static let updateBadgeNumber = Notification.Name("UpdateBadgeNumber")
 }
 
 

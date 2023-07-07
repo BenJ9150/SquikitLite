@@ -103,6 +103,7 @@
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="18" minY="18" maxX="18" maxY="18"/>
                                 <state key="normal" title=" " image="ic_checkbox"/>
+                                <state key="disabled" image="ic_bsd_delete"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -143,6 +144,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic_bsd_delete" width="144" height="144"/>
         <image name="ic_bsd_schedule" width="144" height="144"/>
         <image name="ic_checkbox" width="72" height="72"/>
         <namedColor name="color_provisionName">

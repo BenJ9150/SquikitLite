@@ -34,6 +34,7 @@
 "alert_delete"="Supprimer";
 "alert_cancel"="Annuler";
 "alert_removeDLC"="Aucune DLC";
+"alert_putBackToShop"="Remettre aux courses";
 
 /* Alert titles */
 "alert_deleteProvTitle"="Supprimer la provision ?";
@@ -42,3 +43,4 @@
 "alert_chooseUnitTitle"="Nouvelle unité";
 "alert_provAlreadyInStock"="Cette provision est déjà dans votre stock !";
 "alert_provAlreadyInShop"="Cette provision est déjà dans vos courses !";
+"alert_deleteFromCart"="Vous souhaitez remettre la provision dans les courses ou la supprimer ?";

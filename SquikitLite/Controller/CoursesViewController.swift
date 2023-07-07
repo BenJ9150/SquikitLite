@@ -50,6 +50,9 @@ extension CoursesViewController {
         
         // notifications
         addNotificationObservers()
+        
+        // update cart badge
+        updateCartBadge()
     }
 }
 
@@ -70,6 +73,8 @@ extension CoursesViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(deleteProvFromShop(_ :)), name: .deleteProvFromShop, object: nil)
         // notification user provision updated
         NotificationCenter.default.addObserver(self, selector: #selector(updateProvInShop(_ :)), name: .updateProvInShop, object: nil)
+        // notification update badge cart
+        NotificationCenter.default.addObserver(self, selector: #selector(updateCartBadgeNotif), name: .updateBadgeNumber, object: nil)
     }
 }
 
@@ -88,12 +93,6 @@ extension CoursesViewController {
         if isViewLoaded {
             shoppingTableView.reloadData()
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // update badge
-        updateCartBadge()
     }
 }
 
@@ -381,6 +380,10 @@ extension CoursesViewController {
 
 
 extension CoursesViewController {
+    
+    @objc func updateCartBadgeNotif() {
+        updateCartBadge()
+    }
     
     private func updateCartBadge() {
         if let item = navigationItem.rightBarButtonItem as? BarButtonItemWithBadge {

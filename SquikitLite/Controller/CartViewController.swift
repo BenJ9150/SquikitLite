@@ -197,6 +197,9 @@ extension CartViewController: UITableViewDataSource {
             shoppingCell.qtyAndUnitLabel.isHidden = false
         }
         
+        // changement icone pour delete
+        shoppingCell.addToCartButton.isEnabled = false
+        
         return shoppingCell
     }
 }
@@ -220,7 +223,79 @@ extension CartViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // BSD edit
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return}
+        if indexPath.row >= provsDPInSection.count {return}
+        let alert = UIAlertController(title: NSLocalizedString("alert_deleteFromCart", comment: ""), message: "", preferredStyle: .actionSheet)
+        
+        let deleteButton = UIAlertAction(title: NSLocalizedString("alert_delete", comment: ""), style: .destructive) { _ in
+            self.deleteItemFromDP(provisionDP: provsDPInSection[indexPath.row])
+        }
+        let putToShopButton = UIAlertAction(title: NSLocalizedString("alert_putBackToShop", comment: ""), style: .default) { _ in
+            self.removeFromCartToShop(provisionDP: provsDPInSection[indexPath.row])
+        }
+        
+        alert.addAction(putToShopButton)
+        alert.addAction(deleteButton)
+        alert.addAction(AlertButton().cancel)
+        
+        present(alert, animated: true)
     }
 }
 
+
+
+//===========================================================
+// MARK: Delete provision
+//===========================================================
+
+
+
+extension CartViewController {
+    
+    private func deleteItemFromDP(provisionDP: ProvisionDisplayProvider) {
+        // on supprime du provider existant
+        let result = ProvisionGenericMethods.deleteItemFromDP(provDP: provisionDP, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+        if let indexPath = result.index {
+            if let sectionToDelete = result.deleteSection {
+                shoppingTableView.deleteSections(IndexSet(integer: sectionToDelete), with: .automatic)
+            } else {
+                shoppingTableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+        } else {
+            // on reload tout au cas où...
+            shoppingTableView.reloadData()
+        }
+        // on supprime des courses
+        let _ = ProvisionGenericMethods.deleteProvision(provisionDP.provision)
+        // on notifie pour mettre à jour le badge
+        NotificationCenter.default.post(name: .updateBadgeNumber, object: nil)
+        
+        dismiss(animated: true)
+    }
+}
+
+
+
+//===========================================================
+// MARK: Remove from cart to shop
+//===========================================================
+
+
+
+extension CartViewController {
+    
+    private func removeFromCartToShop(provisionDP: ProvisionDisplayProvider) {
+        // on change l'état de la provision
+        provisionDP.provision.state = ProvisionState.inShop.rawValue
+        // on notifie pour mettre à jour le provider des courses
+        NotificationCenter.default.post(name: .provAddedToShop, object: provisionDP)
+        // on supprime du provider existant
+        deleteItemFromDP(provisionDP: provisionDP)
+        // save modification
+        let _ = ProvisionGenericMethods.updateProvisions()
+        // on notifie pour mettre à jour le badge
+        NotificationCenter.default.post(name: .updateBadgeNumber, object: nil)
+        
+        self.dismiss(animated: true)
+    }
+}
