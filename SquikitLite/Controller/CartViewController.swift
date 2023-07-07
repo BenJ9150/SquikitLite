@@ -223,6 +223,8 @@ extension CartViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        shoppingTableView.deselectRow(at: indexPath, animated: false)
+        
         guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return}
         if indexPath.row >= provsDPInSection.count {return}
         let alert = UIAlertController(title: NSLocalizedString("alert_deleteFromCart", comment: ""), message: "", preferredStyle: .actionSheet)

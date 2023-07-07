@@ -98,6 +98,8 @@ extension ProvisionsViewController {
 // MARK: Show/hide tabBar
 //===========================================================
 
+
+/*
 extension ProvisionsViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -132,7 +134,7 @@ extension ProvisionsViewController {
         }
     }
 }
-
+*/
 
 
 //===========================================================

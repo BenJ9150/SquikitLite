@@ -102,6 +102,8 @@ extension CoursesViewController {
 // MARK: Show/hide tabBar
 //===========================================================
 
+
+/*
 extension CoursesViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -136,7 +138,7 @@ extension CoursesViewController {
         }
     }
 }
-
+*/
 
 
 //===========================================================
@@ -345,6 +347,8 @@ extension CoursesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        shoppingTableView.deselectRow(at: indexPath, animated: false)
+        
         // BSD edit
     }
 }
