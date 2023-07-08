@@ -30,17 +30,20 @@ class ProvisionsBSDViewController: UIViewController {
     @IBOutlet weak var unitLabel: UILabel!
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var deleteProvLabel: UILabel!
+    
+    // MARK: Outlets prov
+    
     @IBOutlet weak var addToShopButton: UIButton!
     @IBOutlet weak var addToShopLabel: UILabel!
-    
-    // MARK: Outlets prov or shop
-    
     @IBOutlet weak var dlcViewFromShop: UIView!
-    @IBOutlet weak var dlcViewFromProv: UIView!
     @IBOutlet weak var dlcLabel: UILabel!
+    
+    // MARK: Outlets shop
+    
+    @IBOutlet weak var dlcViewFromProv: UIView!
     @IBOutlet weak var estimateDlcLabel: UILabel!
     @IBOutlet weak var addToShopButtonView: UIStackView!
-    @IBOutlet weak var deleteProvLabel: UILabel!
     
     // MARK: Common Actions
     
@@ -64,10 +67,6 @@ class ProvisionsBSDViewController: UIViewController {
         //TODO, bouton masqué
     }
     
-    @IBAction func addToShopButtonTap() {
-        addToShopButtonTapAction()
-    }
-    
     @IBAction func dismissViewOutsideTap() {
         dismissViewOutsideTapAction()
     }
@@ -76,11 +75,17 @@ class ProvisionsBSDViewController: UIViewController {
         dismissKeyboardOutsideTapAction()
     }
     
-    // MARK: Actions prov or shop
+    // MARK: Actions prov
+    
+    @IBAction func addToShopButtonTap() {
+        addToShopButtonTapAction()
+    }
     
     @IBAction func editDlcButtonTap() {
         editDlcButtonTapAction()
     }
+    
+    // MARK: Actions shop
     
     @IBAction func editEstimateDlcButtonTap() {
         editDlcButtonTapAction()

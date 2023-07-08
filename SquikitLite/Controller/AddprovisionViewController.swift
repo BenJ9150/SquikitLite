@@ -162,7 +162,6 @@ extension AddprovisionViewController {
         
         let alert = UIAlertController(title: mess, message: "", preferredStyle: .alert)
         let okButton = UIAlertAction(title: NSLocalizedString("alert_ok", comment: ""), style: .cancel) { _ in
-            self.dismiss(animated: true)
         }
         alert.addAction(okButton)
         present(alert, animated: true)

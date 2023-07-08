@@ -830,7 +830,7 @@ courses</string>
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="65"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MON PANIER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Te2-Y6-Ozh">
-                                                <rect key="frame" x="119.33333333333331" y="16" width="154.66666666666669" height="33"/>
+                                                <rect key="frame" x="119.33333333333333" y="16" width="154.66666666666669" height="33"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="33" id="JMd-qI-1JQ"/>
                                                 </constraints>
