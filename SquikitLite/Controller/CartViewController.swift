@@ -234,6 +234,7 @@ extension CartViewController: UITableViewDelegate {
         }
         let putToShopButton = UIAlertAction(title: NSLocalizedString("alert_putBackToShop", comment: ""), style: .default) { _ in
             self.removeFromCartToShop(provisionDP: provsDPInSection[indexPath.row])
+            self.dismiss(animated: true)
         }
         
         alert.addAction(putToShopButton)
@@ -268,11 +269,10 @@ extension CartViewController {
             shoppingTableView.reloadData()
         }
         // on supprime des courses
-        let _ = ProvisionGenericMethods.deleteProvision(provisionDP.provision)
+        guard let uuid = provisionDP.uuid else {return}
+        ProvisionGenericMethods.deleteProvision(fromUUID: uuid)
         // on notifie pour mettre à jour le badge
         NotificationCenter.default.post(name: .updateBadgeNumber, object: nil)
-        
-        dismiss(animated: true)
     }
 }
 
@@ -288,13 +288,11 @@ extension CartViewController {
     
     private func removeFromCartToShop(provisionDP: ProvisionDisplayProvider) {
         // on change l'état de la provision
-        provisionDP.provision.state = ProvisionState.inShop.rawValue
+        provisionDP.state = .inShop
         // on notifie pour mettre à jour le provider des courses
         NotificationCenter.default.post(name: .provAddedToShop, object: provisionDP)
         // on supprime du provider existant
         deleteItemFromDP(provisionDP: provisionDP)
-        // save modification
-        let _ = ProvisionGenericMethods.updateProvisions()
         // on notifie pour mettre à jour le badge
         NotificationCenter.default.post(name: .updateBadgeNumber, object: nil)
         

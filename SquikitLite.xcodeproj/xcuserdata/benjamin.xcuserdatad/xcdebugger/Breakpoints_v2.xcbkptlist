@@ -681,8 +681,8 @@
             filePath = "SquikitLite/Model/DisplayProviders/ProvisionDisplayProvider.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "expirationCountDown"
             landmarkType = "24">
          </BreakpointContent>
@@ -697,8 +697,8 @@
             filePath = "SquikitLite/Model/DisplayProviders/ProvisionDisplayProvider.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
             landmarkName = "stringExpirationCountDown"
             landmarkType = "24">
          </BreakpointContent>
@@ -761,8 +761,8 @@
             filePath = "SquikitLite/Controller/ProvisionsBSDViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
             landmarkName = "moreQtyButtonTapAction()"
             landmarkType = "7">
          </BreakpointContent>
@@ -841,8 +841,8 @@
             filePath = "SquikitLite/Controller/ProvisionsBSDViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
             landmarkName = "deleteProvButtonTapAction()"
             landmarkType = "7">
             <Locations>
@@ -882,22 +882,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DB847F91-4308-424E-9BEE-9785D6F28328"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SquikitLite/Controller/ProvisionsBSDViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "380"
-            endingLineNumber = "380"
-            landmarkName = "deleteProvButtonTapAction()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "7F6E3905-2735-420B-ACC5-258EFBF6339E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -905,8 +889,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "315"
-            endingLineNumber = "315"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
             landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
             <Locations>
@@ -968,8 +952,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "343"
-            endingLineNumber = "343"
+            startingLineNumber = "336"
+            endingLineNumber = "336"
             landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -984,8 +968,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "363"
-            endingLineNumber = "363"
+            startingLineNumber = "356"
+            endingLineNumber = "356"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1000,8 +984,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "345"
-            endingLineNumber = "345"
+            startingLineNumber = "338"
+            endingLineNumber = "338"
             landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1587,8 +1571,8 @@
             filePath = "SquikitLite/Model/DisplayProviders/ProvisionDisplayProvider.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "unit"
             landmarkType = "24">
             <Locations>
@@ -1650,8 +1634,8 @@
             filePath = "SquikitLite/Model/DisplayProviders/ProvisionDisplayProvider.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "unit"
             landmarkType = "24">
          </BreakpointContent>
@@ -1666,8 +1650,8 @@
             filePath = "SquikitLite/Model/DisplayProviders/ProvisionDisplayProvider.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
             landmarkName = "unit"
             landmarkType = "24">
          </BreakpointContent>
@@ -1682,8 +1666,8 @@
             filePath = "SquikitLite/Model/DisplayProviders/ProvisionDisplayProvider.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "unit"
             landmarkType = "24">
          </BreakpointContent>
@@ -1754,22 +1738,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "798C57C9-8E76-4E36-9155-3A679A49981E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SquikitLite/Controller/ProvisionsBSDViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
-            landmarkName = "loadProduct()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "45D4D53D-EE63-456A-9058-E854CD5C1537"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -1780,6 +1748,86 @@
             startingLineNumber = "230"
             endingLineNumber = "230"
             landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0705710D-F057-4632-9D3E-5506FF8D3659"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SquikitLite/Controller/CoursesViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "367"
+            endingLineNumber = "367"
+            landmarkName = "addToCart(provisionDP:atIndexPath:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "35AAAD9E-2603-4864-B9DF-3F5E777D6F07"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SquikitLite/Model/GenericMethods/ProvisionGenericMethods.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
+            landmarkName = "deleteItemFromDP(provDP:toDico:andUpadeCategories:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "35AAAD9E-2603-4864-B9DF-3F5E777D6F07 - 8288a8c1f9ed6af3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static SquikitLite.ProvisionGenericMethods.deleteItemFromDP(provDP: SquikitLite.ProvisionDisplayProvider, toDico: inout Swift.Dictionary&lt;Swift.String, Swift.Array&lt;SquikitLite.ProvisionDisplayProvider&gt;&gt;, andUpadeCategories: inout Swift.Array&lt;Swift.String&gt;) -&gt; (index: Swift.Optional&lt;Foundation.IndexPath&gt;, deleteSection: Swift.Optional&lt;Swift.Int&gt;)"
+                  moduleName = "SquikitLite"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/benjamin/Documents/MES%20APPLIS/SquikitLite/SquikitLite/Model/GenericMethods/ProvisionGenericMethods.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
+                  offsetFromSymbolStart = "100">
+               </Location>
+               <Location
+                  uuid = "35AAAD9E-2603-4864-B9DF-3F5E777D6F07 - ae81feba6b69ac21"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (SquikitLite.ProvisionDisplayProvider) -&gt; Swift.Bool in static SquikitLite.ProvisionGenericMethods.deleteItemFromDP(provDP: SquikitLite.ProvisionDisplayProvider, toDico: inout Swift.Dictionary&lt;Swift.String, Swift.Array&lt;SquikitLite.ProvisionDisplayProvider&gt;&gt;, andUpadeCategories: inout Swift.Array&lt;Swift.String&gt;) -&gt; (index: Swift.Optional&lt;Foundation.IndexPath&gt;, deleteSection: Swift.Optional&lt;Swift.Int&gt;)"
+                  moduleName = "SquikitLite"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/benjamin/Documents/MES%20APPLIS/SquikitLite/SquikitLite/Model/GenericMethods/ProvisionGenericMethods.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
+                  offsetFromSymbolStart = "296">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "784E7F46-5504-4D7C-9A50-00BA4DFF83C3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SquikitLite/View/CustomClass/BarButtonItemWithBadge.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "updateBadge()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

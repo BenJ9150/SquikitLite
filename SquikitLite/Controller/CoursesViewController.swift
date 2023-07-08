@@ -205,7 +205,8 @@ extension CoursesViewController {
         // on supprime du provider existant
         deleteItemFromDP(provisionDP: providerInNotif)
         // on supprime des courses
-        let _ = ProvisionGenericMethods.deleteProvision(providerInNotif.provision)
+        guard let uuid = providerInNotif.uuid else {return}
+        ProvisionGenericMethods.deleteProvision(fromUUID: uuid)
     }
     
     private func deleteItemFromDP(provisionDP: ProvisionDisplayProvider) {
@@ -242,8 +243,6 @@ extension CoursesViewController {
             // on reload tout au cas où...
             shoppingTableView.reloadData()
         }
-        // save modification
-        let _ = ProvisionGenericMethods.updateProvisions()
     }
 }
 
@@ -348,15 +347,15 @@ extension CoursesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         shoppingTableView.deselectRow(at: indexPath, animated: false)
-        
-        // BSD edit
+        // BSD detail prov
+        ComMethodsCV().showProvBSD(viewController: self,forProvisionDP: o_provisionsDP, atIndexPath: indexPath, withHeaderTab: o_headers)
     }
 }
 
 
 
 //===========================================================
-// MARK: Add and remove from cart
+// MARK: Add to cart
 //===========================================================
 
 
@@ -365,11 +364,9 @@ extension CoursesViewController {
     
     private func addToCart(provisionDP: ProvisionDisplayProvider, atIndexPath indexPath: IndexPath) {
         // on change l'état de la provision
-        provisionDP.provision.state = ProvisionState.inCart.rawValue
+        provisionDP.state = .inCart
         // on supprime du provider existant
         deleteItemFromDP(provisionDP: provisionDP)
-        // save modification
-        let _ = ProvisionGenericMethods.updateProvisions()
         // update badge
         updateCartBadge()
     }

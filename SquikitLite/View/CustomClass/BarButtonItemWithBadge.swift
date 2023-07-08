@@ -48,20 +48,29 @@ class BarButtonItemWithBadge: UIBarButtonItem {
     {
         guard let view = self.value(forKey: "view") as? UIView else { return }
         
-        self.badgeLabel.text = "\(badgeNumber)"
+        badgeLabel.isHidden = true // pour animation
+        badgeLabel.text = "\(badgeNumber)"
         
-        if self.badgeNumber > 0 && self.badgeLabel.superview == nil
+        if badgeNumber > 0 && badgeLabel.superview == nil
         {
             view.addSubview(self.badgeLabel)
-            
-            self.badgeLabel.widthAnchor.constraint(equalToConstant: badgeDim).isActive = true
-            self.badgeLabel.heightAnchor.constraint(equalToConstant: badgeDim).isActive = true
-            self.badgeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: badgeDim/2).isActive = true
-            self.badgeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -badgeDim/2).isActive = true
+            // contraintes
+            badgeLabel.widthAnchor.constraint(equalToConstant: badgeDim).isActive = true
+            badgeLabel.heightAnchor.constraint(equalToConstant: badgeDim).isActive = true
+            badgeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: badgeDim/2).isActive = true
+            badgeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -badgeDim/2).isActive = true
         }
-        else if self.badgeNumber == 0 && self.badgeLabel.superview != nil
+        else if badgeNumber == 0 && badgeLabel.superview != nil
         {
-            self.badgeLabel.removeFromSuperview()
+            badgeLabel.removeFromSuperview()
+            return
+        }
+        
+        // animation
+        badgeLabel.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+        badgeLabel.isHidden = false
+        UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+            self.badgeLabel.transform = .identity
         }
     }
     

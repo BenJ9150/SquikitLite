@@ -51,6 +51,13 @@ class Provision: NSManagedObject {
         }
         return cartCount
     }
+    
+    static func getProvision(fromUUID uuid: UUID) -> [Provision] {
+        let request: NSFetchRequest<Provision> = Provision.fetchRequest()
+        request.predicate = NSPredicate(format: "uuid == %@", uuid as CVarArg)
+        request.fetchLimit = 1
+        return fetchInContext(forRequest: request)
+    }
 }
 
 

@@ -24,15 +24,25 @@ class ProvisionsBSDViewController: UIViewController {
     var o_provIndexPath: IndexPath?
     private var o_newDlc: Date?
     
-    // MARK: Outlets
+    // MARK: Common Outlets
+    
     @IBOutlet weak var qtyTextField: UITextField!
     @IBOutlet weak var unitLabel: UILabel!
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var dlcLabel: UILabel!
     @IBOutlet weak var addToShopButton: UIButton!
+    @IBOutlet weak var addToShopLabel: UILabel!
     
-    // MARK: Actions
+    // MARK: Outlets prov or shop
+    
+    @IBOutlet weak var dlcViewFromShop: UIView!
+    @IBOutlet weak var dlcViewFromProv: UIView!
+    @IBOutlet weak var dlcLabel: UILabel!
+    @IBOutlet weak var estimateDlcLabel: UILabel!
+    @IBOutlet weak var addToShopButtonView: UIStackView!
+    @IBOutlet weak var deleteProvLabel: UILabel!
+    
+    // MARK: Common Actions
     
     @IBAction func lessQtyButtonTap() {
         lessQtyButtonTapAction()
@@ -44,10 +54,6 @@ class ProvisionsBSDViewController: UIViewController {
     
     @IBAction func changeUnitButtonTap() {
         changeUnitButtonTapAction()
-    }
-    
-    @IBAction func editDlcButtonTap() {
-        editDlcButtonTapAction()
     }
     
     @IBAction func deleteProvButtonTap() {
@@ -70,6 +76,15 @@ class ProvisionsBSDViewController: UIViewController {
         dismissKeyboardOutsideTapAction()
     }
     
+    // MARK: Actions prov or shop
+    
+    @IBAction func editDlcButtonTap() {
+        editDlcButtonTapAction()
+    }
+    
+    @IBAction func editEstimateDlcButtonTap() {
+        editDlcButtonTapAction()
+    }
 }
 
 
@@ -147,13 +162,38 @@ extension ProvisionsBSDViewController {
         // Info provision
         productImageView.image = provProvider.image
         nameLabel.text = provProvider.name
-        dlcLabel.text = provProvider.dlcToString
         
-        // check if already in shop
-        guard let productId = provProvider.product?.Id else {return}
-        if ProvisionGenericMethods.checkIfProductAlreadyAdded(fromId: productId, withState: .inShopOrCart) {
-            addToShopButton.isEnabled = false
+        // on formatte en fonction de l'appelant
+        guard let state = provProvider.state else {return}
+        if state == .inStock {
+            //DLC
+            dlcViewFromProv.isHidden = false
+            dlcViewFromShop.isHidden = true
+            dlcLabel.text = provProvider.dlcToString
+            // add to shop button
+            addToShopButtonView.isHidden = false
+            guard let productId = provProvider.product?.Id else {return}
+            if ProvisionGenericMethods.checkIfProductAlreadyAdded(fromId: productId, withState: .inShopOrCart) {
+                addToShopButton.isEnabled = false
+                addToShopLabel.text = NSLocalizedString("bsdProv_shopButtonDisabled", comment: "")
+            } else {
+                addToShopButton.isEnabled = true
+                addToShopLabel.text = NSLocalizedString("bsdProv_shopButtonEnabled", comment: "")
+            }
+            // Delete button
+            deleteProvLabel.text = NSLocalizedString("bsdProv_deleteButtonFromStock", comment: "")
+            return
         }
+        
+        // on vient des courses
+        //DLC
+        dlcViewFromProv.isHidden = true
+        dlcViewFromShop.isHidden = false
+        estimateDlcLabel.text = provProvider.dlcToString
+        // add to shop button
+        addToShopButtonView.isHidden = true
+        // Delete button
+        deleteProvLabel.text = NSLocalizedString("bsdProv_deleteButtonFromShop", comment: "")
     }
 }
 
@@ -239,6 +279,7 @@ extension ProvisionsBSDViewController {
     
     private func editDlcButtonTapAction() {
         guard let provProvider = o_provisionDP else {return}
+        guard let state = provProvider.state else {return}
         
         let alertDLC = DlcAlertController(title: NSLocalizedString("alert_changeDlcTitle", comment: ""), message: "", preferredStyle: .alert)
         alertDLC.o_dateToDisplay = provProvider.dlc
@@ -247,7 +288,11 @@ extension ProvisionsBSDViewController {
         let okButton = UIAlertAction(title: NSLocalizedString("alert_choose", comment: ""), style: .default) { _ in
             self.o_newDlc = alertDLC.o_datePicker.date
             // maj IHM
-            self.dlcLabel.text = ProvisionGenericMethods.dlcToString(fromDLC: self.o_newDlc)
+            if state == .inStock {
+                self.dlcLabel.text = ProvisionGenericMethods.dlcToString(fromDLC: self.o_newDlc)
+            } else {
+                self.estimateDlcLabel.text = ProvisionGenericMethods.dlcToString(fromDLC: self.o_newDlc)
+            }
         }
         
         alertDLC.addAction(okButton)
@@ -316,7 +361,7 @@ extension ProvisionsBSDViewController {
     private func checkIfUpdate() {
         // on met à jour si modification
         guard let provProvider = o_provisionDP else {return}
-        
+        guard let state = provProvider.state else {return}
         var updated = false
         
         // qty
@@ -328,6 +373,7 @@ extension ProvisionsBSDViewController {
                 updated = true
             }
         }
+        
         // DLC
         if let newDlc = o_newDlc {
             provProvider.dlc = newDlc
@@ -335,10 +381,13 @@ extension ProvisionsBSDViewController {
         }
         
         // Notif si update
-        if updated {
-            if updated, let provIndexPath = o_provIndexPath {
+        if updated, let provIndexPath = o_provIndexPath {
+            if state == .inStock {
                 NotificationCenter.default.post(name: .updateUserProvision, object: provIndexPath)
+            } else {
+                NotificationCenter.default.post(name: .updateProvInShop, object: provIndexPath)
             }
+            
         }
     }
     
@@ -373,12 +422,26 @@ extension ProvisionsBSDViewController {
 extension ProvisionsBSDViewController {
     
     private func deleteProvButtonTapAction() {
-        let alert = UIAlertController(title: NSLocalizedString("alert_deleteProvTitle", comment: ""), message: "", preferredStyle: .actionSheet)
+        guard let provProvider = self.o_provisionDP else {return}
+        guard let state = provProvider.state else {return}
+        
+        let mess: String
+        if state == .inStock {
+            mess = NSLocalizedString("alert_deleteProvFromStockTitle", comment: "")
+        } else {
+            mess = NSLocalizedString("alert_deleteProvFromShopTitle", comment: "")
+        }
+        
+        let alert = UIAlertController(title: mess, message: "", preferredStyle: .actionSheet)
         
         // delete provision button
         let deleteButton = UIAlertAction(title: NSLocalizedString("alert_delete", comment: ""), style: .destructive) { _ in
-            guard let provProvider = self.o_provisionDP else {return}
-            NotificationCenter.default.post(name: .deleteUserProvision, object: provProvider)
+            
+            if state == .inStock {
+                NotificationCenter.default.post(name: .deleteUserProvision, object: provProvider)
+            } else {
+                NotificationCenter.default.post(name: .deleteProvFromShop, object: provProvider)
+            }
             self.dismiss(animated: true)
         }
         

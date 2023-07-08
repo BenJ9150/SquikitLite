@@ -212,7 +212,8 @@ extension ProvisionsViewController {
             provisionsCollectionView.reloadData()
         }
         // on supprime des provisions
-        let _ = ProvisionGenericMethods.deleteProvision(providerInNotif.provision)
+        guard let uuid = providerInNotif.uuid else {return}
+        ProvisionGenericMethods.deleteProvision(fromUUID: uuid)
     }
 }
 
@@ -234,8 +235,6 @@ extension ProvisionsViewController {
             // on reload tout au cas où...
             provisionsCollectionView.reloadData()
         }
-        // save modification
-        let _ = ProvisionGenericMethods.updateProvisions()
     }
 }
 
@@ -312,14 +311,8 @@ extension ProvisionsViewController: UICollectionViewDelegateFlowLayout {
 extension ProvisionsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return}
-        if indexPath.row >= provsDPInSection.count {return}
-        
-        // BSD détail provision
-        let provisionBSD = storyboard?.instantiateViewController(withIdentifier: ProvisionsBSDViewController.STORYBOARD_ID) as! ProvisionsBSDViewController
-        provisionBSD.o_provisionDP = provsDPInSection[indexPath.row]
-        provisionBSD.o_provIndexPath = indexPath
-        present(provisionBSD, animated: true)
+        // BSD detail prov
+        ComMethodsCV().showProvBSD(viewController: self,forProvisionDP: o_provisionsDP, atIndexPath: indexPath, withHeaderTab: o_headers)
     }
 }
 
@@ -420,8 +413,6 @@ extension ProvisionsViewController {
             provisionDP.dlc = alertDLC.o_datePicker.date
             // maj IHM
             self.provisionsCollectionView.reloadItems(at: [indexPath])
-            // save modification
-            let _ = ProvisionGenericMethods.updateProvisions()
         }
         alertDLC.addAction(okButton)
         present(alertDLC, animated: true)

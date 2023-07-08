@@ -27,25 +27,22 @@ class ProvisionDisplayProvider {
         return ProductManager.getProduct(fromId: o_provision.productId)
     }()
     
-    var provision: Provision {
-        return o_provision
-    }
-    
     // MARK: Init
     
     init(forProvision provision: Provision) {
         self.o_provision = provision
         if let productId = self.o_provision.productId {
-            self.o_customProduct = CustomProduct.getCustomProduct(fromID: productId)
+            let customProductsTab = CustomProduct.getCustomProduct(fromID: productId)
+            if customProductsTab.count != 1 {return}
+            self.o_customProduct = customProductsTab[0]
         }
-        
     }
 }
 
 
 
 //===========================================================
-// MARK: UUID, Name and variants
+// MARK: UUID and state
 //===========================================================
 
 
@@ -55,6 +52,39 @@ extension ProvisionDisplayProvider {
     var uuid: UUID? {
         return o_provision.uuid
     }
+    
+    var state: ProvisionState? {
+        get {
+            guard let state = o_provision.state else {return nil}
+            switch state {
+            case ProvisionState.inStock.rawValue:
+                return .inStock
+            case ProvisionState.inShop.rawValue:
+                return .inShop
+            case ProvisionState.inCart.rawValue:
+                return .inCart
+            case ProvisionState.inShopOrCart.rawValue:
+                return .inShopOrCart
+            default:
+                return nil
+            }
+        } set {
+            guard let newState = newValue else {return}
+            o_provision.state = newState.rawValue
+            ProvisionGenericMethods.saveProvisions()
+        }
+    }
+}
+
+
+
+//===========================================================
+// MARK: Name and variants
+//===========================================================
+
+
+
+extension ProvisionDisplayProvider {
     
     var name: String {
         guard let product = product else {return ""}
@@ -83,6 +113,7 @@ extension ProvisionDisplayProvider {
             return o_provision.quantity
         } set {
             o_provision.quantity = newValue
+            ProvisionGenericMethods.saveProvisions()
         }
     }
     
@@ -186,6 +217,7 @@ extension ProvisionDisplayProvider {
             
         } set {
             o_provision.customDlc = newValue
+            ProvisionGenericMethods.saveProvisions()
         }
     }
     

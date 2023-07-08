@@ -89,16 +89,16 @@ extension ProvisionGenericMethods {
 
 extension ProvisionGenericMethods {
     
-    static func deleteProvision(_ provision: Provision) -> Bool {
+    static func deleteProvision(fromUUID uuid: UUID) {
+        let provisionTab = Provision.getProvision(fromUUID: uuid)
+        if provisionTab.count != 1 {return}
         // delete from coreData
-        CoreDataStack.shared.viewContext.delete(provision)
+        CoreDataStack.shared.viewContext.delete(provisionTab[0])
         do {
             try CoreDataStack.shared.viewContext.save()
         } catch let error {
             print(error)
-            return false
         }
-        return true
     }
 }
 
@@ -112,15 +112,13 @@ extension ProvisionGenericMethods {
 
 extension ProvisionGenericMethods {
     
-    static func updateProvisions() -> Bool {
+    static func saveProvisions() {
         // update in coreData
         do {
             try CoreDataStack.shared.viewContext.save()
         } catch let error {
             print(error)
-            return false
         }
-        return true
     }
 }
 

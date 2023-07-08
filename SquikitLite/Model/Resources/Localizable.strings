@@ -37,10 +37,17 @@
 "alert_putBackToShop"="Remettre aux courses";
 
 /* Alert titles */
-"alert_deleteProvTitle"="Supprimer la provision ?";
+"alert_deleteProvFromStockTitle"="Supprimer la provision ?";
+"alert_deleteProvFromShopTitle"="Retirer des courses ?";
 "alert_changeDlcTitle"="Nouvelle DLC";
 "alert_removeDlcTitle"="Retirer la DLC ?";
 "alert_chooseUnitTitle"="Nouvelle unité";
 "alert_provAlreadyInStock"="Cette provision est déjà dans votre stock !";
 "alert_provAlreadyInShop"="Cette provision est déjà dans vos courses !";
 "alert_deleteFromCart"="Vous souhaitez remettre la provision dans les courses ou la supprimer ?";
+
+/* BSD détail prov */
+"bsdProv_shopButtonEnabled"="Ajouter aux\ncourses";
+"bsdProv_shopButtonDisabled"="Déjà dans\nles courses";
+"bsdProv_deleteButtonFromStock"="Supprimer\nla provision";
+"bsdProv_deleteButtonFromShop"="Retirer\ndes courses";
