@@ -1682,8 +1682,8 @@
             filePath = "SquikitLite/Controller/MainTabBarViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "middleButtonTap()"
             landmarkType = "7">
             <Locations>
