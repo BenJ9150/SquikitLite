@@ -174,6 +174,8 @@ extension CoursesViewController {
                 } else {
                     shoppingTableView.insertRows(at: [indexPath], with: .automatic)
                 }
+                // scroll to cell
+                shoppingTableView.scrollToRow(at: indexPath, at: .middle, animated: true)
                 return
             }
         } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {

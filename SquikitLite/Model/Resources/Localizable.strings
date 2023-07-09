@@ -49,5 +49,6 @@
 /* BSD détail prov */
 "bsdProv_shopButtonEnabled"="Ajouter aux\ncourses";
 "bsdProv_shopButtonDisabled"="Déjà dans\nles courses";
+"bsdProv_provAddedToShop"="Ajouté !\n";
 "bsdProv_deleteButtonFromStock"="Supprimer\nla provision";
 "bsdProv_deleteButtonFromShop"="Retirer\ndes courses";

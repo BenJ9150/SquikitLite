@@ -341,9 +341,20 @@ extension ProvisionsBSDViewController {
         guard let product = o_provisionDP?.product else {return}
         
         if ProvisionGenericMethods.addNewProvision(fromProduct: product, withState: .inShop) {
-            dismiss(animated: true)
+            // animation ajout aux courses
+            addToShopLabel.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+            addToShopLabel.text = NSLocalizedString("bsdProv_provAddedToShop", comment: "")
+            addToShopButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+            addToShopButton.isEnabled = false
+            UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+                self.addToShopButton.transform = .identity
+                self.addToShopLabel.transform = .identity
+            } completion: { _ in
+                self.dismiss(animated: true)
+            }
             return
         }
+        
         let alert = UIAlertController(title: NSLocalizedString("alert_provAlreadyInShop", comment: ""), message: "", preferredStyle: .alert)
         let okButton = UIAlertAction(title: NSLocalizedString("alert_ok", comment: ""), style: .cancel) { _ in
             self.dismiss(animated: true)

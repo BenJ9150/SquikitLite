@@ -168,8 +168,10 @@ extension ProvisionsViewController {
                 if result.newSection {
                     provisionsCollectionView.insertSections(IndexSet(integer: indexPath.section))
                 } else {
-                    provisionsCollectionView.insertItems(at: [indexPath])
+                    self.provisionsCollectionView.insertItems(at: [indexPath])
                 }
+                // scroll to cell
+                provisionsCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: true)
                 return
             }
         } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
