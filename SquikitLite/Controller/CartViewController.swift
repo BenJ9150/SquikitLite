@@ -291,8 +291,6 @@ extension CartViewController {
         provisionDP.state = .inShop
         // on notifie pour mettre à jour le provider des courses
         NotificationCenter.default.post(name: .provAddedToShop, object: provisionDP)
-        // on supprime du provider existant
-        deleteItemFromDP(provisionDP: provisionDP)
         // on notifie pour mettre à jour le badge
         NotificationCenter.default.post(name: .updateBadgeNumber, object: nil)
         
