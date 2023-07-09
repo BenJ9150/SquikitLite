@@ -111,11 +111,37 @@ extension AddprovisionViewController: UITableViewDataSource {
             productsDP = o_productsDP[indexPath.row]
         }
         
-        searchProvCell.nameLabel.text = productsDP.name
-        searchProvCell.categoryLabel.text = productsDP.categoryAndSubCategory
+        if let searchText = searchBar.text, searchText.count > 0 {
+            searchProvCell.nameLabel.attributedText = getAttributedName(forName: productsDP.name, andSearchedText: searchText)
+            searchProvCell.categoryLabel.attributedText = getAttributedCat(forCategory: productsDP.categoryAndSubCategory, andSearchedText: searchText)
+        } else {
+            searchProvCell.nameLabel.text = productsDP.name
+            searchProvCell.categoryLabel.text = productsDP.categoryAndSubCategory
+        }
+        
+        
+        
         searchProvCell.productImageView.image = productsDP.image
         
         return searchProvCell
+    }
+    
+    private func getAttributedName(forName name: String, andSearchedText searchText: String) -> NSMutableAttributedString {
+        // create attributed string
+        let attributedString = NSMutableAttributedString(string: name, attributes: [NSAttributedString.Key.font : UIFont.productName!])
+        // set attributes
+        attributedString.setAttributes([NSAttributedString.Key.font : UIFont.productNameSearched!, NSAttributedString.Key.foregroundColor: UIColor.black], range: (name.cleanUpForComparaison as NSString).range(of: searchText.cleanUpForComparaison))
+        
+        return attributedString
+    }
+    
+    private func getAttributedCat(forCategory category: String, andSearchedText searchText: String) -> NSMutableAttributedString {
+        // create attributed string
+        let attributedString = NSMutableAttributedString(string: category, attributes: [NSAttributedString.Key.font : UIFont.category!])
+        // set attributes
+        attributedString.setAttributes([NSAttributedString.Key.font : UIFont.categorySearched!, NSAttributedString.Key.foregroundColor: UIColor.darkGray], range: (category.cleanUpForComparaison as NSString).range(of: searchText.cleanUpForComparaison))
+        
+        return attributedString
     }
 }
 

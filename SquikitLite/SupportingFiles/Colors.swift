@@ -24,6 +24,7 @@ extension UIColor {
     static let mainTabBar = UIColor(named: "color_mainTabBar")!
     static let mainNavigation = UIColor(named: "color_mainNavigation")!
     static let inactiveButton = UIColor(named: "color_inactiveButton")!
+    static let provisionName = UIColor(named: "color_provisionName")!
     
     // MARK: DLC
     

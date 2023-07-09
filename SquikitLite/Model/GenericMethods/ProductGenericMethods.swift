@@ -188,29 +188,76 @@ extension ProductGenericMethods {
             return productsDP
         }
         
+        let cleanedSearchText = searchText.cleanUpForComparaison // pour éviter de faire à chaque itération
+        var count = 0
+        let maxCountPerTest: Int
+        if searchText.count < 3 {
+            maxCountPerTest = 3
+        } else {
+            maxCountPerTest = searchText.count
+        }
+        
         var searchedProvsProvider = productsDP.filter({ provProvider in
             // name
-            if provProvider.name.cleanUpForComparaison.prefix(searchText.count) == searchText.cleanUpForComparaison {
+            if count >= maxCountPerTest {return false}
+            if provProvider.name.prefix(searchText.count) == searchText {
+                count += 1
                 return true
             }
-            // subCat
-            if provProvider.subCategory.cleanUpForComparaison.prefix(searchText.count) == searchText.cleanUpForComparaison {
+            return false
+        })
+        count = 0
+        searchedProvsProvider.append(contentsOf: productsDP.filter({ provProvider in
+            // cleaned name
+            if count >= maxCountPerTest {return false}
+            if searchedProvsProvider.contains(where: { $0.product.Id == provProvider.product.Id }) {
+                return false
+            }
+            if provProvider.name.cleanUpForComparaison.prefix(searchText.count) == cleanedSearchText {
+                count += 1
                 return true
             }
+            return false
+        }))
+        
+        count = 0
+        searchedProvsProvider.sort { $0.name.count < $1.name.count }
+        
+        var searchInVariants = productsDP.filter({ provProvider in
             // variants
+            if count >= maxCountPerTest {return false}
+            if searchedProvsProvider.contains(where: { $0.product.Id == provProvider.product.Id }) {
+                return false
+            }
             for variant in provProvider.variants {
-                if String(variant).cleanUpForComparaison.prefix(searchText.count) == searchText.cleanUpForComparaison {
+                if String(variant).cleanUpForComparaison.prefix(searchText.count) == cleanedSearchText {
+                    count += 1
                     return true
                 }
             }
-            // cat
-            if provProvider.category.cleanUpForComparaison.prefix(searchText.count) == searchText.cleanUpForComparaison {
+            return false
+        })
+        
+        if searchInVariants.count > 0 {
+            searchInVariants.sort { $0.name.count < $1.name.count }
+            searchedProvsProvider.append(contentsOf: searchInVariants)
+        }
+        
+        var searchInSubCat = productsDP.filter({ provProvider in
+            // subCat
+            if searchedProvsProvider.contains(where: { $0.product.Id == provProvider.product.Id }) {
+                return false
+            }
+            if provProvider.subCategory.cleanUpForComparaison.prefix(searchText.count) == cleanedSearchText {
                 return true
             }
             return false
         })
         
-        searchedProvsProvider.sort { $0.name.count < $1.name.count }
+        if searchInSubCat.count > 0 {
+            searchInSubCat.sort { $0.name.count < $1.name.count }
+            searchedProvsProvider.append(contentsOf: searchInSubCat)
+        }
         
         return searchedProvsProvider
     }

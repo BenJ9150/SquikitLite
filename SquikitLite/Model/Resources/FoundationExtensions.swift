@@ -47,7 +47,14 @@ extension String {
     }
     
     var cleanUpForComparaison: String {
-        return self.lowercased().folding(options: .diacriticInsensitive, locale: .none).replacingOccurrences(of: "’", with: "'")
+        return self.lowercased().folding(options: .diacriticInsensitive, locale: .none)
+            .replacingOccurrences(of: "’", with: " ")
+            .replacingOccurrences(of: "'", with: " ")
+            .replacingOccurrences(of: " a ", with: " ")
+            .replacingOccurrences(of: " au ", with: " ")
+            .replacingOccurrences(of: " de ", with: " ")
+            .replacingOccurrences(of: " aux ", with: " ")
+            .replacingOccurrences(of: "-", with: " ")
     }
     
     mutating func toConvertibleString() {

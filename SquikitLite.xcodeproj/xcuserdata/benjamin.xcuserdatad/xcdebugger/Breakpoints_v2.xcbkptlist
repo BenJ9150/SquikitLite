@@ -585,8 +585,8 @@
             filePath = "SquikitLite/Controller/AddprovisionViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
             <Locations>
@@ -1828,6 +1828,22 @@
             startingLineNumber = "65"
             endingLineNumber = "65"
             landmarkName = "updateBadge()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "65678F65-DF9A-4E90-A601-1586F339E37D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SquikitLite/Model/GenericMethods/ProductGenericMethods.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
+            landmarkName = "filterProductsByName(fromProductsDP:withText:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
