@@ -77,6 +77,8 @@ extension CoursesViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateProvInShop(_ :)), name: .updateProvInShop, object: nil)
         // notification update badge cart
         NotificationCenter.default.addObserver(self, selector: #selector(updateCartBadgeNotif), name: .updateBadgeNumber, object: nil)
+        // notification app become active
+        NotificationCenter.default.addObserver(self, selector: #selector(appBecomeActive), name: .appBecomeActive, object: nil)
     }
 }
 
@@ -100,11 +102,17 @@ extension CoursesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         animationAtStart()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         explainLabel.isHidden = true
+    }
+    
+    @objc func appBecomeActive() {
+        // update des dates d'achat si besoin
+        ProvisionGenericMethods.reinitPurchaseDate(forProvisionsDP: o_provisionsDP)
     }
 }
 

@@ -226,7 +226,7 @@ extension ProvisionGenericMethods {
 
 
 //===========================================================
-// MARK: DLC formatter
+// MARK: DLC
 //===========================================================
 
 
@@ -243,5 +243,33 @@ extension ProvisionGenericMethods {
         dateFormatter.dateFormat = AppSettings.dateFormat
         
         return NSLocalizedString("dlcSuffixString", comment: "") + " " + dateFormatter.string(from: dlc)
+    }
+}
+
+
+
+//===========================================================
+// MARK: Purchase date
+//===========================================================
+
+
+
+extension ProvisionGenericMethods {
+    
+    static func reinitPurchaseDate(forProvisionsDP provisionsDP: [String: [ProvisionDisplayProvider]]) {
+        if provisionsDP.count <= 0 {return}
+        if let firstProvsSection = provisionsDP.first, let firstProv = firstProvsSection.value.first {
+            if let purchaseDate = firstProv.purchaseDate {
+                if Calendar.current.compare(purchaseDate, to: Date(), toGranularity: .day) == .orderedSame {
+                    return
+                }
+            }
+        }
+        // on réinitialise la date d'achat
+        for (_, provsDP) in provisionsDP {
+            for provDP in provsDP {
+                provDP.purchaseDate = Date()
+            }
+        }
     }
 }

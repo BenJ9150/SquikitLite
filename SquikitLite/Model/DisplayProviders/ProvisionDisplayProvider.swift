@@ -174,7 +174,7 @@ extension ProvisionDisplayProvider {
 
 
 //===========================================================
-// MARK: DLC
+// MARK: Preservation
 //===========================================================
 
 
@@ -201,28 +201,6 @@ extension ProvisionDisplayProvider {
         // generic
         guard let product = product else {return 0}
         return product.Preservation
-    }
-    
-    var dlc: Date? {
-        get {
-            if let customDlc = o_provision.customDlc {
-                return customDlc
-            }
-            if !havePeremption {
-                return nil
-            }
-            // on retourne la date d'achat + durée préservation
-            guard let purchaseDate = o_provision.purchaseDate else {return nil}
-            return Calendar.current.date(byAdding: .day, value: preservation, to: purchaseDate)
-            
-        } set {
-            o_provision.customDlc = newValue
-            ProvisionGenericMethods.saveProvisions()
-        }
-    }
-    
-    var dlcToString: String {
-        return ProvisionGenericMethods.dlcToString(fromDLC: dlc)
     }
     
     /// - returns: Int.max if no peremption, or number of days
@@ -256,6 +234,56 @@ extension ProvisionDisplayProvider {
             return NSLocalizedString("dlcLabel_longTime", comment: "")
         }
         return NSLocalizedString("dlcLabel_day", comment: "") + "\(expirationCountDown)"
+    }
+}
+
+
+//===========================================================
+// MARK: DLC
+//===========================================================
+
+
+
+extension ProvisionDisplayProvider {
+    var dlc: Date? {
+        get {
+            if let customDlc = o_provision.customDlc {
+                return customDlc
+            }
+            if !havePeremption {
+                return nil
+            }
+            // on retourne la date d'achat + durée préservation
+            guard let purchaseDate = o_provision.purchaseDate else {return nil}
+            return Calendar.current.date(byAdding: .day, value: preservation, to: purchaseDate)
+            
+        } set {
+            o_provision.customDlc = newValue
+            ProvisionGenericMethods.saveProvisions()
+        }
+    }
+    
+    var dlcToString: String {
+        return ProvisionGenericMethods.dlcToString(fromDLC: dlc)
+    }
+}
+
+
+
+//===========================================================
+// MARK: Purchase date
+//===========================================================
+
+
+
+extension ProvisionDisplayProvider {
+    
+    var purchaseDate: Date? {
+        get {
+            return o_provision.purchaseDate
+        } set {
+            o_provision.purchaseDate = newValue
+        }
     }
 }
 

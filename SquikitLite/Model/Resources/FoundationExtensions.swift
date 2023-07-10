@@ -16,6 +16,8 @@ import Foundation
 
 
 extension Notification.Name {
+    // app become active
+    static let appBecomeActive = Notification.Name("AppBecomeActive")
     // Provisions
     static let userProvisionsAdded = Notification.Name("UserProvisionsAdded")
     static let deleteUserProvision = Notification.Name("DeleteUserProvision")
