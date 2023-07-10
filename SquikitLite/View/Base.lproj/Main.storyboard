@@ -413,6 +413,9 @@
                                                                                 </constraints>
                                                                                 <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                                                 <state key="normal" image="ic_removeButton"/>
+                                                                                <connections>
+                                                                                    <action selector="lessDlcButtonTap" destination="mtk-fn-vFz" eventType="touchUpInside" id="Asw-6E-X3E"/>
+                                                                                </connections>
                                                                             </button>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Non indiquée" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ys1-vN-JSh">
                                                                                 <rect key="frame" x="48" y="10.5" width="89" height="19.5"/>
@@ -428,6 +431,9 @@
                                                                                 </constraints>
                                                                                 <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
                                                                                 <state key="normal" image="ic_addButton"/>
+                                                                                <connections>
+                                                                                    <action selector="moreDlcButtonTap" destination="mtk-fn-vFz" eventType="touchUpInside" id="o1G-7X-h9q"/>
+                                                                                </connections>
                                                                             </button>
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fTn-jo-XpD">
                                                                                 <rect key="frame" x="48" y="0.0" width="89" height="40"/>

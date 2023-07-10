@@ -90,6 +90,15 @@ class ProvisionsBSDViewController: UIViewController {
     @IBAction func editEstimateDlcButtonTap() {
         editDlcButtonTapAction()
     }
+    
+    @IBAction func lessDlcButtonTap() {
+        lessDlcButtonTapAction()
+    }
+    
+    @IBAction func moreDlcButtonTap() {
+        moreDlcButtonTapAction()
+    }
+    
 }
 
 
@@ -302,6 +311,45 @@ extension ProvisionsBSDViewController {
         
         alertDLC.addAction(okButton)
         present(alertDLC, animated: true)
+    }
+}
+
+
+
+//===========================================================
+// MARK: Adjust DLC with buttons
+//===========================================================
+
+
+
+extension ProvisionsBSDViewController {
+    
+    private func lessDlcButtonTapAction() {
+        addOrRemoveDayToDlc(value: -1)
+    }
+    
+    private func moreDlcButtonTapAction() {
+        addOrRemoveDayToDlc(value: 1)
+    }
+    
+    private func addOrRemoveDayToDlc(value: Int) {
+        // si dlc déjà changé, on modifie à partir de o_newDLC
+        if let currentDlc = o_newDlc {
+            if let newDlc = Calendar.current.date(byAdding: .day, value: value, to: currentDlc) {
+                o_newDlc = newDlc
+                // maj IHM
+                estimateDlcLabel.text = ProvisionGenericMethods.dlcToString(fromDLC: o_newDlc)
+                return
+            }
+        }
+        // on modifie par rapport à la dlc originale
+        guard let provProvider = o_provisionDP else {return}
+        guard let dlc = provProvider.dlc else {return}
+        if let newDlc = Calendar.current.date(byAdding: .day, value: value, to: dlc) {
+            o_newDlc = newDlc
+            // maj IHM
+            estimateDlcLabel.text = ProvisionGenericMethods.dlcToString(fromDLC: o_newDlc)
+        }
     }
 }
 

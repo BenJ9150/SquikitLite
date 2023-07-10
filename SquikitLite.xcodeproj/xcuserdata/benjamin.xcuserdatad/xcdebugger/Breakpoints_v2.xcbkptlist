@@ -761,8 +761,8 @@
             filePath = "SquikitLite/Controller/ProvisionsBSDViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "moreQtyButtonTapAction()"
             landmarkType = "7">
          </BreakpointContent>
@@ -841,10 +841,10 @@
             filePath = "SquikitLite/Controller/ProvisionsBSDViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "449"
-            endingLineNumber = "449"
-            landmarkName = "deleteProvButtonTapAction()"
-            landmarkType = "7">
+            startingLineNumber = "497"
+            endingLineNumber = "497"
+            landmarkName = "unknown"
+            landmarkType = "0">
             <Locations>
                <Location
                   uuid = "EC99B8A0-84D5-422E-9D7D-EBD18C48EA44 - 97754de6ff4626cf"
@@ -1962,7 +1962,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "2E606916-B53E-4BD0-81CC-CD700F8E088E"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
