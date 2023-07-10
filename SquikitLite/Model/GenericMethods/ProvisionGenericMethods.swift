@@ -170,6 +170,8 @@ extension ProvisionGenericMethods {
             }
         case .inShop:
             for prov in Provision.allInShop {
+                // on réinitialise la date d'achat à aujourd'hui
+                prov.purchaseDate = Date()
                 let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
             }
         case .inCart:
