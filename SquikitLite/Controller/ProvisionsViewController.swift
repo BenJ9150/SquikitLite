@@ -96,6 +96,11 @@ extension ProvisionsViewController {
         super.viewDidAppear(animated)
         animationAtStart()
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        explainLabel.isHidden = true
+    }
 }
 
 

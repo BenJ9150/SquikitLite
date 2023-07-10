@@ -116,7 +116,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q8P-hH-M1L">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q8P-hH-M1L" userLabel="View vertical rod">
                                 <rect key="frame" x="30" y="64" width="2" height="504"/>
                                 <color key="backgroundColor" name="color_mainNavigation"/>
                                 <constraints>
@@ -131,6 +131,12 @@
                                     <outlet property="delegate" destination="H9J-6B-CHb" id="I7I-Ei-Fkw"/>
                                 </connections>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ajouter un article dans votre liste de courses !" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2HJ-Hl-F6Y">
+                                <rect key="frame" x="96" y="251" width="128" height="66"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                <color key="textColor" name="color_provisionName"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="YJN-HL-B4V"/>
                         <color key="backgroundColor" name="color_mainBackground"/>
@@ -139,6 +145,9 @@
                             <constraint firstItem="YJN-HL-B4V" firstAttribute="trailing" secondItem="ceS-EU-noy" secondAttribute="trailing" id="DbS-Lk-JPk"/>
                             <constraint firstItem="ceS-EU-noy" firstAttribute="leading" secondItem="YJN-HL-B4V" secondAttribute="leading" id="HWy-ia-5WW"/>
                             <constraint firstAttribute="bottom" secondItem="q8P-hH-M1L" secondAttribute="bottom" id="KKb-fe-Wdk"/>
+                            <constraint firstItem="2HJ-Hl-F6Y" firstAttribute="centerX" secondItem="leJ-Ql-Cpf" secondAttribute="centerX" id="U5O-yj-C9G"/>
+                            <constraint firstItem="2HJ-Hl-F6Y" firstAttribute="centerY" secondItem="leJ-Ql-Cpf" secondAttribute="centerY" id="Vwj-vb-g64"/>
+                            <constraint firstItem="2HJ-Hl-F6Y" firstAttribute="leading" secondItem="q8P-hH-M1L" secondAttribute="trailing" constant="64" id="ff7-KW-FDi"/>
                             <constraint firstAttribute="bottom" secondItem="ceS-EU-noy" secondAttribute="bottom" id="pyk-T9-FSX"/>
                             <constraint firstItem="ceS-EU-noy" firstAttribute="top" secondItem="YJN-HL-B4V" secondAttribute="top" id="quz-DF-MMp"/>
                             <constraint firstItem="q8P-hH-M1L" firstAttribute="top" secondItem="YJN-HL-B4V" secondAttribute="top" id="w82-cG-Qus"/>
@@ -156,6 +165,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="explainLabel" destination="2HJ-Hl-F6Y" id="DpY-ZH-T62"/>
                         <outlet property="shoppingTableView" destination="ceS-EU-noy" id="oRt-aI-1gE"/>
                     </connections>
                 </viewController>

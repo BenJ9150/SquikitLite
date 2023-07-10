@@ -27,6 +27,8 @@ class CoursesViewController: UIViewController {
     // MARK: Outlets
     
     @IBOutlet weak var shoppingTableView: UITableView!
+    @IBOutlet weak var explainLabel: UILabel!
+    
 }
 
 
@@ -94,6 +96,16 @@ extension CoursesViewController {
             shoppingTableView.reloadData()
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        animationAtStart()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        explainLabel.isHidden = true
+    }
 }
 
 
@@ -142,6 +154,34 @@ extension CoursesViewController {
 
 
 //===========================================================
+// MARK: Animation at start
+//===========================================================
+
+
+
+extension CoursesViewController {
+    
+    private func animationAtStart() {
+        guard let tabBar = tabBarController?.tabBar as? MainTabBar else {return}
+        if o_provisionsDP.count <= 0 {
+            explainLabel.isHidden = false
+            MyAnimations.disappearAndReappear(forViews: [explainLabel])
+            Task {
+                while !self.explainLabel.isHidden {
+                    do { try await Task.sleep(nanoseconds: 1000000000) } catch {}
+                    if !self.explainLabel.isHidden {
+                        tabBar.middleButtonAnimation()
+                    }
+                    do { try await Task.sleep(nanoseconds: 1000000000) } catch {}
+                }
+            }
+        }
+    }
+}
+
+
+
+//===========================================================
 // MARK: Get user provisions
 //===========================================================
 
@@ -165,6 +205,8 @@ extension CoursesViewController {
 extension CoursesViewController {
     
     @objc func provAddedToShop(_ notif: NSNotification) {
+        explainLabel.isHidden = true
+        
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on ajoute au provider existant
             let result = ProvisionGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
