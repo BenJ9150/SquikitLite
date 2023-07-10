@@ -23,7 +23,7 @@ class ProvisionsViewController: UIViewController {
     private var o_tabBarIsHidden = false
     private var o_provisionsDP = [String: [ProvisionDisplayProvider]]()
     private var o_headers = [String]()
-    private var o_sortType: SortType = .byDlc
+    private var o_sortType: SortType = .byCategories
     
     enum SortType {
         case byCategories
@@ -196,13 +196,14 @@ extension ProvisionsViewController {
 extension ProvisionsViewController {
     
     private func getUserProvisions() {
+        
         switch o_sortType {
         case .byCategories:
             o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inStock, andUpdateCategories: &o_headers)
         case .byDlc:
             o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProviderByDlc(andUpdateCategories: &o_headers)
         }
-        
+        showOrNotSortButton()
     }
 }
 
@@ -237,6 +238,7 @@ extension ProvisionsViewController {
                 }
                 // scroll to cell
                 provisionsCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: true)
+                showOrNotSortButton()
                 return
             }
         } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
@@ -250,6 +252,7 @@ extension ProvisionsViewController {
                 }
             }
             provisionsCollectionView.reloadData()
+            showOrNotSortButton()
             return
         }
         // on update tout
@@ -293,6 +296,7 @@ extension ProvisionsViewController {
         // on supprime des provisions
         guard let uuid = providerInNotif.uuid else {return}
         ProvGenericMethods.deleteProvision(fromUUID: uuid)
+        showOrNotSortButton()
     }
 }
 
@@ -516,5 +520,14 @@ extension ProvisionsViewController {
         }
         getUserProvisions()
         provisionsCollectionView.reloadData()
+    }
+    
+    private func showOrNotSortButton() {
+        guard let rightItem = navigationItem.rightBarButtonItem else {return}
+        if o_provisionsDP.count > 0 {
+            rightItem.isHidden = false
+            return
+        }
+        rightItem.isHidden = true
     }
 }
