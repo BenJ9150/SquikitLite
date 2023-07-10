@@ -71,7 +71,7 @@ extension ProvisionDisplayProvider {
         } set {
             guard let newState = newValue else {return}
             o_provision.state = newState.rawValue
-            ProvisionGenericMethods.saveProvisions()
+            ProvGenericMethods.saveProvisions()
         }
     }
 }
@@ -113,7 +113,7 @@ extension ProvisionDisplayProvider {
             return o_provision.quantity
         } set {
             o_provision.quantity = newValue
-            ProvisionGenericMethods.saveProvisions()
+            ProvGenericMethods.saveProvisions()
         }
     }
     
@@ -259,12 +259,12 @@ extension ProvisionDisplayProvider {
             
         } set {
             o_provision.customDlc = newValue
-            ProvisionGenericMethods.saveProvisions()
+            ProvGenericMethods.saveProvisions()
         }
     }
     
     var dlcToString: String {
-        return ProvisionGenericMethods.dlcToString(fromDLC: dlc)
+        return ProvGenericMethods.dlcToString(fromDLC: dlc)
     }
 }
 

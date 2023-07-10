@@ -107,7 +107,12 @@ extension CartViewController {
 extension CartViewController {
     
     private func addToShopButtonTapAction() {
-        // TO DO
+        // on change l'état des provisions
+        ProvGenericMethods.addProvsFromCart(fromProvisionsDP: o_provisionsDP)
+        // on notifie pour mettre à jour le badge
+        NotificationCenter.default.post(name: .updateBadgeNumber, object: nil)
+        
+        self.dismiss(animated: true)
     }
 }
 
@@ -122,7 +127,7 @@ extension CartViewController {
 extension CartViewController {
     
     private func getCartProvisions() {
-        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider(fromState: .inCart, andUpadeCategories: &o_headers)
+        o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inCart, andUpadeCategories: &o_headers)
     }
 }
 
@@ -257,7 +262,7 @@ extension CartViewController {
     
     private func deleteItemFromDP(provisionDP: ProvisionDisplayProvider) {
         // on supprime du provider existant
-        let result = ProvisionGenericMethods.deleteItemFromDP(provDP: provisionDP, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+        let result = ProvGenericMethods.deleteItemFromDP(provDP: provisionDP, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
         if let indexPath = result.index {
             if let sectionToDelete = result.deleteSection {
                 shoppingTableView.deleteSections(IndexSet(integer: sectionToDelete), with: .automatic)
@@ -270,7 +275,7 @@ extension CartViewController {
         }
         // on supprime des courses
         guard let uuid = provisionDP.uuid else {return}
-        ProvisionGenericMethods.deleteProvision(fromUUID: uuid)
+        ProvGenericMethods.deleteProvision(fromUUID: uuid)
         // on notifie pour mettre à jour le badge
         NotificationCenter.default.post(name: .updateBadgeNumber, object: nil)
     }

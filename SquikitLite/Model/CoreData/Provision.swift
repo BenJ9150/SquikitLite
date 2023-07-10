@@ -58,6 +58,15 @@ class Provision: NSManagedObject {
         request.fetchLimit = 1
         return fetchInContext(forRequest: request)
     }
+    
+    static func getProvision(fromProductId productId: String, withState state: ProvisionState) -> [Provision] {
+        let request: NSFetchRequest<Provision> = Provision.fetchRequest()
+        let pred1 = NSPredicate(format: "productId == %@", productId)
+        let pred2 = NSPredicate(format: "state == %@", state.rawValue)
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [pred1, pred2])
+        request.fetchLimit = 1
+        return fetchInContext(forRequest: request)
+    }
 }
 
 
@@ -75,5 +84,46 @@ extension Provision {
             return []
         }
         return userProvisions
+    }
+}
+
+
+
+//===========================================================
+// MARK: Debug
+//===========================================================
+
+
+
+extension Provision {
+    
+    static func printAllProvisions() {
+        print("Provisions in stock:")
+        for prov in allInStock {
+            if let uuid = prov.uuid {
+                print("UUID: " + uuid.uuidString)
+            }
+            if let productId = prov.productId, let name = ProductManager.getProduct(fromId: productId)?.Name {
+                print("(Name: " + name + ")")
+            }
+        }
+        print("Provisions in shop:")
+        for prov in allInShop {
+            if let uuid = prov.uuid {
+                print("UUID: " + uuid.uuidString)
+            }
+            if let productId = prov.productId, let name = ProductManager.getProduct(fromId: productId)?.Name {
+                print("(Name: " + name + ")")
+            }
+        }
+        print("Provisions in cart:")
+        for prov in allInCart {
+            if let uuid = prov.uuid {
+                print("UUID: " + uuid.uuidString)
+            }
+            if let productId = prov.productId, let name = ProductManager.getProduct(fromId: productId)?.Name {
+                print("(Name: " + name + ")")
+            }
+        }
     }
 }

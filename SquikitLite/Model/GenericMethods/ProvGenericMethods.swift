@@ -1,5 +1,5 @@
 //
-//  ProvisionGenericMethods.swift
+//  ProvGenericMethods.swift
 //  SquikitLite
 //
 //  Created by Benjamin on 28/06/2023.
@@ -15,7 +15,7 @@ import Foundation
 
 
 
-class ProvisionGenericMethods {
+class ProvGenericMethods {
     
 }
 
@@ -27,7 +27,7 @@ class ProvisionGenericMethods {
 
 
 
-extension ProvisionGenericMethods {
+extension ProvGenericMethods {
     
     static func addNewProvision(fromProduct product: Product, withState state: ProvisionState) -> Bool {
         // si on ajoute au shop ou au panier, on vérifie dans les 2 status
@@ -87,7 +87,7 @@ extension ProvisionGenericMethods {
 
 
 
-extension ProvisionGenericMethods {
+extension ProvGenericMethods {
     
     static func deleteProvision(fromUUID uuid: UUID) {
         let provisionTab = Provision.getProvision(fromUUID: uuid)
@@ -110,7 +110,7 @@ extension ProvisionGenericMethods {
 
 
 
-extension ProvisionGenericMethods {
+extension ProvGenericMethods {
     
     static func saveProvisions() {
         // update in coreData
@@ -125,12 +125,12 @@ extension ProvisionGenericMethods {
 
 
 //===========================================================
-// MARK: Check provision in stock
+// MARK: Check if product exist
 //===========================================================
 
 
 
-extension ProvisionGenericMethods {
+extension ProvGenericMethods {
     
     static func checkIfProductAlreadyAdded(fromId productId: String, withState state: ProvisionState) -> Bool {
         switch state {
@@ -158,10 +158,12 @@ extension ProvisionGenericMethods {
 
 
 
-extension ProvisionGenericMethods {
+extension ProvGenericMethods {
     
     static func getUserProvisionsDisplayProvider(fromState state: ProvisionState, andUpadeCategories categories: inout [String]) -> [String: [ProvisionDisplayProvider]] {
         var provisionsDP = [String: [ProvisionDisplayProvider]]()
+        // on réinit les catégories
+        categories = []
         
         switch state {
         case .inStock:
@@ -231,7 +233,7 @@ extension ProvisionGenericMethods {
 
 
 
-extension ProvisionGenericMethods {
+extension ProvGenericMethods {
     
     static func dlcToString(fromDLC dlc: Date?) -> String {
         guard let dlc = dlc else {
@@ -254,10 +256,11 @@ extension ProvisionGenericMethods {
 
 
 
-extension ProvisionGenericMethods {
+extension ProvGenericMethods {
     
     static func reinitPurchaseDate(forProvisionsDP provisionsDP: [String: [ProvisionDisplayProvider]]) {
         if provisionsDP.count <= 0 {return}
+        // vérif si date acutelle = date d'achat
         if let firstProvsSection = provisionsDP.first, let firstProv = firstProvsSection.value.first {
             if let purchaseDate = firstProv.purchaseDate {
                 if Calendar.current.compare(purchaseDate, to: Date(), toGranularity: .day) == .orderedSame {
@@ -271,5 +274,44 @@ extension ProvisionGenericMethods {
                 provDP.purchaseDate = Date()
             }
         }
+    }
+}
+
+
+
+//===========================================================
+// MARK: add prov from cart
+//===========================================================
+
+
+
+extension ProvGenericMethods {
+    
+    static func addProvsFromCart(fromProvisionsDP provisionsDP: [String: [ProvisionDisplayProvider]]) {
+        if provisionsDP.count <= 0 {return}
+        
+        for (_, provsDP) in provisionsDP {
+            for provDP in provsDP {
+                // product de la nouvelle provision
+                guard let product = provDP.product else {continue}
+                // vérif si product existe
+                let currentProv = Provision.getProvision(fromProductId: product.Id, withState: .inStock)
+                if currentProv.count == 1, let currentUUID = currentProv[0].uuid {
+                    // le product existe déjà, on ajoute l'ancienne qté
+                    let oldQty = currentProv[0].quantity
+                    if oldQty < 0 {
+                        provDP.quantity = oldQty // pas de quantité affichée
+                    } else {
+                        provDP.quantity += oldQty
+                    }
+                    // on supprime l'ancienne prov
+                    deleteProvision(fromUUID: currentUUID)
+                }
+                // on change l'état pour mettre en stock
+                provDP.state = .inStock
+            }
+        }
+        // Notifcation pour mettre à jour l'IHM du stock
+        NotificationCenter.default.post(name: .userProvisionsAdded, object: nil)
     }
 }

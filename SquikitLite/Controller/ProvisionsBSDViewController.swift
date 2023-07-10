@@ -187,7 +187,7 @@ extension ProvisionsBSDViewController {
             // add to shop button
             addToShopButtonView.isHidden = false
             guard let productId = provProvider.product?.Id else {return}
-            if ProvisionGenericMethods.checkIfProductAlreadyAdded(fromId: productId, withState: .inShopOrCart) {
+            if ProvGenericMethods.checkIfProductAlreadyAdded(fromId: productId, withState: .inShopOrCart) {
                 addToShopButton.isEnabled = false
                 addToShopLabel.text = NSLocalizedString("bsdProv_shopButtonDisabled", comment: "")
             } else {
@@ -303,9 +303,9 @@ extension ProvisionsBSDViewController {
             self.o_newDlc = alertDLC.o_datePicker.date
             // maj IHM
             if state == .inStock {
-                self.dlcLabel.text = ProvisionGenericMethods.dlcToString(fromDLC: self.o_newDlc)
+                self.dlcLabel.text = ProvGenericMethods.dlcToString(fromDLC: self.o_newDlc)
             } else {
-                self.estimateDlcLabel.text = ProvisionGenericMethods.dlcToString(fromDLC: self.o_newDlc)
+                self.estimateDlcLabel.text = ProvGenericMethods.dlcToString(fromDLC: self.o_newDlc)
             }
         }
         
@@ -338,7 +338,7 @@ extension ProvisionsBSDViewController {
             if let newDlc = Calendar.current.date(byAdding: .day, value: value, to: currentDlc) {
                 o_newDlc = newDlc
                 // maj IHM
-                estimateDlcLabel.text = ProvisionGenericMethods.dlcToString(fromDLC: o_newDlc)
+                estimateDlcLabel.text = ProvGenericMethods.dlcToString(fromDLC: o_newDlc)
                 return
             }
         }
@@ -348,7 +348,7 @@ extension ProvisionsBSDViewController {
         if let newDlc = Calendar.current.date(byAdding: .day, value: value, to: dlc) {
             o_newDlc = newDlc
             // maj IHM
-            estimateDlcLabel.text = ProvisionGenericMethods.dlcToString(fromDLC: o_newDlc)
+            estimateDlcLabel.text = ProvGenericMethods.dlcToString(fromDLC: o_newDlc)
         }
     }
 }
@@ -388,7 +388,7 @@ extension ProvisionsBSDViewController {
     private func addToShopButtonTapAction() {
         guard let product = o_provisionDP?.product else {return}
         
-        if ProvisionGenericMethods.addNewProvision(fromProduct: product, withState: .inShop) {
+        if ProvGenericMethods.addNewProvision(fromProduct: product, withState: .inShop) {
             // animation ajout aux courses
             addToShopLabel.text = NSLocalizedString("bsdProv_provAddedToShop", comment: "")
             addToShopButton.isEnabled = false

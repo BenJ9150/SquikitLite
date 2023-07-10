@@ -175,7 +175,7 @@ extension AddprovisionViewController: UITableViewDelegate {
 extension AddprovisionViewController {
     
     private func addNewProvision(fromProductDP productDP: ProductDisplayProvider) {
-        if ProvisionGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC) {
+        if ProvGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC) {
             dismiss(animated: true)
             return
         }

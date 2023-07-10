@@ -185,7 +185,7 @@ extension ProvisionsViewController {
 extension ProvisionsViewController {
     
     private func getUserProvisions() {
-        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider(fromState: .inStock, andUpadeCategories: &o_headers)
+        o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inStock, andUpadeCategories: &o_headers)
     }
 }
 
@@ -204,7 +204,7 @@ extension ProvisionsViewController {
         
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on ajoute au provider existant
-            let result = ProvisionGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            let result = ProvGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
             if let indexPath = result.index {
                 if result.newSection {
                     provisionsCollectionView.insertSections(IndexSet(integer: indexPath.section))
@@ -218,12 +218,12 @@ extension ProvisionsViewController {
         } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
             // on ajoute au provider existant chaque provision
             for providerInNotif in providersInNotif {
-                let _ = ProvisionGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+                let _ = ProvGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
             }
             provisionsCollectionView.reloadData()
             return
         }
-        // on update tout au cas où...
+        // on update tout
         getUserProvisions()
         provisionsCollectionView.reloadData()
     }
@@ -243,7 +243,7 @@ extension ProvisionsViewController {
         guard let providerInNotif = notif.object as? ProvisionDisplayProvider else {return}
         
         // on supprime du provider existant
-        let result = ProvisionGenericMethods.deleteItemFromDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+        let result = ProvGenericMethods.deleteItemFromDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
         if let indexPath = result.index {
             if let sectionToDelete = result.deleteSection {
                 provisionsCollectionView.deleteSections(IndexSet(integer: sectionToDelete))
@@ -256,7 +256,7 @@ extension ProvisionsViewController {
         }
         // on supprime des provisions
         guard let uuid = providerInNotif.uuid else {return}
-        ProvisionGenericMethods.deleteProvision(fromUUID: uuid)
+        ProvGenericMethods.deleteProvision(fromUUID: uuid)
     }
 }
 

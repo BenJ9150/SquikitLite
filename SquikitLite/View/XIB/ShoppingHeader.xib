@@ -89,7 +89,6 @@
                     <constraint firstItem="sZW-Cw-UhK" firstAttribute="top" secondItem="mRN-Vy-dcE" secondAttribute="top" id="zSN-Ig-uRd"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="headerLabel" destination="6gt-HT-Tpz" id="u5g-eC-6lC"/>
             </connections>

@@ -112,7 +112,7 @@ extension CoursesViewController {
     
     @objc func appBecomeActive() {
         // update des dates d'achat si besoin
-        ProvisionGenericMethods.reinitPurchaseDate(forProvisionsDP: o_provisionsDP)
+        ProvGenericMethods.reinitPurchaseDate(forProvisionsDP: o_provisionsDP)
     }
 }
 
@@ -170,19 +170,9 @@ extension CoursesViewController {
 extension CoursesViewController {
     
     private func animationAtStart() {
-        guard let tabBar = tabBarController?.tabBar as? MainTabBar else {return}
         if o_provisionsDP.count <= 0 {
             explainLabel.isHidden = false
             MyAnimations.disappearAndReappear(forViews: [explainLabel])
-            Task {
-                while !self.explainLabel.isHidden {
-                    do { try await Task.sleep(nanoseconds: 1000000000) } catch {}
-                    if !self.explainLabel.isHidden {
-                        tabBar.middleButtonAnimation()
-                    }
-                    do { try await Task.sleep(nanoseconds: 1000000000) } catch {}
-                }
-            }
         }
     }
 }
@@ -198,7 +188,7 @@ extension CoursesViewController {
 extension CoursesViewController {
     
     private func getUserProvisions() {
-        o_provisionsDP = ProvisionGenericMethods.getUserProvisionsDisplayProvider(fromState: .inShop, andUpadeCategories: &o_headers)
+        o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inShop, andUpadeCategories: &o_headers)
     }
 }
 
@@ -217,7 +207,7 @@ extension CoursesViewController {
         
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on ajoute au provider existant
-            let result = ProvisionGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            let result = ProvGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
             if let indexPath = result.index {
                 if result.newSection {
                     shoppingTableView.insertSections(IndexSet(integer: indexPath.section), with: .automatic)
@@ -231,7 +221,7 @@ extension CoursesViewController {
         } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
             // on ajoute au provider existant chaque provision
             for providerInNotif in providersInNotif {
-                let _ = ProvisionGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+                let _ = ProvGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
             }
             shoppingTableView.reloadData()
             return
@@ -258,12 +248,12 @@ extension CoursesViewController {
         deleteItemFromDP(provisionDP: providerInNotif)
         // on supprime des courses
         guard let uuid = providerInNotif.uuid else {return}
-        ProvisionGenericMethods.deleteProvision(fromUUID: uuid)
+        ProvGenericMethods.deleteProvision(fromUUID: uuid)
     }
     
     private func deleteItemFromDP(provisionDP: ProvisionDisplayProvider) {
         // on supprime du provider existant
-        let result = ProvisionGenericMethods.deleteItemFromDP(provDP: provisionDP, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+        let result = ProvGenericMethods.deleteItemFromDP(provDP: provisionDP, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
         if let indexPath = result.index {
             if let sectionToDelete = result.deleteSection {
                 shoppingTableView.deleteSections(IndexSet(integer: sectionToDelete), with: .automatic)
