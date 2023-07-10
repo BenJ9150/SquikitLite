@@ -83,6 +83,8 @@ extension ProvisionsViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(deleteUserProvision(_ :)), name: .deleteUserProvision, object: nil)
         // notification user provision updated
         NotificationCenter.default.addObserver(self, selector: #selector(updateUserProvision(_ :)), name: .updateUserProvision, object: nil)
+        // notification product updated
+        NotificationCenter.default.addObserver(self, selector: #selector(updateProductInStock), name: .updateProductInStock, object: nil)
     }
 }
 
@@ -318,6 +320,10 @@ extension ProvisionsViewController {
             // on reload tout au cas où...
             provisionsCollectionView.reloadData()
         }
+    }
+    
+    @objc func updateProductInStock() {
+        provisionsCollectionView.reloadData()
     }
 }
 

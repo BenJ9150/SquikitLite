@@ -32,6 +32,7 @@
 
 /* Alert buttons */
 "alert_ok"="Ok";
+"alert_continue"="Continuer";
 "alert_choose"="Choisir";
 "alert_delete"="Supprimer";
 "alert_cancel"="Annuler";
@@ -47,6 +48,8 @@
 "alert_provAlreadyInStock"="Cette provision est déjà dans votre stock !";
 "alert_provAlreadyInShop"="Cette provision est déjà dans vos courses !";
 "alert_deleteFromCart"="Vous souhaitez remettre la provision dans les courses ou la supprimer ?";
+"alert_modifProductInStockTitle"="Cette provision est encore dans votre stock !";
+"alert_modifProductInStockInfo"="Changer l'unité depuis les courses changera également l'unité dans vos provisions.";
 
 /* BSD détail prov */
 "bsdProv_shopButtonEnabled"="Ajouter aux\ncourses";

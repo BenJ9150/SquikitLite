@@ -332,8 +332,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -348,8 +348,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -364,8 +364,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
             landmarkName = "unknown"
             landmarkType = "0">
             <Locations>
@@ -809,8 +809,8 @@
             filePath = "SquikitLite/Controller/ProvisionsBSDViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "497"
-            endingLineNumber = "497"
+            startingLineNumber = "532"
+            endingLineNumber = "532"
             landmarkName = "deleteProvButtonTapAction()"
             landmarkType = "7">
             <Locations>
@@ -857,8 +857,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "397"
-            endingLineNumber = "397"
+            startingLineNumber = "403"
+            endingLineNumber = "403"
             landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
             <Locations>
@@ -920,8 +920,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "419"
-            endingLineNumber = "419"
+            startingLineNumber = "425"
+            endingLineNumber = "425"
             landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -936,8 +936,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "437"
-            endingLineNumber = "437"
+            startingLineNumber = "443"
+            endingLineNumber = "443"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -952,8 +952,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
             landmarkName = "userProvisionsAdded(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -968,8 +968,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
             landmarkName = "userProvisionsAdded(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -984,8 +984,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
+            startingLineNumber = "261"
+            endingLineNumber = "261"
             landmarkName = "userProvisionsAdded(_:)"
             landmarkType = "7">
             <Locations>
@@ -1048,8 +1048,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "willTransition(to:with:)"
             landmarkType = "7">
             <Locations>
@@ -1507,8 +1507,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
             landmarkName = "userProvisionsAdded(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1713,8 +1713,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "409"
-            endingLineNumber = "409"
+            startingLineNumber = "415"
+            endingLineNumber = "415"
             landmarkName = "addToCart(provisionDP:atIndexPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1841,8 +1841,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
             landmarkName = "provAddedToShop(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1857,8 +1857,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "deleteProvFromShop(_:)"
             landmarkType = "7">
             <Locations>
@@ -1920,8 +1920,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
             landmarkName = "updateProvInShop(_:)"
             landmarkType = "7">
             <Locations>
@@ -1968,8 +1968,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "provAddedToShop(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1984,8 +1984,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "getUserProvisions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2000,8 +2000,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
             landmarkName = "viewDidAppear(_:)"
             landmarkType = "7">
             <Locations>
@@ -2175,8 +2175,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "appBecomeActive()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2511,8 +2511,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
             landmarkName = "getUserProvisions()"
             landmarkType = "7">
             <Locations>
@@ -2559,8 +2559,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "getUserProvisions()"
             landmarkType = "7">
             <Locations>
@@ -2671,8 +2671,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "getUserProvisions()"
             landmarkType = "7">
             <Locations>
@@ -2719,8 +2719,8 @@
             filePath = "SquikitLite/Controller/ProvisionsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "527"
-            endingLineNumber = "527"
+            startingLineNumber = "533"
+            endingLineNumber = "533"
             landmarkName = "showOrNotSortButton()"
             landmarkType = "7">
          </BreakpointContent>

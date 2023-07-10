@@ -263,10 +263,35 @@ extension ProvisionsBSDViewController {
     
     private func changeUnitButtonTapAction() {
         guard let provProvider = o_provisionDP else {return}
+        guard let state = provProvider.state else {return}
         
-        // create alert
+        // vérif si product en stock si on vient des courses
+        if state == .inShop {
+            if let productId = provProvider.product?.Id, ProvGenericMethods.checkIfProductAlreadyAdded(fromId: productId, withState: .inStock) {
+                alertProductExistInStock(selectedUnitIfOk: provProvider.unit)
+            }
+        }
+        
+        // show alert unit choice
+        showUnitChoiceAlert(withSelectedUnit: provProvider.unit)
+    }
+    
+    private func alertProductExistInStock(selectedUnitIfOk selectedUnit: String) {
+        let alert = UIAlertController(title: NSLocalizedString("alert_modifProductInStockTitle", comment: ""), message: NSLocalizedString("alert_modifProductInStockInfo", comment: ""), preferredStyle: .alert)
+        
+        // edit provision button
+        let editButton = UIAlertAction(title: NSLocalizedString("alert_continue", comment: ""), style: .default) { _ in
+            self.showUnitChoiceAlert(withSelectedUnit: selectedUnit)
+        }
+        
+        alert.addAction(editButton)
+        alert.addAction(AlertButton().cancel)
+        present(alert, animated: true)
+    }
+    
+    private func showUnitChoiceAlert(withSelectedUnit selectedUnit: String) {
         let alertUnits = UnitsAlertController(title: NSLocalizedString("alert_chooseUnitTitle", comment: ""), message: "", preferredStyle: .alert)
-        alertUnits.o_selectedUnit = provProvider.unit
+        alertUnits.o_selectedUnit = selectedUnit
         
         // ok button
         let okButton = UIAlertAction(title: NSLocalizedString("alert_choose", comment: ""), style: .default) { _ in
@@ -421,32 +446,42 @@ extension ProvisionsBSDViewController {
         // on met à jour si modification
         guard let provProvider = o_provisionDP else {return}
         guard let state = provProvider.state else {return}
-        var updated = false
+        var provUpdated = false
+        var productUpdated = false
         
         // qty
-        updated = checkQtyUpdate(provProvider: provProvider)
+        provUpdated = checkQtyUpdate(provProvider: provProvider)
         // unit
         if let unit = unitLabel.text {
             if unit != provProvider.unit {
                 provProvider.unit = unit
-                updated = true
+                provUpdated = true
+                productUpdated = true
             }
         }
         
         // DLC
         if let newDlc = o_newDlc {
             provProvider.dlc = newDlc
-            updated = true
+            provUpdated = true
         }
         
-        // Notif si update
-        if updated, let provIndexPath = o_provIndexPath {
+        // notif si update provision
+        guard let provIndexPath = o_provIndexPath else {return}
+        if provUpdated {
             if state == .inStock {
                 NotificationCenter.default.post(name: .updateUserProvision, object: provIndexPath)
             } else {
                 NotificationCenter.default.post(name: .updateProvInShop, object: provIndexPath)
             }
-            
+        }
+        // notif si update product
+        if productUpdated {
+            if state == .inStock {
+                NotificationCenter.default.post(name: .updateProductInShop, object: nil)
+            } else {
+                NotificationCenter.default.post(name: .updateProductInStock, object: nil)
+            }
         }
     }
     

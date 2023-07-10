@@ -79,6 +79,8 @@ extension CoursesViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateCartBadgeNotif), name: .updateBadgeNumber, object: nil)
         // notification app become active
         NotificationCenter.default.addObserver(self, selector: #selector(appBecomeActive), name: .appBecomeActive, object: nil)
+        // notification product updated
+        NotificationCenter.default.addObserver(self, selector: #selector(updateProductInShop), name: .updateProductInShop, object: nil)
     }
 }
 
@@ -284,6 +286,10 @@ extension CoursesViewController {
             // on reload tout au cas où...
             shoppingTableView.reloadData()
         }
+    }
+    
+    @objc func updateProductInShop() {
+        shoppingTableView.reloadData()
     }
 }
 
