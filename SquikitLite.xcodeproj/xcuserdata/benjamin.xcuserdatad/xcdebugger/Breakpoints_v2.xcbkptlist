@@ -2207,8 +2207,8 @@
             filePath = "SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
+            startingLineNumber = "316"
+            endingLineNumber = "316"
             landmarkName = "addProvsFromCart(fromProvisionsDP:)"
             landmarkType = "7">
             <Locations>
@@ -2255,8 +2255,8 @@
             filePath = "SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "311"
-            endingLineNumber = "311"
+            startingLineNumber = "334"
+            endingLineNumber = "334"
             landmarkName = "addProvsFromCart(fromProvisionsDP:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2335,8 +2335,8 @@
             filePath = "SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
             landmarkName = "addProvsFromCart(fromProvisionsDP:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2351,8 +2351,8 @@
             filePath = "SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
+            startingLineNumber = "322"
+            endingLineNumber = "322"
             landmarkName = "addProvsFromCart(fromProvisionsDP:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2367,8 +2367,8 @@
             filePath = "SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "301"
-            endingLineNumber = "301"
+            startingLineNumber = "324"
+            endingLineNumber = "324"
             landmarkName = "addProvsFromCart(fromProvisionsDP:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2479,8 +2479,8 @@
             filePath = "SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "298"
-            endingLineNumber = "298"
+            startingLineNumber = "321"
+            endingLineNumber = "321"
             landmarkName = "addProvsFromCart(fromProvisionsDP:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2515,6 +2515,134 @@
             endingLineNumber = "106"
             landmarkName = "addTouchUpInsideAction(forControlEvent:_:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1FB5F5E5-7A15-4C24-852C-56E93DEB3388"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
+            landmarkName = "addItemToProvsDP(provDP:toDico:andUpadeCategories:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5428C97C-AE1E-47C1-A91C-981F2E5A2797"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
+            landmarkName = "addItemToProvsDP(provDP:toDico:andUpadeCategories:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "40711131-D77C-458C-96F3-55C8CD3E0D63"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "addItemToProvsDP(provDP:toDico:andUpadeCategories:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "40711131-D77C-458C-96F3-55C8CD3E0D63 - cb1924b27d450860"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.String, Swift.String) -&gt; Swift.Bool in static SquikitLite.ProvGenericMethods.addItemToProvsDP(provDP: SquikitLite.ProvisionDisplayProvider, toDico: inout Swift.Dictionary&lt;Swift.String, Swift.Array&lt;SquikitLite.ProvisionDisplayProvider&gt;&gt;, andUpadeCategories: inout Swift.Array&lt;Swift.String&gt;) -&gt; (index: Swift.Optional&lt;Foundation.IndexPath&gt;, newSection: Swift.Bool)"
+                  moduleName = "SquikitLite"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/benjamin/Documents/MES%20APPLIS/SquikitLite/SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "209"
+                  endingLineNumber = "209"
+                  offsetFromSymbolStart = "104">
+               </Location>
+               <Location
+                  uuid = "40711131-D77C-458C-96F3-55C8CD3E0D63 - cc361b0599842502"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Double, Swift.String) -&gt; Swift.Bool in closure #1 (Swift.String, Swift.String) -&gt; Swift.Bool in static SquikitLite.ProvGenericMethods.addItemToProvsDP(provDP: SquikitLite.ProvisionDisplayProvider, toDico: inout Swift.Dictionary&lt;Swift.String, Swift.Array&lt;SquikitLite.ProvisionDisplayProvider&gt;&gt;, andUpadeCategories: inout Swift.Array&lt;Swift.String&gt;) -&gt; (index: Swift.Optional&lt;Foundation.IndexPath&gt;, newSection: Swift.Bool)"
+                  moduleName = "SquikitLite"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/benjamin/Documents/MES%20APPLIS/SquikitLite/SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "209"
+                  endingLineNumber = "209"
+                  offsetFromSymbolStart = "60">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3E26378B-2EC9-455A-8CB7-104F82B3F20D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
+            landmarkName = "addItemToProvsDP(provDP:toDico:andUpadeCategories:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3E26378B-2EC9-455A-8CB7-104F82B3F20D - cb1924b27d450841"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.String, Swift.String) -&gt; Swift.Bool in static SquikitLite.ProvGenericMethods.addItemToProvsDP(provDP: SquikitLite.ProvisionDisplayProvider, toDico: inout Swift.Dictionary&lt;Swift.String, Swift.Array&lt;SquikitLite.ProvisionDisplayProvider&gt;&gt;, andUpadeCategories: inout Swift.Array&lt;Swift.String&gt;) -&gt; (index: Swift.Optional&lt;Foundation.IndexPath&gt;, newSection: Swift.Bool)"
+                  moduleName = "SquikitLite"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/benjamin/Documents/MES%20APPLIS/SquikitLite/SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "210"
+                  endingLineNumber = "210"
+                  offsetFromSymbolStart = "584">
+               </Location>
+               <Location
+                  uuid = "3E26378B-2EC9-455A-8CB7-104F82B3F20D - e202568d0b63df20"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Double, Swift.String) -&gt; Swift.Bool in closure #1 (Swift.String, Swift.String) -&gt; Swift.Bool in static SquikitLite.ProvGenericMethods.addItemToProvsDP(provDP: SquikitLite.ProvisionDisplayProvider, toDico: inout Swift.Dictionary&lt;Swift.String, Swift.Array&lt;SquikitLite.ProvisionDisplayProvider&gt;&gt;, andUpadeCategories: inout Swift.Array&lt;Swift.String&gt;) -&gt; (index: Swift.Optional&lt;Foundation.IndexPath&gt;, newSection: Swift.Bool)"
+                  moduleName = "SquikitLite"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/benjamin/Documents/MES%20APPLIS/SquikitLite/SquikitLite/Model/GenericMethods/ProvGenericMethods.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "210"
+                  endingLineNumber = "210"
+                  offsetFromSymbolStart = "60">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

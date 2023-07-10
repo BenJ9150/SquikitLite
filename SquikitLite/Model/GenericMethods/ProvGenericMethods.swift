@@ -153,7 +153,7 @@ extension ProvGenericMethods {
 
 
 //===========================================================
-// MARK: Dico provisions display provider
+// MARK: Dico prov display provider
 //===========================================================
 
 
@@ -203,10 +203,33 @@ extension ProvGenericMethods {
             // la section existe déjà
             dico[provDP.category]?.append(provDP)
         }
+        
+        // on trie les catégories
+        categories.sort { cat1, cat2 in
+            guard let catRef1 = Categories.shared.categories.first(where: { $1.capitalizedSentence == cat1 })?.key else {return false}
+            guard let catRef2 = Categories.shared.categories.first(where: { $1.capitalizedSentence == cat2 })?.key else {return false}
+            if catRef1 < catRef2 {
+                return true
+            } else {
+                return false
+            }
+        }
+        
         // on retourne l'indexPath (pour update IHM)
         guard let row = dico[provDP.category]?.firstIndex(where: { $0.uuid == provDP.uuid }) else {return (nil, false)}
         guard let section = categories.firstIndex(of: provDP.category) else {return (nil, false)}
         return (IndexPath(row: row, section: section), newSection)
+    }
+    
+    static func getUserProvisionsDisplayProviderByDLC(andUpadeCategories categories: inout [String]) -> [String: [ProvisionDisplayProvider]] {
+        var provisionsDP = [String: [ProvisionDisplayProvider]]()
+        // on réinit les catégories
+        categories = []
+        for prov in Provision.allInStock {
+            let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
+        }
+        
+        return provisionsDP
     }
     
     static func deleteItemFromDP(provDP: ProvisionDisplayProvider, toDico dico: inout [String: [ProvisionDisplayProvider]], andUpadeCategories categories: inout [String]) -> (index: IndexPath?, deleteSection: Int?) {

@@ -21,6 +21,8 @@
 "unit_list_pluriel"="g:g,kg:kg,cl:cl,L:L,pièce:pièces,pot:pots,paquet:paquets,boîte:boîtes,barquette:barquettes,branche:branches,cube:cubes,sachet:sachets,canette:canettes,bouteille:bouteilles,flacon:flacons,brique:briques,bidon:bidons,tube:tubes,tablette:tablettes,spray:sprays,bombe:bombes,tranche:tranches,botte:bottes,grappe:grappes,tige:tiges,ravier:raviers";//,lb:lb,oz:oz,floz:floz";
 
 /* DLC */
+"headerForDlcSort_urgent"="à consommer rapidement";
+"headerForDlcSort"="Par date de péremption";
 "dlcLabel_today"="Auj.";
 "dlcLabel_outdated"="Péri.";
 "dlcLabel_day"="J-";
