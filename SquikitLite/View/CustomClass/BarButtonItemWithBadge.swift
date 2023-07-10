@@ -47,8 +47,6 @@ class BarButtonItemWithBadge: UIBarButtonItem {
     private func updateBadge()
     {
         guard let view = self.value(forKey: "view") as? UIView else { return }
-        
-        badgeLabel.isHidden = true // pour animation
         badgeLabel.text = "\(badgeNumber)"
         
         if badgeNumber > 0 && badgeLabel.superview == nil
@@ -67,11 +65,7 @@ class BarButtonItemWithBadge: UIBarButtonItem {
         }
         
         // animation
-        badgeLabel.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-        badgeLabel.isHidden = false
-        UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
-            self.badgeLabel.transform = .identity
-        }
+        MyAnimations.disappearAndReappear(forViews: [badgeLabel])
     }
     
     deinit {

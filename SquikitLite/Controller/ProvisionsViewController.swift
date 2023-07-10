@@ -27,6 +27,7 @@ class ProvisionsViewController: UIViewController {
     // MARK: Outlets
 
     @IBOutlet weak var provisionsCollectionView: UICollectionView!
+    @IBOutlet weak var explainLabel: UILabel!
     
 }
 
@@ -90,6 +91,11 @@ extension ProvisionsViewController {
             provisionsCollectionView.reloadData()
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        animationAtStart()
+    }
 }
 
 
@@ -138,6 +144,34 @@ extension ProvisionsViewController {
 
 
 //===========================================================
+// MARK: Animation at start
+//===========================================================
+
+
+
+extension ProvisionsViewController {
+    
+    private func animationAtStart() {
+        guard let tabBar = tabBarController?.tabBar as? MainTabBar else {return}
+        if o_provisionsDP.count <= 0 {
+            explainLabel.isHidden = false
+            MyAnimations.disappearAndReappear(forViews: [explainLabel])
+            Task {
+                while !self.explainLabel.isHidden {
+                    do { try await Task.sleep(nanoseconds: 1000000000) } catch {}
+                    if !self.explainLabel.isHidden {
+                        tabBar.middleButtonAnimation()
+                    }
+                    do { try await Task.sleep(nanoseconds: 1000000000) } catch {}
+                }
+            }
+        }
+    }
+}
+
+
+
+//===========================================================
 // MARK: Get user provisions
 //===========================================================
 
@@ -161,6 +195,8 @@ extension ProvisionsViewController {
 extension ProvisionsViewController {
     
     @objc func userProvisionsAdded(_ notif: NSNotification) {
+        explainLabel.isHidden = true
+        
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on ajoute au provider existant
             let result = ProvisionGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)

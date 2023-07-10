@@ -103,3 +103,60 @@ extension UIControl {
     }
 }
 
+
+
+//===========================================================
+// MARK: Animation
+//===========================================================
+
+
+
+class MyAnimations {
+    
+    static func disappearAndReappear(forViews views: [UIView]) {
+        disappearAndReappear(forViews: views) {
+            return
+        }
+    }
+    
+    static func disappearAndReappear(forViews views: [UIView], completion funcAtEnd: @escaping()->()) {
+        if views.count <= 0 {return}
+        
+        for view in views {
+            view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+        }
+        UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+            for view in views {
+                view.transform = .identity
+            }
+        } completion: { _ in
+            funcAtEnd()
+        }
+    }
+    
+    static func upAndDownWithBounce(forViews views: [UIView], yTranslation: CGFloat) {
+        upAndDownWithBounce(forViews: views, yTranslation: yTranslation) {
+            return
+        }
+    }
+    
+    static func upAndDownWithBounce(forViews views: [UIView], yTranslation: CGFloat, completion funcAtEnd: @escaping()->()) {
+        if views.count <= 0 {return}
+        
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseOut) {
+            for view in views {
+                view.transform = CGAffineTransform(translationX: 0, y: -yTranslation)
+            }
+        } completion: { success in
+            if success {
+                UIView.animate(withDuration: 0.3, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+                    for view in views {
+                        view.transform = .identity
+                    }
+                } completion: { _ in
+                    funcAtEnd()
+                }
+            }
+        }
+    }
+}

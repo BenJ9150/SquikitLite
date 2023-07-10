@@ -43,6 +43,21 @@ extension MainTabBar {
 
 
 //===========================================================
+// MARK: Animation start appli
+//===========================================================
+
+
+
+extension MainTabBar {
+    
+    func middleButtonAnimation() {
+        guard let middleButton = currentMiddleButton else {return}
+        MyAnimations.upAndDownWithBounce(forViews: [middleButton], yTranslation: 24)
+    }
+}
+
+
+//===========================================================
 // MARK: Custom background
 //===========================================================
 
