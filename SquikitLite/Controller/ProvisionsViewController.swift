@@ -23,12 +23,23 @@ class ProvisionsViewController: UIViewController {
     private var o_tabBarIsHidden = false
     private var o_provisionsDP = [String: [ProvisionDisplayProvider]]()
     private var o_headers = [String]()
+    private var o_sortType: SortType = .byDlc
+    
+    enum SortType {
+        case byCategories
+        case byDlc
+    }
     
     // MARK: Outlets
 
     @IBOutlet weak var provisionsCollectionView: UICollectionView!
     @IBOutlet weak var explainLabel: UILabel!
     
+    // MARK: Actions
+    
+    @IBAction func sortButtonTap(_ sender: Any) {
+        sortButtonTapAction()
+    }
 }
 
 
@@ -185,7 +196,13 @@ extension ProvisionsViewController {
 extension ProvisionsViewController {
     
     private func getUserProvisions() {
-        o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inStock, andUpadeCategories: &o_headers)
+        switch o_sortType {
+        case .byCategories:
+            o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inStock, andUpdateCategories: &o_headers)
+        case .byDlc:
+            o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProviderByDlc(andUpdateCategories: &o_headers)
+        }
+        
     }
 }
 
@@ -204,7 +221,14 @@ extension ProvisionsViewController {
         
         if let providerInNotif = notif.object as? ProvisionDisplayProvider {
             // on ajoute au provider existant
-            let result = ProvGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            let result: (index: IndexPath?, newSection: Bool)
+            switch o_sortType {
+            case .byCategories:
+                result = ProvGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            case .byDlc:
+                result = ProvGenericMethods.addItemToProvsDPSortByDlc(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+            }
+            
             if let indexPath = result.index {
                 if result.newSection {
                     provisionsCollectionView.insertSections(IndexSet(integer: indexPath.section))
@@ -218,7 +242,12 @@ extension ProvisionsViewController {
         } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
             // on ajoute au provider existant chaque provision
             for providerInNotif in providersInNotif {
-                let _ = ProvGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+                switch o_sortType {
+                case .byCategories:
+                    let _ = ProvGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+                case .byDlc:
+                    let _ = ProvGenericMethods.addItemToProvsDPSortByDlc(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+                }
             }
             provisionsCollectionView.reloadData()
             return
@@ -243,7 +272,14 @@ extension ProvisionsViewController {
         guard let providerInNotif = notif.object as? ProvisionDisplayProvider else {return}
         
         // on supprime du provider existant
-        let result = ProvGenericMethods.deleteItemFromDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+        let result: (index: IndexPath?, deleteSection: Int?)
+        switch o_sortType {
+        case .byCategories:
+            result = ProvGenericMethods.deleteItemFromDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+        case .byDlc:
+            result = ProvGenericMethods.deleteItemFromDPSortByDlc(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
+        }
+        
         if let indexPath = result.index {
             if let sectionToDelete = result.deleteSection {
                 provisionsCollectionView.deleteSections(IndexSet(integer: sectionToDelete))
@@ -377,12 +413,10 @@ extension ProvisionsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProvisionHeader.key, for: indexPath) as! ProvisionHeader
-        guard indexPath.section < o_headers.count, let firstProvInSection = o_provisionsDP[o_headers[indexPath.section]]?.first else {
-            headerView.headerLabel.text = ""
-            return headerView
-        }
         
-        headerView.headerLabel.text = firstProvInSection.category
+        if indexPath.section >= o_headers.count {return headerView}
+        headerView.headerLabel.text = o_headers[indexPath.section]
+        
         return headerView
     }
     
@@ -463,3 +497,24 @@ extension ProvisionsViewController {
 }
 
 
+
+//===========================================================
+// MARK: Change Sort
+//===========================================================
+
+
+
+extension ProvisionsViewController {
+    
+    
+    private func sortButtonTapAction() {
+        
+        if o_sortType == .byCategories {
+            o_sortType = .byDlc
+        } else {
+            o_sortType = .byCategories
+        }
+        getUserProvisions()
+        provisionsCollectionView.reloadData()
+    }
+}

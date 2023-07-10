@@ -804,7 +804,15 @@ courses</string>
                             <constraint firstItem="KlX-7s-THJ" firstAttribute="leading" secondItem="XDV-YE-8tq" secondAttribute="leading" constant="64" id="qlV-T0-16x"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="PROVISIONS" id="QQf-o3-L6T"/>
+                    <navigationItem key="navigationItem" title="PROVISIONS" id="QQf-o3-L6T">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="ic_sortBy_36" style="done" id="4iv-ep-y1m">
+                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="16" maxY="0.0"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="sortButtonTap:" destination="yto-84-S6p" id="IFl-2E-a6F"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="explainLabel" destination="KlX-7s-THJ" id="eWL-79-LhO"/>
                         <outlet property="provisionsCollectionView" destination="wla-rh-Jca" id="sas-SH-CpB"/>
@@ -1427,6 +1435,7 @@ courses</string>
         <image name="ic_mainShop" width="72" height="72"/>
         <image name="ic_rayon_autres" width="492" height="369"/>
         <image name="ic_removeButton" width="72" height="72"/>
+        <image name="ic_sortBy_36" width="36" height="36"/>
         <namedColor name="color_mainBackground">
             <color red="0.94499999284744263" green="0.9570000171661377" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

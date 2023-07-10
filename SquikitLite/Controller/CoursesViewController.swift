@@ -187,7 +187,7 @@ extension CoursesViewController {
 extension CoursesViewController {
     
     private func getUserProvisions() {
-        o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inShop, andUpadeCategories: &o_headers)
+        o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inShop, andUpdateCategories: &o_headers)
     }
 }
 

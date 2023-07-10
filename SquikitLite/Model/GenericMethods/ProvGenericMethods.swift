@@ -153,14 +153,14 @@ extension ProvGenericMethods {
 
 
 //===========================================================
-// MARK: Dico prov display provider
+// MARK: Dico provsDP by Categories
 //===========================================================
 
 
 
 extension ProvGenericMethods {
     
-    static func getUserProvisionsDisplayProvider(fromState state: ProvisionState, andUpadeCategories categories: inout [String]) -> [String: [ProvisionDisplayProvider]] {
+    static func getUserProvisionsDisplayProvider(fromState state: ProvisionState, andUpdateCategories categories: inout [String]) -> [String: [ProvisionDisplayProvider]] {
         var provisionsDP = [String: [ProvisionDisplayProvider]]()
         // on réinit les catégories
         categories = []
@@ -221,27 +221,118 @@ extension ProvGenericMethods {
         return (IndexPath(row: row, section: section), newSection)
     }
     
-    static func getUserProvisionsDisplayProviderByDLC(andUpadeCategories categories: inout [String]) -> [String: [ProvisionDisplayProvider]] {
+    static func deleteItemFromDP(provDP: ProvisionDisplayProvider, toDico dico: inout [String: [ProvisionDisplayProvider]], andUpadeCategories categories: inout [String]) -> (index: IndexPath?, deleteSection: Int?) {
+        // on récupère l'indexPath de la provision à supprimer (pour update IHM)
+        guard let row = dico[provDP.category]?.firstIndex(where: { $0.uuid == provDP.uuid }) else {return (nil, nil)}
+        guard let section = categories.firstIndex(of: provDP.category) else {return (nil, nil)}
+        
+        return deleteItemFromDico(atSection: section, atRow: row, toDico: &dico, andUpadeCategories: &categories)
+    }
+}
+
+
+
+//===========================================================
+// MARK: Dico provsDP by DLC
+//===========================================================
+
+
+
+extension ProvGenericMethods {
+    
+    static func getUserProvisionsDisplayProviderByDlc(andUpdateCategories categories: inout [String]) -> [String: [ProvisionDisplayProvider]] {
         var provisionsDP = [String: [ProvisionDisplayProvider]]()
         // on réinit les catégories
         categories = []
+        
         for prov in Provision.allInStock {
-            let _ = addItemToProvsDP(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
+            let _ = addItemToProvsDPSortByDlc(provDP: ProvisionDisplayProvider(forProvision: prov), toDico: &provisionsDP, andUpadeCategories: &categories)
         }
         
         return provisionsDP
     }
     
-    static func deleteItemFromDP(provDP: ProvisionDisplayProvider, toDico dico: inout [String: [ProvisionDisplayProvider]], andUpadeCategories categories: inout [String]) -> (index: IndexPath?, deleteSection: Int?) {
+    static func addItemToProvsDPSortByDlc(provDP: ProvisionDisplayProvider, toDico dico: inout [String: [ProvisionDisplayProvider]], andUpadeCategories categories: inout [String]) -> (index: IndexPath?, newSection: Bool) {
+        var newSection = false
+        var sectionName: String
+        // vérif urgence
+        if provDP.expirationCountDown <= AppSettings.ConsoLimitNowValue {
+            sectionName = NSLocalizedString("headerForDlcSort_urgent", comment: "")
+            // on regarde si la section "urgent" existe déjà
+            if !categories.contains(sectionName) {
+                // on ajoute une nouvelle section
+                categories.insert(sectionName, at: 0)
+                dico[sectionName] = [provDP]
+                newSection = true
+            } else {
+                // la section existe déjà
+                dico[sectionName]?.append(provDP)
+            }
+        } else {
+            sectionName = NSLocalizedString("headerForDlcSort", comment: "")
+            // on regarde si la section "normale" existe déjà
+            if !categories.contains(sectionName) {
+                // on ajoute une nouvelle section
+                categories.append(sectionName)
+                dico[sectionName] = [provDP]
+                newSection = true
+            } else {
+                // la section existe déjà
+                dico[sectionName]?.append(provDP)
+            }
+        }
+        
+        // on trie la section
+        dico[sectionName]?.sort { provDP1, provDP2 in
+            if provDP1.expirationCountDown < provDP2.expirationCountDown {
+                return true
+            } else {
+                return false
+            }
+        }
+        
+        // on retourne l'indexPath (pour update IHM)
+        guard let row = dico[sectionName]?.firstIndex(where: { $0.uuid == provDP.uuid }) else {return (nil, false)}
+        guard let section = categories.firstIndex(of: sectionName) else {return (nil, false)}
+        return (IndexPath(row: row, section: section), newSection)
+    }
+    
+    static func deleteItemFromDPSortByDlc(provDP: ProvisionDisplayProvider, toDico dico: inout [String: [ProvisionDisplayProvider]], andUpadeCategories categories: inout [String]) -> (index: IndexPath?, deleteSection: Int?) {
+        let sectionName: String
+        // on regarde si la prov est dans la section "urgent"
+        if dico[NSLocalizedString("headerForDlcSort_urgent", comment: "")]?.contains(where: { $0.uuid == provDP.uuid }) != nil {
+            sectionName = NSLocalizedString("headerForDlcSort_urgent", comment: "")
+        } else {
+            sectionName = NSLocalizedString("headerForDlcSort", comment: "")
+        }
+        
         // on récupère l'indexPath de la provision à supprimer (pour update IHM)
-        guard let row = dico[provDP.category]?.firstIndex(where: { $0.uuid == provDP.uuid }) else {return (nil, nil)}
-        guard let section = categories.firstIndex(of: provDP.category) else {return (nil, nil)}
+        guard let section = categories.firstIndex(of: sectionName) else {return (nil, nil)}
+        guard let row = dico[sectionName]?.firstIndex(where: { $0.uuid == provDP.uuid }) else {return (nil, nil)}
+        
+        return deleteItemFromDico(atSection: section, atRow: row, toDico: &dico, andUpadeCategories: &categories)
+    }
+}
+
+
+
+//===========================================================
+// MARK: Dico provsDP delete item
+//===========================================================
+
+
+
+extension ProvGenericMethods {
+    
+    private static func deleteItemFromDico(atSection section: Int, atRow row: Int, toDico dico: inout [String: [ProvisionDisplayProvider]], andUpadeCategories categories: inout [String]) -> (index: IndexPath?, deleteSection: Int?) {
+        // nom de la section et row
+        let sectionName = categories[section]
         // on retire la provision
-        dico[provDP.category]?.remove(at: row)
+        dico[sectionName]?.remove(at: row)
         // on supprime la section si vide
-        if let provsInSection = dico[provDP.category], provsInSection.isEmpty {
-            dico.removeValue(forKey: provDP.category)
-            categories.removeAll { $0 == provDP.category }
+        if let provsInSection = dico[sectionName], provsInSection.isEmpty {
+            dico.removeValue(forKey: sectionName)
+            categories.removeAll { $0 == sectionName }
             return (IndexPath(row: row, section: section), section)
         }
         return (IndexPath(row: row, section: section), nil)

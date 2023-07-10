@@ -127,7 +127,7 @@ extension CartViewController {
 extension CartViewController {
     
     private func getCartProvisions() {
-        o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inCart, andUpadeCategories: &o_headers)
+        o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inCart, andUpdateCategories: &o_headers)
     }
 }
 
