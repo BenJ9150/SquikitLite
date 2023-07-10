@@ -102,7 +102,6 @@ extension CoursesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         animationAtStart()
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -180,7 +179,7 @@ extension CoursesViewController {
 
 
 //===========================================================
-// MARK: Get user provisions
+// MARK: Get shoppinglist
 //===========================================================
 
 
@@ -195,7 +194,7 @@ extension CoursesViewController {
 
 
 //===========================================================
-// MARK: Add user provisions
+// MARK: Add provision to shop
 //===========================================================
 
 
@@ -235,7 +234,7 @@ extension CoursesViewController {
 
 
 //===========================================================
-// MARK: Delete user provisions
+// MARK: Delete provision from shop
 //===========================================================
 
 
@@ -270,7 +269,7 @@ extension CoursesViewController {
 
 
 //===========================================================
-// MARK: Update user provisions
+// MARK: Update shopping list
 //===========================================================
 
 
@@ -361,7 +360,7 @@ extension CoursesViewController: UITableViewDataSource {
         }
         
         // add to cart button
-        shoppingCell.addToCartButton.addAction(forControlEvent: .touchUpInside) {
+        shoppingCell.addToCartButton.addTouchUpInsideAction {
             self.addToCart(provisionDP: provsDPInSection[indexPath.row], atIndexPath: indexPath)
         }
         
@@ -406,8 +405,10 @@ extension CoursesViewController {
     
     private func addToCart(provisionDP: ProvisionDisplayProvider, atIndexPath indexPath: IndexPath) {
         // on change l'état de la provision
+        Provision.printAllProvisions(note: "début de addToCart")
         provisionDP.state = .inCart
         // on supprime du provider existant
+        Provision.printAllProvisions(note: "après changement state dans addToCart")
         deleteItemFromDP(provisionDP: provisionDP)
         // update badge
         updateCartBadge()

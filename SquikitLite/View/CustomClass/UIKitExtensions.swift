@@ -98,8 +98,13 @@ class AlertButton {
 extension UIControl {
     
     // pour réaliser une action en closure sur clic d'un bouton dans une cellule (collection ou tableView)
-    func addAction(forControlEvent controlEvents: UIControl.Event, _ closure: @escaping()->()) {
-        addAction(UIAction { (action: UIAction) in closure() }, for: controlEvents)
+    func addTouchUpInsideAction(_ closure: @escaping()->()) {
+        // on retire l'action pour éviter de s'abonner plusieurs fois
+        removeAction(identifiedBy: UIAction.Identifier("ActionInCell"), for: .touchUpInside)
+        // on ajoute l'action
+        addAction(UIAction(identifier: UIAction.Identifier("ActionInCell"),handler: { _ in
+            closure()
+        }), for: .touchUpInside)
     }
 }
 

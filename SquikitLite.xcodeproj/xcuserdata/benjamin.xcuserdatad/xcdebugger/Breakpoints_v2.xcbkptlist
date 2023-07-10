@@ -1857,8 +1857,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "provAddedToShop(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1873,8 +1873,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
             landmarkName = "deleteProvFromShop(_:)"
             landmarkType = "7">
             <Locations>
@@ -1936,8 +1936,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
             landmarkName = "updateProvInShop(_:)"
             landmarkType = "7">
             <Locations>
@@ -1984,8 +1984,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
             landmarkName = "provAddedToShop(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2000,8 +2000,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "getUserProvisions()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2191,8 +2191,8 @@
             filePath = "SquikitLite/Controller/CoursesViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "appBecomeActive()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2482,6 +2482,38 @@
             startingLineNumber = "298"
             endingLineNumber = "298"
             landmarkName = "addProvsFromCart(fromProvisionsDP:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "48A27DF4-6933-4DDE-A95F-F76B21F74CF7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SquikitLite/Controller/CartViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "getCartProvisions()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8AC16EBB-3891-4E8A-B01D-B8BA2A57EE78"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SquikitLite/View/CustomClass/UIKitExtensions.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "addTouchUpInsideAction(forControlEvent:_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -408,7 +408,7 @@ extension ProvisionsViewController: UICollectionViewDataSource {
         setColorExpiration(forButton: cell.expirationButton, inProvProvider: provsDPInSection[indexPath.row])
         
         // DLC button action
-        cell.expirationButton.addAction(forControlEvent: .touchUpInside) {
+        cell.expirationButton.addTouchUpInsideAction {
             self.updateDlcOf(provisionDP: provsDPInSection[indexPath.row], atIndexPath: indexPath)
         }
         

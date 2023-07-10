@@ -97,33 +97,26 @@ extension Provision {
 
 extension Provision {
     
-    static func printAllProvisions() {
+    static func printAllProvisions(note: String) {
+        print("\n======== PROVISIONS ======== (" + note + ")")
         print("Provisions in stock:")
         for prov in allInStock {
-            if let uuid = prov.uuid {
-                print("UUID: " + uuid.uuidString)
-            }
-            if let productId = prov.productId, let name = ProductManager.getProduct(fromId: productId)?.Name {
-                print("(Name: " + name + ")")
+            if let uuid = prov.uuid, let productId = prov.productId, let name = ProductManager.getProduct(fromId: productId)?.Name {
+                print("UUID: " + uuid.uuidString + " (Name: " + name + ")")
             }
         }
         print("Provisions in shop:")
         for prov in allInShop {
-            if let uuid = prov.uuid {
-                print("UUID: " + uuid.uuidString)
-            }
-            if let productId = prov.productId, let name = ProductManager.getProduct(fromId: productId)?.Name {
-                print("(Name: " + name + ")")
+            if let uuid = prov.uuid, let productId = prov.productId, let name = ProductManager.getProduct(fromId: productId)?.Name {
+                print("UUID: " + uuid.uuidString + " (Name: " + name + ")")
             }
         }
         print("Provisions in cart:")
         for prov in allInCart {
-            if let uuid = prov.uuid {
-                print("UUID: " + uuid.uuidString)
-            }
-            if let productId = prov.productId, let name = ProductManager.getProduct(fromId: productId)?.Name {
-                print("(Name: " + name + ")")
+            if let uuid = prov.uuid, let productId = prov.productId, let name = ProductManager.getProduct(fromId: productId)?.Name {
+                print("UUID: " + uuid.uuidString + " (Name: " + name + ")")
             }
         }
+        print("\n")
     }
 }
