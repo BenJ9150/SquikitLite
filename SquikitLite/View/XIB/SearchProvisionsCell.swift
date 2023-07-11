@@ -16,6 +16,9 @@ class SearchProvisionsCell: UITableViewCell {
     
     // MARK: Outlets
     
+    @IBOutlet weak var alreadyAddLabel: UILabel!
+    @IBOutlet weak var background: UIView!
+    @IBOutlet weak var addButton: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var productImageView: UIImageView!

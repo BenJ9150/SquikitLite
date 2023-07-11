@@ -37,6 +37,7 @@
 "alert_delete"="Supprimer";
 "alert_cancel"="Annuler";
 "alert_removeDLC"="Aucune DLC";
+"alert_remove"="Retirer";
 "alert_putBackToShop"="Remettre aux courses";
 
 /* Alert titles */
@@ -50,6 +51,8 @@
 "alert_deleteFromCart"="Vous souhaitez remettre la provision dans les courses ou la supprimer ?";
 "alert_modifProductInStockTitle"="Cette provision est encore dans votre stock !";
 "alert_modifProductInStockInfo"="Changer l'unité depuis les courses changera également l'unité dans vos provisions.";
+"alert_addProvsRemoveSelection"="Retirer la provision de la sélection ?";
+"alert_provAlreadyInSelection"="Cette provision est déjà dans votre sélection !";
 
 /* BSD détail prov */
 "bsdProv_shopButtonEnabled"="Ajouter aux\ncourses";

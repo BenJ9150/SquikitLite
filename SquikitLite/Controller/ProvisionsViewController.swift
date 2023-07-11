@@ -356,20 +356,7 @@ extension ProvisionsViewController {
 extension ProvisionsViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // largeur de l'écran
-        let viewWidth = collectionView.bounds.width//view.safeAreaLayoutGuide.layoutFrame.width
-        
-        // nombre de colonne possible
-        let columnNb = (viewWidth - Dimensions.provisionsCellSpace) / (Dimensions.provisionsCellWidth + Dimensions.provisionsCellSpace)
-        //let roundedColumNb = columnNb.rounded(.awayFromZero) // 3 colonnes sur iphone 14
-        var roundedColumNb = columnNb.rounded(.down)
-        if columnNb - roundedColumNb > 0.7 {
-            roundedColumNb += 1
-        }
-        
-        // largeur de la cellule
-        let cellWidth = ((viewWidth - Dimensions.provisionsCellSpace) / roundedColumNb) - Dimensions.provisionsCellSpace
-        
+        let cellWidth = CollViewGenericMethods.getCellWidth(forCV: collectionView, withTarget: Dimensions.provisionsCellWidth, andSpace: Dimensions.provisionsCellSpace)
         return CGSize(width: cellWidth, height: Dimensions.provisionsCellHeight)
     }
     
@@ -401,7 +388,7 @@ extension ProvisionsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // BSD detail prov
-        ComMethodsCV().showProvBSD(viewController: self,forProvisionDP: o_provisionsDP, atIndexPath: indexPath, withHeaderTab: o_headers)
+        GenericMethodsVC.showProvBSD(viewController: self,forProvisionDP: o_provisionsDP, atIndexPath: indexPath, withHeaderTab: o_headers)
     }
 }
 

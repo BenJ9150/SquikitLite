@@ -59,14 +59,28 @@
                                     <constraint firstAttribute="height" constant="24" id="bP8-81-tQr"/>
                                 </constraints>
                             </imageView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wsn-Up-hhK">
+                                <rect key="frame" x="272" y="0.0" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="OTw-6i-A9s"/>
+                                </constraints>
+                                <string key="text">Déjà
+ajouté !</string>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="10"/>
+                                <color key="textColor" name="color_quantityAndUnit"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="bKE-ol-Q5c" firstAttribute="leading" secondItem="P93-yo-7i3" secondAttribute="trailing" constant="10" id="1Ij-dU-MHG"/>
+                            <constraint firstItem="wsn-Up-hhK" firstAttribute="top" secondItem="Z0h-6Q-hEd" secondAttribute="top" id="3CX-Gk-Aob"/>
+                            <constraint firstAttribute="trailing" secondItem="wsn-Up-hhK" secondAttribute="trailing" id="G3B-nF-XHr"/>
                             <constraint firstAttribute="trailing" secondItem="Jq3-bU-hl1" secondAttribute="trailing" constant="12" id="H6b-g8-sqk"/>
                             <constraint firstItem="Jq3-bU-hl1" firstAttribute="leading" secondItem="bKE-ol-Q5c" secondAttribute="trailing" constant="12" id="MjM-84-xBX"/>
                             <constraint firstItem="Jq3-bU-hl1" firstAttribute="centerY" secondItem="Z0h-6Q-hEd" secondAttribute="centerY" id="Pkq-Di-Kbu"/>
                             <constraint firstItem="bKE-ol-Q5c" firstAttribute="centerY" secondItem="Z0h-6Q-hEd" secondAttribute="centerY" id="UJc-M7-4Wf"/>
+                            <constraint firstAttribute="bottom" secondItem="wsn-Up-hhK" secondAttribute="bottom" id="VL8-KJ-3lS"/>
                             <constraint firstItem="P93-yo-7i3" firstAttribute="top" secondItem="Z0h-6Q-hEd" secondAttribute="top" constant="5" id="qo4-l6-ERE"/>
                             <constraint firstAttribute="bottom" secondItem="P93-yo-7i3" secondAttribute="bottom" constant="5" id="r6M-Ws-ppN"/>
                             <constraint firstItem="P93-yo-7i3" firstAttribute="leading" secondItem="Z0h-6Q-hEd" secondAttribute="leading" constant="10" id="wZ2-rg-v3g"/>
@@ -83,6 +97,9 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="addButton" destination="Jq3-bU-hl1" id="nAs-UI-cgM"/>
+                <outlet property="alreadyAddLabel" destination="wsn-Up-hhK" id="D5q-SG-9tX"/>
+                <outlet property="background" destination="Z0h-6Q-hEd" id="HD6-89-g70"/>
                 <outlet property="categoryLabel" destination="OyC-nW-bmW" id="4o8-a9-6P6"/>
                 <outlet property="nameLabel" destination="P73-Km-Ys6" id="MKa-gy-d6y"/>
                 <outlet property="productImageView" destination="P93-yo-7i3" id="XKO-Gc-qCw"/>

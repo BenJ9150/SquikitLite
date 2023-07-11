@@ -10,7 +10,7 @@ import Foundation
 
 
 //===========================================================
-// MARK: ProvisionGenericMethods class
+// MARK: ProvGenericMethods class
 //===========================================================
 
 

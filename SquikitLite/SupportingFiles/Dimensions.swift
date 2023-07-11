@@ -31,7 +31,14 @@ class Dimensions {
     static let provisionCollectionViewTopInset: CGFloat = provisionsCellSpace
     static let provisionCollectionViewBottomInset: CGFloat = 100
     
+    // MARK: Add provisions CollectionView
+    
+    static let addProvsCellWidth: CGFloat = 108
+    static let addProvsCellHeight: CGFloat = 52
+    static let addProvsCellSpace: CGFloat = 8
+    
     // MARK: Shopping TableView
+    
     static let shoppingRowSpace: CGFloat = 6
     static let shoppingRowHeight: CGFloat = 64 + shoppingRowSpace // espace dans le Xib (on ne peut pas mettre d'espace entre les lignes)
     static let shoppingTableViewTopInset: CGFloat = provisionCollectionViewTopInset

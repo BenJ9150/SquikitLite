@@ -12,6 +12,8 @@
 		431B608D2A5473D60012A574 /* ShoppingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431B608C2A5473D60012A574 /* ShoppingHeader.swift */; };
 		431B60972A5478710012A574 /* ShoppingHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 431B60962A5478710012A574 /* ShoppingHeader.xib */; };
 		431B60992A549C1A0012A574 /* Provision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431B60982A549C1A0012A574 /* Provision.swift */; };
+		431BFA2E2A5CAD2800F65EE2 /* MultipleProductsChoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431BFA2C2A5CAD2800F65EE2 /* MultipleProductsChoiceCell.swift */; };
+		431BFA2F2A5CAD2800F65EE2 /* MultipleProductsChoiceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 431BFA2D2A5CAD2800F65EE2 /* MultipleProductsChoiceCell.xib */; };
 		43285B462A587634002229F0 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43285B452A587634002229F0 /* CartViewController.swift */; };
 		43285B4A2A588C03002229F0 /* BarButtonItemWithBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43285B492A588C03002229F0 /* BarButtonItemWithBadge.swift */; };
 		43285B4C2A589655002229F0 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43285B4B2A589655002229F0 /* Font.swift */; };
@@ -43,8 +45,9 @@
 		435C02E92A4D7A78000AB320 /* SearchProvisionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435C02E72A4D7A77000AB320 /* SearchProvisionsCell.swift */; };
 		435C02EA2A4D7A78000AB320 /* SearchProvisionsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 435C02E82A4D7A78000AB320 /* SearchProvisionsCell.xib */; };
 		435F8B372A49BC7A00E54573 /* Dimensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435F8B362A49BC7A00E54573 /* Dimensions.swift */; };
-		4363D3C52A59442D00098D7C /* ComMethodsCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4363D3C42A59442D00098D7C /* ComMethodsCV.swift */; };
+		4363D3C52A59442D00098D7C /* GenericMethodsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4363D3C42A59442D00098D7C /* GenericMethodsVC.swift */; };
 		436EFF8F2A554C2C00B9C09A /* CustomProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EFF8E2A554C2C00B9C09A /* CustomProduct.swift */; };
+		4377F28C2A5D347E00451E81 /* CollViewGenericMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4377F28B2A5D347E00451E81 /* CollViewGenericMethods.swift */; };
 		4395A3942A58108900303651 /* Nexa-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4395A3922A58108900303651 /* Nexa-Bold.otf */; };
 		4395A3952A58108900303651 /* Nexa-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4395A3932A58108900303651 /* Nexa-Light.otf */; };
 		439D6D6E2A53FCF000861CC7 /* ProvisionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439D6D6C2A53FCF000861CC7 /* ProvisionHeader.xib */; };
@@ -64,6 +67,8 @@
 		431B608C2A5473D60012A574 /* ShoppingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingHeader.swift; sourceTree = "<group>"; };
 		431B60962A5478710012A574 /* ShoppingHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShoppingHeader.xib; sourceTree = "<group>"; };
 		431B60982A549C1A0012A574 /* Provision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provision.swift; sourceTree = "<group>"; };
+		431BFA2C2A5CAD2800F65EE2 /* MultipleProductsChoiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleProductsChoiceCell.swift; sourceTree = "<group>"; };
+		431BFA2D2A5CAD2800F65EE2 /* MultipleProductsChoiceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MultipleProductsChoiceCell.xib; sourceTree = "<group>"; };
 		43285B452A587634002229F0 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		43285B492A588C03002229F0 /* BarButtonItemWithBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarButtonItemWithBadge.swift; sourceTree = "<group>"; };
 		43285B4B2A589655002229F0 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
@@ -97,8 +102,9 @@
 		435C02E72A4D7A77000AB320 /* SearchProvisionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchProvisionsCell.swift; sourceTree = "<group>"; };
 		435C02E82A4D7A78000AB320 /* SearchProvisionsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchProvisionsCell.xib; sourceTree = "<group>"; };
 		435F8B362A49BC7A00E54573 /* Dimensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimensions.swift; sourceTree = "<group>"; };
-		4363D3C42A59442D00098D7C /* ComMethodsCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComMethodsCV.swift; sourceTree = "<group>"; };
+		4363D3C42A59442D00098D7C /* GenericMethodsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericMethodsVC.swift; sourceTree = "<group>"; };
 		436EFF8E2A554C2C00B9C09A /* CustomProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProduct.swift; sourceTree = "<group>"; };
+		4377F28B2A5D347E00451E81 /* CollViewGenericMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollViewGenericMethods.swift; sourceTree = "<group>"; };
 		4395A3922A58108900303651 /* Nexa-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nexa-Bold.otf"; sourceTree = "<group>"; };
 		4395A3932A58108900303651 /* Nexa-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nexa-Light.otf"; sourceTree = "<group>"; };
 		439D6D6C2A53FCF000861CC7 /* ProvisionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProvisionHeader.xib; sourceTree = "<group>"; };
@@ -185,7 +191,7 @@
 		432A855B2A44B8D000225150 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4363D3C42A59442D00098D7C /* ComMethodsCV.swift */,
+				4363D3C42A59442D00098D7C /* GenericMethodsVC.swift */,
 				432A85652A44C57800225150 /* MainTabBarViewController.swift */,
 				432A85612A44BC0800225150 /* ProvisionsViewController.swift */,
 				432A856B2A44DD1800225150 /* AddprovisionViewController.swift */,
@@ -215,6 +221,7 @@
 			children = (
 				43584B7F2A4C7FD100EEFA8A /* ProvGenericMethods.swift */,
 				43584B7B2A4C6D3D00EEFA8A /* ProductGenericMethods.swift */,
+				4377F28B2A5D347E00451E81 /* CollViewGenericMethods.swift */,
 			);
 			path = GenericMethods;
 			sourceTree = "<group>";
@@ -241,6 +248,8 @@
 				4309C6F22A51D4CA00C0ED5A /* ShoppingCell.xib */,
 				431B608C2A5473D60012A574 /* ShoppingHeader.swift */,
 				431B60962A5478710012A574 /* ShoppingHeader.xib */,
+				431BFA2C2A5CAD2800F65EE2 /* MultipleProductsChoiceCell.swift */,
+				431BFA2D2A5CAD2800F65EE2 /* MultipleProductsChoiceCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -350,6 +359,7 @@
 				431B60972A5478710012A574 /* ShoppingHeader.xib in Resources */,
 				432A854D2A44B8A200225150 /* Main.storyboard in Resources */,
 				432A85722A44EAAA00225150 /* ProvisionCell.xib in Resources */,
+				431BFA2F2A5CAD2800F65EE2 /* MultipleProductsChoiceCell.xib in Resources */,
 				435C02EA2A4D7A78000AB320 /* SearchProvisionsCell.xib in Resources */,
 				43CB192C2A4D8B420035620D /* Localizable.strings in Resources */,
 				432A85762A44F68F00225150 /* nofoodsCollection.json in Resources */,
@@ -370,6 +380,7 @@
 				435A3B242A54001C007CB122 /* ProvisionHeader.swift in Sources */,
 				432A856C2A44DD1800225150 /* AddprovisionViewController.swift in Sources */,
 				43285B4C2A589655002229F0 /* Font.swift in Sources */,
+				4377F28C2A5D347E00451E81 /* CollViewGenericMethods.swift in Sources */,
 				43EF08882A4FFD6D00499940 /* DlcAlertController.swift in Sources */,
 				431B60992A549C1A0012A574 /* Provision.swift in Sources */,
 				43AA34592A4F435100EC03BC /* Units.swift in Sources */,
@@ -381,7 +392,7 @@
 				434E17BA2A4EC91A0086FC28 /* ProvisionsBSDViewController.swift in Sources */,
 				43F1CD3E2A5084F600A6E6B6 /* CoreDataStack.swift in Sources */,
 				43584B7E2A4C789800EEFA8A /* ProvisionDisplayProvider.swift in Sources */,
-				4363D3C52A59442D00098D7C /* ComMethodsCV.swift in Sources */,
+				4363D3C52A59442D00098D7C /* GenericMethodsVC.swift in Sources */,
 				432A85642A44BEAE00225150 /* Colors.swift in Sources */,
 				432A856A2A44D43800225150 /* MainTabBar.swift in Sources */,
 				43584B802A4C7FD100EEFA8A /* ProvGenericMethods.swift in Sources */,
@@ -395,6 +406,7 @@
 				435C02E62A4D6CF3000AB320 /* UIKitExtensions.swift in Sources */,
 				4309C6F32A51D4CA00C0ED5A /* ShoppingCell.swift in Sources */,
 				432A85662A44C57800225150 /* MainTabBarViewController.swift in Sources */,
+				431BFA2E2A5CAD2800F65EE2 /* MultipleProductsChoiceCell.swift in Sources */,
 				432A85462A44B8A200225150 /* AppDelegate.swift in Sources */,
 				43584B7C2A4C6D3D00EEFA8A /* ProductGenericMethods.swift in Sources */,
 				435F8B372A49BC7A00E54573 /* Dimensions.swift in Sources */,

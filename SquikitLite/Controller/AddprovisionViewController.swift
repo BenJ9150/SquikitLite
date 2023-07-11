@@ -25,11 +25,21 @@ class AddprovisionViewController: UIViewController {
     private var o_productsDP = [ProductDisplayProvider]()
     private var o_searchedProductsDP = [ProductDisplayProvider]()
     private var o_searching = false
+    private var o_multipleChoice = [ProductDisplayProvider]()
     
     // MARK: Outlets
     
     @IBOutlet weak var searchProvisionsTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var multipleChoiceSwitch: UISwitch!
+    @IBOutlet weak var productsChoiceCollectionView: UICollectionView!
+    @IBOutlet weak var productsChoiceCVHeight: NSLayoutConstraint!
+    
+    // MARK: Actions
+    
+    @IBAction func multipleChoiceSwitchTap() {
+        multipleChoiceSwitchTapAction()
+    }
     
 }
 
@@ -54,6 +64,32 @@ extension AddprovisionViewController {
         
         // searchBar first responder
         searchBar.becomeFirstResponder()
+        
+        // collectionView multiple choice
+        productsChoiceCollectionView.register(MultipleProductsChoiceCell.nib, forCellWithReuseIdentifier: MultipleProductsChoiceCell.key)
+    }
+}
+
+
+
+//===========================================================
+// MARK: View transitions
+//===========================================================
+
+
+
+extension AddprovisionViewController {
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        if isViewLoaded {
+            productsChoiceCollectionView.reloadData()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        saveMultipleSelection()
     }
 }
 
@@ -104,24 +140,49 @@ extension AddprovisionViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let searchProvCell = tableView.dequeueReusableCell(withIdentifier: SearchProvisionsCell.key, for: indexPath) as! SearchProvisionsCell
         
-        let productsDP: ProductDisplayProvider
+        let productDP: ProductDisplayProvider
         if o_searching {
-            productsDP = o_searchedProductsDP[indexPath.row]
+            productDP = o_searchedProductsDP[indexPath.row]
         } else {
-            productsDP = o_productsDP[indexPath.row]
+            productDP = o_productsDP[indexPath.row]
         }
         
         if let searchText = searchBar.text, searchText.count > 0 {
-            searchProvCell.nameLabel.attributedText = getAttributedName(forName: productsDP.name, andSearchedText: searchText)
-            searchProvCell.categoryLabel.attributedText = getAttributedCat(forCategory: productsDP.categoryAndSubCategory, andSearchedText: searchText)
+            searchProvCell.nameLabel.attributedText = getAttributedName(forName: productDP.name, andSearchedText: searchText)
+            searchProvCell.categoryLabel.attributedText = getAttributedCat(forCategory: productDP.categoryAndSubCategory, andSearchedText: searchText)
         } else {
-            searchProvCell.nameLabel.text = productsDP.name
-            searchProvCell.categoryLabel.text = productsDP.categoryAndSubCategory
+            searchProvCell.nameLabel.text = productDP.name
+            searchProvCell.categoryLabel.text = productDP.categoryAndSubCategory
         }
         
+        searchProvCell.productImageView.image = productDP.image
         
+        // vérif si product existe déjà
+        var productExist = false
+        if o_currentVC == .inStock {
+            if ProvGenericMethods.checkIfProductAlreadyAdded(fromId: productDP.product.Id, withState: .inStock) {
+                productExist = true
+            }
+        } else {
+            if ProvGenericMethods.checkIfProductAlreadyAdded(fromId: productDP.product.Id, withState: .inShopOrCart) {
+                productExist = true
+            }
+        }
+        // check if product in selection
+        if o_multipleChoice.contains(where: { $0.product.Id == productDP.product.Id }) {
+            productExist = true
+        }
         
-        searchProvCell.productImageView.image = productsDP.image
+        if productExist {
+            searchProvCell.addButton.isHidden = true
+            searchProvCell.alreadyAddLabel.isHidden = false
+            searchProvCell.background.backgroundColor = UIColor.mainTabBar
+        } else {
+            searchProvCell.addButton.isHidden = false
+            searchProvCell.alreadyAddLabel.isHidden = true
+            searchProvCell.background.backgroundColor = UIColor.white
+        }
+        
         
         return searchProvCell
     }
@@ -157,9 +218,18 @@ extension AddprovisionViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if o_searching && indexPath.row < o_searchedProductsDP.count {
-            addNewProvision(fromProductDP: o_searchedProductsDP[indexPath.row])
+            addNewProvision(fromProductDP: o_searchedProductsDP[indexPath.row], indexPath: indexPath)
         } else if indexPath.row < o_productsDP.count {
-            addNewProvision(fromProductDP: o_productsDP[indexPath.row])
+            addNewProvision(fromProductDP: o_productsDP[indexPath.row], indexPath: indexPath)
+        }
+    }
+    
+    private func addNewProvision(fromProductDP productDP: ProductDisplayProvider, indexPath: IndexPath) {
+        if let switchChoice = multipleChoiceSwitch, switchChoice.isOn {
+            addMultipleProvisions(fromProductDP: productDP)
+            searchProvisionsTableView.reloadRows(at: [indexPath], with: .automatic)
+        } else {
+            addOneProvision(fromProductDP: productDP)
         }
     }
 }
@@ -174,7 +244,7 @@ extension AddprovisionViewController: UITableViewDelegate {
 
 extension AddprovisionViewController {
     
-    private func addNewProvision(fromProductDP productDP: ProductDisplayProvider) {
+    private func addOneProvision(fromProductDP productDP: ProductDisplayProvider) {
         if ProvGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC) {
             dismiss(animated: true)
             return
@@ -193,3 +263,144 @@ extension AddprovisionViewController {
         present(alert, animated: true)
     }
 }
+
+
+
+//===========================================================
+// MARK: Add multiple provs
+//===========================================================
+
+
+
+extension AddprovisionViewController {
+    
+    private func addMultipleProvisions(fromProductDP productDP: ProductDisplayProvider) {
+        // check if product exist
+        var productExist = false
+        var messProductExist = ""
+        if o_currentVC == .inStock {
+            if ProvGenericMethods.checkIfProductAlreadyAdded(fromId: productDP.product.Id, withState: .inStock) {
+                productExist = true
+                messProductExist = NSLocalizedString("alert_provAlreadyInStock", comment: "")
+            }
+        } else {
+            if ProvGenericMethods.checkIfProductAlreadyAdded(fromId: productDP.product.Id, withState: .inShopOrCart) {
+                productExist = true
+                messProductExist = NSLocalizedString("alert_provAlreadyInShop", comment: "")
+            }
+        }
+        
+        // check if product in selection
+        if o_multipleChoice.contains(where: { $0.product.Id == productDP.product.Id }) {
+            productExist = true
+            messProductExist = NSLocalizedString("alert_provAlreadyInSelection", comment: "")
+        }
+        
+        if productExist {
+            let alert = UIAlertController(title: messProductExist, message: "", preferredStyle: .alert)
+            alert.addAction(AlertButton().cancel)
+            present(alert, animated: true)
+            return
+        }
+        
+        // on ajoute à la liste des nouveaux product
+        o_multipleChoice.append(productDP)
+        productsChoiceCollectionView.reloadData()
+        productsChoiceCVHeight.constant = productsChoiceCollectionView.collectionViewLayout.collectionViewContentSize.height
+    }
+    
+    func multipleChoiceSwitchTapAction() {
+        if let switchChoice = multipleChoiceSwitch, !switchChoice.isOn {
+            o_multipleChoice.removeAll()
+            productsChoiceCollectionView.reloadData()
+            productsChoiceCVHeight.constant = 0
+        }
+    }
+    
+    private func saveMultipleSelection() {
+        if let switchChoice = multipleChoiceSwitch, !switchChoice.isOn {return}
+        if o_multipleChoice.count <= 0 {return}
+        
+        for productDP in o_multipleChoice {
+            let _ = ProvGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC)
+        }
+    }
+}
+
+
+
+//===========================================================
+// MARK: UICollectionViewDelegate
+//===========================================================
+
+
+
+extension AddprovisionViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // suppr selection
+        let alert = UIAlertController(title: NSLocalizedString("alert_addProvsRemoveSelection", comment: ""), message: "", preferredStyle: .actionSheet)
+        
+        let removeButton = UIAlertAction(title: NSLocalizedString("alert_remove", comment: ""), style: .destructive) { _ in
+            self.o_multipleChoice.remove(at: indexPath.row)
+            self.productsChoiceCollectionView.reloadData()
+            self.productsChoiceCVHeight.constant = self.productsChoiceCollectionView.collectionViewLayout.collectionViewContentSize.height
+        }
+        
+        alert.addAction(removeButton)
+        alert.addAction(AlertButton().cancel)
+        present(alert, animated: true)
+    }
+}
+
+
+
+//===========================================================
+// MARK: UICollectionViewDataSource
+//===========================================================
+
+
+
+extension AddprovisionViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return o_multipleChoice.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MultipleProductsChoiceCell.key, for: indexPath) as! MultipleProductsChoiceCell
+        if indexPath.row >= o_multipleChoice.count {return cell}
+        
+        cell.nameLabel.text = o_multipleChoice[indexPath.row].name
+        return cell
+    }
+}
+
+
+
+//===========================================================
+// MARK: UICollectionViewDelegateFlowLayout
+//===========================================================
+
+
+
+extension AddprovisionViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellWidth = CollViewGenericMethods.getCellWidth(forCV: collectionView, withTarget: Dimensions.addProvsCellWidth, andSpace: Dimensions.addProvsCellSpace)
+        return CGSize(width: cellWidth, height: Dimensions.addProvsCellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: Dimensions.addProvsCellSpace, left: Dimensions.addProvsCellSpace, bottom: Dimensions.addProvsCellSpace, right: Dimensions.addProvsCellSpace)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return Dimensions.addProvsCellSpace
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return Dimensions.addProvsCellSpace
+    }
+}
+

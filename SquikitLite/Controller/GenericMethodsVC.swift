@@ -1,5 +1,5 @@
 //
-//  ComMethodsCV.swift
+//  GenericMethodsVC.swift
 //  SquikitLite
 //
 //  Created by Benjamin on 08/07/2023.
@@ -10,12 +10,12 @@ import UIKit
 
 
 //===========================================================
-// MARK: ComMethodsCV class
+// MARK: GenericMethodsVC class
 //===========================================================
 
 
 
-class ComMethodsCV {
+class GenericMethodsVC {
     
 }
 
@@ -27,9 +27,9 @@ class ComMethodsCV {
 
 
 
-extension ComMethodsCV {
+extension GenericMethodsVC {
     
-    func showProvBSD(viewController: UIViewController, forProvisionDP provDP: [String: [ProvisionDisplayProvider]], atIndexPath indexPath: IndexPath, withHeaderTab headers: [String]) {
+    static func showProvBSD(viewController: UIViewController, forProvisionDP provDP: [String: [ProvisionDisplayProvider]], atIndexPath indexPath: IndexPath, withHeaderTab headers: [String]) {
         guard indexPath.section < headers.count, let provsDPInSection = provDP[headers[indexPath.section]] else {return}
         if indexPath.row >= provsDPInSection.count {return}
         
