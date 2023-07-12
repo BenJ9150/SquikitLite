@@ -78,7 +78,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Gtz-0N-1hg">
-                                <rect key="frame" x="0.0" y="116" width="375" height="0.0"/>
+                                <rect key="frame" x="0.0" y="68" width="375" height="0.0"/>
                                 <color key="backgroundColor" name="color_mainBackground"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="vkT-hn-Hjj"/>
@@ -100,9 +100,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="dk5-SR-jVe" firstAttribute="leading" secondItem="bT2-Kx-w14" secondAttribute="leading" id="4ts-aU-2BH"/>
+                            <constraint firstItem="bAy-LK-rag" firstAttribute="top" secondItem="dk5-SR-jVe" secondAttribute="bottom" id="BQK-r9-9jx"/>
                             <constraint firstItem="bT2-Kx-w14" firstAttribute="trailing" secondItem="bAy-LK-rag" secondAttribute="trailing" id="C1V-fb-YUD"/>
-                            <constraint firstItem="dk5-SR-jVe" firstAttribute="top" secondItem="16Y-tP-wN1" secondAttribute="bottom" id="D5i-u8-QFl"/>
                             <constraint firstItem="bT2-Kx-w14" firstAttribute="bottom" secondItem="bAy-LK-rag" secondAttribute="bottom" id="MGS-lz-cKF"/>
+                            <constraint firstItem="Gtz-0N-1hg" firstAttribute="top" secondItem="16Y-tP-wN1" secondAttribute="bottom" id="Mml-iJ-ZVq"/>
                             <constraint firstItem="16Y-tP-wN1" firstAttribute="leading" secondItem="bT2-Kx-w14" secondAttribute="leading" id="MyY-86-8vD"/>
                             <constraint firstItem="bT2-Kx-w14" firstAttribute="trailing" secondItem="16Y-tP-wN1" secondAttribute="trailing" id="NUI-FW-a7c"/>
                             <constraint firstItem="Gtz-0N-1hg" firstAttribute="leading" secondItem="bT2-Kx-w14" secondAttribute="leading" id="SZ6-UB-r5t"/>
@@ -110,8 +111,7 @@
                             <constraint firstItem="16Y-tP-wN1" firstAttribute="top" secondItem="bT2-Kx-w14" secondAttribute="top" id="Yvk-lX-MY3"/>
                             <constraint firstItem="dk5-SR-jVe" firstAttribute="trailing" secondItem="bT2-Kx-w14" secondAttribute="trailing" id="Zox-2h-yAR"/>
                             <constraint firstItem="bT2-Kx-w14" firstAttribute="trailing" secondItem="Gtz-0N-1hg" secondAttribute="trailing" id="hJ8-YX-CJj"/>
-                            <constraint firstItem="Gtz-0N-1hg" firstAttribute="top" secondItem="dk5-SR-jVe" secondAttribute="bottom" id="mzy-y8-Qmw"/>
-                            <constraint firstItem="bAy-LK-rag" firstAttribute="top" secondItem="Gtz-0N-1hg" secondAttribute="bottom" id="pEf-Hi-k9t"/>
+                            <constraint firstItem="dk5-SR-jVe" firstAttribute="top" secondItem="Gtz-0N-1hg" secondAttribute="bottom" id="hMe-P3-JNf"/>
                         </constraints>
                     </view>
                     <connections>
@@ -970,6 +970,12 @@ courses</string>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Votre panier est vide !" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NX8-Vj-oOj">
+                                <rect key="frame" x="64" y="312.5" width="247" height="22"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                <color key="textColor" name="color_provisionName"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Uhp-Qv-gkL"/>
                         <constraints>
@@ -979,9 +985,12 @@ courses</string>
                             <constraint firstItem="Uhp-Qv-gkL" firstAttribute="bottom" secondItem="x1I-QD-bbN" secondAttribute="bottom" id="7ob-qO-dSp"/>
                             <constraint firstItem="JCE-qE-aAt" firstAttribute="leading" secondItem="Uhp-Qv-gkL" secondAttribute="leading" id="Mss-Oo-upt"/>
                             <constraint firstItem="hXA-U5-Qee" firstAttribute="top" secondItem="x1I-QD-bbN" secondAttribute="top" id="SFs-MA-r44"/>
+                            <constraint firstItem="NX8-Vj-oOj" firstAttribute="centerY" secondItem="ULd-24-rIF" secondAttribute="centerY" id="SMY-tu-j9X"/>
                             <constraint firstItem="hXA-U5-Qee" firstAttribute="leading" secondItem="Uhp-Qv-gkL" secondAttribute="leading" id="aGK-i7-60F"/>
                             <constraint firstItem="Uhp-Qv-gkL" firstAttribute="trailing" secondItem="x1I-QD-bbN" secondAttribute="trailing" id="czH-de-roJ"/>
                             <constraint firstItem="J8u-pn-Wb2" firstAttribute="top" secondItem="JCE-qE-aAt" secondAttribute="bottom" id="fNO-AM-dFQ"/>
+                            <constraint firstItem="NX8-Vj-oOj" firstAttribute="leading" secondItem="Uhp-Qv-gkL" secondAttribute="leading" constant="64" id="gWk-bT-ZEr"/>
+                            <constraint firstItem="NX8-Vj-oOj" firstAttribute="centerX" secondItem="ULd-24-rIF" secondAttribute="centerX" id="gtn-44-iLQ"/>
                             <constraint firstItem="x1I-QD-bbN" firstAttribute="leading" secondItem="Uhp-Qv-gkL" secondAttribute="leading" id="jC9-ve-oKR"/>
                             <constraint firstItem="J8u-pn-Wb2" firstAttribute="leading" secondItem="Uhp-Qv-gkL" secondAttribute="leading" id="nwB-3g-WjK"/>
                             <constraint firstItem="JCE-qE-aAt" firstAttribute="top" secondItem="ULd-24-rIF" secondAttribute="top" id="qVD-fe-yd6"/>
@@ -991,6 +1000,7 @@ courses</string>
                     </view>
                     <connections>
                         <outlet property="addToProvButton" destination="bXr-lU-0ew" id="jWm-kf-O5c"/>
+                        <outlet property="emptyCartLabel" destination="NX8-Vj-oOj" id="dEK-Kf-ogw"/>
                         <outlet property="shoppingTableView" destination="Ck5-KS-GtI" id="YyI-aA-mle"/>
                     </connections>
                 </viewController>

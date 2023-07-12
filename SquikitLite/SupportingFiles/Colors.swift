@@ -21,6 +21,7 @@ extension UIColor {
     // MARK: main colors
     
     static let mainBackground = UIColor(named: "color_mainBackground")!
+    static let mainButton = UIColor(named: "color_mainButton")!
     static let mainTabBar = UIColor(named: "color_mainTabBar")!
     static let mainNavigation = UIColor(named: "color_mainNavigation")!
     static let inactiveButton = UIColor(named: "color_inactiveButton")!

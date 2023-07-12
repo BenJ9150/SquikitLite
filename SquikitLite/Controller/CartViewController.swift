@@ -10,7 +10,7 @@ import UIKit
 
 
 //===========================================================
-// MARK: ProvisionsBSDViewController class
+// MARK: CartViewController class
 //===========================================================
 
 
@@ -27,6 +27,7 @@ class CartViewController: UIViewController {
     
     @IBOutlet weak var shoppingTableView: UITableView!
     @IBOutlet weak var addToProvButton: UIButton!
+    @IBOutlet weak var emptyCartLabel: UILabel!
     
     // MARK: Actions
     
@@ -128,6 +129,7 @@ extension CartViewController {
     
     private func getCartProvisions() {
         o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inCart, andUpdateCategories: &o_headers)
+        changeIhmIfEmpty()
     }
 }
 
@@ -273,6 +275,9 @@ extension CartViewController {
             // on reload tout au cas où...
             shoppingTableView.reloadData()
         }
+        // if empty
+        changeIhmIfEmpty()
+        
         // on supprime des courses
         guard let uuid = provisionDP.uuid else {return}
         ProvGenericMethods.deleteProvision(fromUUID: uuid)
@@ -300,5 +305,26 @@ extension CartViewController {
         NotificationCenter.default.post(name: .updateBadgeNumber, object: nil)
         
         self.dismiss(animated: true)
+    }
+}
+
+
+
+//===========================================================
+// MARK: diplay empty cart
+//===========================================================
+
+
+
+extension CartViewController {
+    
+    private func changeIhmIfEmpty() {
+        if o_provisionsDP.count <= 0 {
+            emptyCartLabel.isHidden = false
+            addToProvButton.isHidden = true
+        } else {
+            emptyCartLabel.isHidden = true
+            addToProvButton.isHidden = false
+        }
     }
 }

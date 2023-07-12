@@ -87,7 +87,6 @@ ajouté !</string>
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="Z0h-6Q-hEd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Cxx-Vg-wAV"/>
                     <constraint firstAttribute="bottom" secondItem="Z0h-6Q-hEd" secondAttribute="bottom" id="QdY-hQ-hd6"/>
@@ -104,7 +103,7 @@ ajouté !</string>
                 <outlet property="nameLabel" destination="P73-Km-Ys6" id="MKa-gy-d6y"/>
                 <outlet property="productImageView" destination="P93-yo-7i3" id="XKO-Gc-qCw"/>
             </connections>
-            <point key="canvasLocation" x="138.93129770992365" y="20.422535211267608"/>
+            <point key="canvasLocation" x="191" y="21"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -66,7 +66,7 @@ extension AddprovisionViewController {
         searchBar.becomeFirstResponder()
         
         // collectionView multiple choice
-        productsChoiceCollectionView.register(MultipleProductsChoiceCell.nib, forCellWithReuseIdentifier: MultipleProductsChoiceCell.key)
+        initProductsChoiceCV()
     }
 }
 
@@ -168,21 +168,20 @@ extension AddprovisionViewController: UITableViewDataSource {
                 productExist = true
             }
         }
-        // check if product in selection
-        if o_multipleChoice.contains(where: { $0.product.Id == productDP.product.Id }) {
-            productExist = true
-        }
         
         if productExist {
             searchProvCell.addButton.isHidden = true
             searchProvCell.alreadyAddLabel.isHidden = false
-            searchProvCell.background.backgroundColor = UIColor.mainTabBar
+            searchProvCell.background.backgroundColor = UIColor.mainBackground
+        } else if o_multipleChoice.contains(where: { $0.product.Id == productDP.product.Id }) {
+            searchProvCell.addButton.isHidden = true
+            searchProvCell.alreadyAddLabel.isHidden = true
+            searchProvCell.background.backgroundColor = UIColor.mainButton
         } else {
             searchProvCell.addButton.isHidden = false
             searchProvCell.alreadyAddLabel.isHidden = true
             searchProvCell.background.backgroundColor = UIColor.white
         }
-        
         
         return searchProvCell
     }
@@ -290,12 +289,6 @@ extension AddprovisionViewController {
             }
         }
         
-        // check if product in selection
-        if o_multipleChoice.contains(where: { $0.product.Id == productDP.product.Id }) {
-            productExist = true
-            messProductExist = NSLocalizedString("alert_provAlreadyInSelection", comment: "")
-        }
-        
         if productExist {
             let alert = UIAlertController(title: messProductExist, message: "", preferredStyle: .alert)
             alert.addAction(AlertButton().cancel)
@@ -303,10 +296,23 @@ extension AddprovisionViewController {
             return
         }
         
-        // on ajoute à la liste des nouveaux product
-        o_multipleChoice.append(productDP)
+        // check if product in selection
+        if o_multipleChoice.contains(where: { $0.product.Id == productDP.product.Id }) {
+            // on retire de la sélection
+            o_multipleChoice.removeAll { $0.product.Id == productDP.product.Id }
+        } else {
+            // on ajoute à la liste des nouveaux product
+            o_multipleChoice.append(productDP)
+        }
+        
         productsChoiceCollectionView.reloadData()
-        productsChoiceCVHeight.constant = productsChoiceCollectionView.collectionViewLayout.collectionViewContentSize.height
+        
+        let productsCVHeight = productsChoiceCollectionView.collectionViewLayout.collectionViewContentSize.height
+        if productsCVHeight < Dimensions.addProvsCellHeight + Dimensions.addProvsCellSpace*2 {
+            productsChoiceCVHeight.constant = Dimensions.addProvsCellHeight + Dimensions.addProvsCellSpace*2
+        } else {
+            productsChoiceCVHeight.constant = productsCVHeight
+        }
     }
     
     func multipleChoiceSwitchTapAction() {
@@ -314,6 +320,10 @@ extension AddprovisionViewController {
             o_multipleChoice.removeAll()
             productsChoiceCollectionView.reloadData()
             productsChoiceCVHeight.constant = 0
+            searchProvisionsTableView.reloadData()
+        } else {
+            // is on
+            productsChoiceCVHeight.constant = Dimensions.addProvsCellHeight + Dimensions.addProvsCellSpace*2
         }
     }
     
@@ -324,6 +334,22 @@ extension AddprovisionViewController {
         for productDP in o_multipleChoice {
             let _ = ProvGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC)
         }
+    }
+}
+
+
+
+//===========================================================
+// MARK: init collection view multiple selection
+//===========================================================
+
+
+
+extension AddprovisionViewController {
+    
+    private func initProductsChoiceCV() {
+        productsChoiceCollectionView.register(MultipleProductsChoiceCell.nib, forCellWithReuseIdentifier: MultipleProductsChoiceCell.key)
+        productsChoiceCVHeight.constant = 0
     }
 }
 
