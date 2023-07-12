@@ -30,6 +30,8 @@ extension UIColor {
     static let whiteLabel = UIColor(named: "color_whiteLabel")!
     static let creole = UIColor(named: "color_creole")!
     static let quantityAndUnit = UIColor(named: "color_quantityAndUnit")!
+    static let rowSelection = UIColor(named: "color_rowSelection")!
+    
     // MARK: DLC
     
     static let dlcMoyen = UIColor(named: "color_dlcMoyen")!

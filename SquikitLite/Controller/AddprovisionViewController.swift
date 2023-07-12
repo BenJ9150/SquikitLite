@@ -25,22 +25,22 @@ class AddprovisionViewController: UIViewController {
     private var o_productsDP = [ProductDisplayProvider]()
     private var o_searchedProductsDP = [ProductDisplayProvider]()
     private var o_searching = false
-    private var o_multipleChoice = [ProductDisplayProvider]()
+    private var o_provsSelection = [ProductDisplayProvider]()
     
     // MARK: Outlets
     
     @IBOutlet weak var searchProvisionsTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var multipleChoiceSwitch: UISwitch!
     @IBOutlet weak var productsChoiceCollectionView: UICollectionView!
     @IBOutlet weak var productsChoiceCVHeight: NSLayoutConstraint!
+    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var titleSelectProvLabel: UILabel!
     
     // MARK: Actions
     
-    @IBAction func multipleChoiceSwitchTap() {
-        multipleChoiceSwitchTapAction()
+    @IBAction func addButtonTap() {
+        dismiss(animated: true)
     }
-    
 }
 
 
@@ -89,7 +89,7 @@ extension AddprovisionViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        saveMultipleSelection()
+        saveSelection()
     }
 }
 
@@ -173,10 +173,10 @@ extension AddprovisionViewController: UITableViewDataSource {
             searchProvCell.addButton.isHidden = true
             searchProvCell.alreadyAddLabel.isHidden = false
             searchProvCell.background.backgroundColor = UIColor.mainBackground
-        } else if o_multipleChoice.contains(where: { $0.product.Id == productDP.product.Id }) {
+        } else if o_provsSelection.contains(where: { $0.product.Id == productDP.product.Id }) {
             searchProvCell.addButton.isHidden = true
             searchProvCell.alreadyAddLabel.isHidden = true
-            searchProvCell.background.backgroundColor = UIColor.mainButton
+            searchProvCell.background.backgroundColor = UIColor.rowSelection
         } else {
             searchProvCell.addButton.isHidden = false
             searchProvCell.alreadyAddLabel.isHidden = true
@@ -217,63 +217,25 @@ extension AddprovisionViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if o_searching && indexPath.row < o_searchedProductsDP.count {
-            addNewProvision(fromProductDP: o_searchedProductsDP[indexPath.row], indexPath: indexPath)
+            addProvToSelection(fromProductDP: o_searchedProductsDP[indexPath.row])
         } else if indexPath.row < o_productsDP.count {
-            addNewProvision(fromProductDP: o_productsDP[indexPath.row], indexPath: indexPath)
+            addProvToSelection(fromProductDP: o_productsDP[indexPath.row])
         }
-    }
-    
-    private func addNewProvision(fromProductDP productDP: ProductDisplayProvider, indexPath: IndexPath) {
-        if let switchChoice = multipleChoiceSwitch, switchChoice.isOn {
-            addMultipleProvisions(fromProductDP: productDP)
-            searchProvisionsTableView.reloadRows(at: [indexPath], with: .automatic)
-        } else {
-            addOneProvision(fromProductDP: productDP)
-        }
+        searchProvisionsTableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 
 
 
 //===========================================================
-// MARK: Add provision
+// MARK: Add provisions
 //===========================================================
 
 
 
 extension AddprovisionViewController {
     
-    private func addOneProvision(fromProductDP productDP: ProductDisplayProvider) {
-        if ProvGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC) {
-            dismiss(animated: true)
-            return
-        }
-        let mess: String
-        if o_currentVC == .inStock {
-            mess = NSLocalizedString("alert_provAlreadyInStock", comment: "")
-        } else {
-            mess = NSLocalizedString("alert_provAlreadyInShop", comment: "")
-        }
-        
-        let alert = UIAlertController(title: mess, message: "", preferredStyle: .alert)
-        let okButton = UIAlertAction(title: NSLocalizedString("alert_ok", comment: ""), style: .cancel) { _ in
-        }
-        alert.addAction(okButton)
-        present(alert, animated: true)
-    }
-}
-
-
-
-//===========================================================
-// MARK: Add multiple provs
-//===========================================================
-
-
-
-extension AddprovisionViewController {
-    
-    private func addMultipleProvisions(fromProductDP productDP: ProductDisplayProvider) {
+    private func addProvToSelection(fromProductDP productDP: ProductDisplayProvider) {
         // check if product exist
         var productExist = false
         var messProductExist = ""
@@ -297,41 +259,21 @@ extension AddprovisionViewController {
         }
         
         // check if product in selection
-        if o_multipleChoice.contains(where: { $0.product.Id == productDP.product.Id }) {
+        if o_provsSelection.contains(where: { $0.product.Id == productDP.product.Id }) {
             // on retire de la sélection
-            o_multipleChoice.removeAll { $0.product.Id == productDP.product.Id }
+            o_provsSelection.removeAll { $0.product.Id == productDP.product.Id }
         } else {
             // on ajoute à la liste des nouveaux product
-            o_multipleChoice.append(productDP)
+            o_provsSelection.append(productDP)
         }
         
-        productsChoiceCollectionView.reloadData()
-        
-        let productsCVHeight = productsChoiceCollectionView.collectionViewLayout.collectionViewContentSize.height
-        if productsCVHeight < Dimensions.addProvsCellHeight + Dimensions.addProvsCellSpace*2 {
-            productsChoiceCVHeight.constant = Dimensions.addProvsCellHeight + Dimensions.addProvsCellSpace*2
-        } else {
-            productsChoiceCVHeight.constant = productsCVHeight
-        }
+        updateIhmProductsChoiceCV()
     }
     
-    func multipleChoiceSwitchTapAction() {
-        if let switchChoice = multipleChoiceSwitch, !switchChoice.isOn {
-            o_multipleChoice.removeAll()
-            productsChoiceCollectionView.reloadData()
-            productsChoiceCVHeight.constant = 0
-            searchProvisionsTableView.reloadData()
-        } else {
-            // is on
-            productsChoiceCVHeight.constant = Dimensions.addProvsCellHeight + Dimensions.addProvsCellSpace*2
-        }
-    }
-    
-    private func saveMultipleSelection() {
-        if let switchChoice = multipleChoiceSwitch, !switchChoice.isOn {return}
-        if o_multipleChoice.count <= 0 {return}
+    private func saveSelection() {
+        if o_provsSelection.count <= 0 {return}
         
-        for productDP in o_multipleChoice {
+        for productDP in o_provsSelection {
             let _ = ProvGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC)
         }
     }
@@ -340,7 +282,7 @@ extension AddprovisionViewController {
 
 
 //===========================================================
-// MARK: init collection view multiple selection
+// MARK: init collection view selection
 //===========================================================
 
 
@@ -349,7 +291,41 @@ extension AddprovisionViewController {
     
     private func initProductsChoiceCV() {
         productsChoiceCollectionView.register(MultipleProductsChoiceCell.nib, forCellWithReuseIdentifier: MultipleProductsChoiceCell.key)
-        productsChoiceCVHeight.constant = 0
+        updateIhmProductsChoiceCV()
+        addButton.addSmallShadow()
+    }
+}
+
+
+
+//===========================================================
+// MARK: update IHM CV selection
+//===========================================================
+
+
+
+extension AddprovisionViewController {
+    
+    private func updateIhmProductsChoiceCV() {
+        if o_provsSelection.count <= 0 {
+            // rien de sélectionné
+            addButton.isHidden = true
+            titleSelectProvLabel.isHidden = false
+            productsChoiceCollectionView.reloadData()
+            productsChoiceCVHeight.constant = 0
+            return
+        }
+        // sélection en cours
+        addButton.isHidden = false
+        titleSelectProvLabel.isHidden = true
+        productsChoiceCollectionView.reloadData()
+        
+        let maxHeight = (Dimensions.addProvsCellHeight + Dimensions.addProvsCellSpace*2) * 2
+        if productsChoiceCollectionView.collectionViewLayout.collectionViewContentSize.height > maxHeight {
+            productsChoiceCVHeight.constant = maxHeight
+        } else {
+            productsChoiceCVHeight.constant = productsChoiceCollectionView.collectionViewLayout.collectionViewContentSize.height
+        }
     }
 }
 
@@ -368,9 +344,9 @@ extension AddprovisionViewController: UICollectionViewDelegate {
         let alert = UIAlertController(title: NSLocalizedString("alert_addProvsRemoveSelection", comment: ""), message: "", preferredStyle: .actionSheet)
         
         let removeButton = UIAlertAction(title: NSLocalizedString("alert_remove", comment: ""), style: .destructive) { _ in
-            self.o_multipleChoice.remove(at: indexPath.row)
-            self.productsChoiceCollectionView.reloadData()
-            self.productsChoiceCVHeight.constant = self.productsChoiceCollectionView.collectionViewLayout.collectionViewContentSize.height
+            self.o_provsSelection.remove(at: indexPath.row)
+            self.searchProvisionsTableView.reloadData()
+            self.updateIhmProductsChoiceCV()
         }
         
         alert.addAction(removeButton)
@@ -390,14 +366,14 @@ extension AddprovisionViewController: UICollectionViewDelegate {
 extension AddprovisionViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return o_multipleChoice.count
+        return o_provsSelection.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MultipleProductsChoiceCell.key, for: indexPath) as! MultipleProductsChoiceCell
-        if indexPath.row >= o_multipleChoice.count {return cell}
+        if indexPath.row >= o_provsSelection.count {return cell}
         
-        cell.nameLabel.text = o_multipleChoice[indexPath.row].name
+        cell.nameLabel.text = o_provsSelection[indexPath.row].name
         return cell
     }
 }
