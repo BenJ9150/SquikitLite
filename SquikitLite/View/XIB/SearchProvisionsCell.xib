@@ -71,7 +71,7 @@ ajouté !</string>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="color_whiteBackground"/>
                         <constraints>
                             <constraint firstItem="bKE-ol-Q5c" firstAttribute="leading" secondItem="P93-yo-7i3" secondAttribute="trailing" constant="10" id="1Ij-dU-MHG"/>
                             <constraint firstItem="wsn-Up-hhK" firstAttribute="top" secondItem="Z0h-6Q-hEd" secondAttribute="top" id="3CX-Gk-Aob"/>
@@ -113,6 +113,9 @@ ajouté !</string>
         </namedColor>
         <namedColor name="color_quantityAndUnit">
             <color red="0.55699998140335083" green="0.59200000762939453" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="color_whiteBackground">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

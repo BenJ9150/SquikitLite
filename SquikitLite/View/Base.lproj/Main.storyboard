@@ -39,7 +39,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="48"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IPM-rf-GT2">
-                                        <rect key="frame" x="69" y="9" width="237" height="30"/>
+                                        <rect key="frame" x="66" y="9" width="243" height="30"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="59N-Kf-h1T">
                                                 <rect key="frame" x="0.0" y="0.0" width="47" height="30"/>
@@ -53,8 +53,8 @@
                                                 </connections>
                                             </switch>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ajouter plusieurs provisions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RQx-SL-lzA">
-                                                <rect key="frame" x="61" y="5" width="176" height="20"/>
-                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
+                                                <rect key="frame" x="61" y="5.5" width="182" height="19.5"/>
+                                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="14"/>
                                                 <color key="textColor" name="color_provisionName"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -70,7 +70,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" name="color_mainTabBar"/>
+                                <color key="backgroundColor" name="color_secondNavigation"/>
                                 <constraints>
                                     <constraint firstItem="IPM-rf-GT2" firstAttribute="centerX" secondItem="16Y-tP-wN1" secondAttribute="centerX" id="XXc-Hg-eCH"/>
                                     <constraint firstItem="IPM-rf-GT2" firstAttribute="centerY" secondItem="16Y-tP-wN1" secondAttribute="centerY" id="nlo-0Z-sSf"/>
@@ -97,7 +97,7 @@
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="bT2-Kx-w14"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="color_whiteBackground"/>
                         <constraints>
                             <constraint firstItem="dk5-SR-jVe" firstAttribute="leading" secondItem="bT2-Kx-w14" secondAttribute="leading" id="4ts-aU-2BH"/>
                             <constraint firstItem="bAy-LK-rag" firstAttribute="top" secondItem="dk5-SR-jVe" secondAttribute="bottom" id="BQK-r9-9jx"/>
@@ -158,14 +158,14 @@
                             <color key="backgroundColor" name="color_mainNavigation"/>
                             <textAttributes key="titleTextAttributes">
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" name="color_whiteLabel"/>
                             </textAttributes>
                         </navigationBarAppearance>
                         <navigationBarAppearance key="scrollEdgeAppearance">
                             <color key="backgroundColor" name="color_mainNavigation"/>
                             <textAttributes key="titleTextAttributes">
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="24"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" name="color_whiteLabel"/>
                             </textAttributes>
                         </navigationBarAppearance>
                     </navigationBar>
@@ -226,7 +226,7 @@
                     <navigationItem key="navigationItem" title="COURSES" id="JzC-uh-rFu">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="ic_goToCart" style="done" id="wF6-nV-fA4" customClass="BarButtonItemWithBadge" customModule="SquikitLite" customModuleProvider="target">
                             <inset key="imageInsets" minX="0.0" minY="0.0" maxX="16" maxY="0.0"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="tintColor" name="color_whiteButton"/>
                             <connections>
                                 <segue destination="xFX-8C-BTv" kind="presentation" id="7H0-Qn-316"/>
                             </connections>
@@ -252,12 +252,12 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6GO-wH-Joj" userLabel="BottomBackgroundHiddenForIPad">
                                 <rect key="frame" x="0.0" y="467" width="375" height="200"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="color_whiteBackground"/>
                                 <variation key="heightClass=regular-widthClass=regular" hidden="YES"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="951-Ya-NNM" userLabel="BottomWithCornerForIPad">
                                 <rect key="frame" x="0.0" y="467" width="375" height="200"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="color_whiteBackground"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="MP5-Vp-s1N"/>
                                 </constraints>
@@ -282,7 +282,7 @@
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Piq-4Z-KB6" userLabel="ViewCacheBandeauHaut">
                                                 <rect key="frame" x="0.0" y="52" width="375" height="38"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="backgroundColor" name="color_whiteBackground"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="MAg-7r-lrB"/>
                                                 </constraints>
@@ -347,7 +347,7 @@
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
                                                         </subviews>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" name="color_whiteBackground"/>
                                                         <constraints>
                                                             <constraint firstItem="jx9-G8-OoB" firstAttribute="top" secondItem="FrZ-wb-mhq" secondAttribute="top" constant="9" id="OHo-1g-idh"/>
                                                             <constraint firstAttribute="bottom" secondItem="jx9-G8-OoB" secondAttribute="bottom" constant="9" id="ZZh-fw-WGw"/>
@@ -378,7 +378,7 @@
                                                                         </connections>
                                                                     </button>
                                                                 </subviews>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <color key="backgroundColor" name="color_whiteBackground"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="trailing" secondItem="Ozm-bO-CLo" secondAttribute="trailing" id="h5g-Ob-g3c"/>
                                                                     <constraint firstItem="Ozm-bO-CLo" firstAttribute="leading" secondItem="LEI-zq-DMa" secondAttribute="leading" id="sJK-o8-mtQ"/>
@@ -602,7 +602,6 @@
                                                                         </constraints>
                                                                     </view>
                                                                 </subviews>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                 <constraints>
                                                                     <constraint firstItem="lHl-uc-qM4" firstAttribute="centerX" secondItem="Pr2-UC-A4i" secondAttribute="centerX" id="JlB-71-9pu"/>
                                                                     <constraint firstAttribute="bottom" secondItem="lHl-uc-qM4" secondAttribute="bottom" id="JoR-HL-8lH"/>
@@ -708,7 +707,7 @@ courses</string>
                                         <variation key="heightClass=compact" alignment="center" axis="horizontal" distribution="fillEqually"/>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="color_whiteBackground"/>
                                 <gestureRecognizers/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="CornerRadius">
@@ -839,7 +838,7 @@ courses</string>
                     <navigationItem key="navigationItem" title="PROVISIONS" id="QQf-o3-L6T">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="ic_sortBy_36" style="done" id="4iv-ep-y1m">
                             <inset key="imageInsets" minX="0.0" minY="0.0" maxX="16" maxY="0.0"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="tintColor" name="color_whiteButton"/>
                             <connections>
                                 <action selector="sortButtonTap:" destination="yto-84-S6p" id="IFl-2E-a6F"/>
                             </connections>
@@ -864,12 +863,12 @@ courses</string>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hXA-U5-Qee" userLabel="BottomBackgroundHiddenForIPad">
                                 <rect key="frame" x="0.0" y="447" width="375" height="200"/>
-                                <color key="backgroundColor" name="color_mainTabBar"/>
+                                <color key="backgroundColor" name="color_secondNavigation"/>
                                 <variation key="heightClass=regular-widthClass=regular" hidden="YES"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x1I-QD-bbN" userLabel="BottomWithCornerForIPad">
                                 <rect key="frame" x="0.0" y="447" width="375" height="200"/>
-                                <color key="backgroundColor" name="color_mainTabBar"/>
+                                <color key="backgroundColor" name="color_secondNavigation"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="MWI-rh-2sk"/>
                                 </constraints>
@@ -924,7 +923,7 @@ courses</string>
                                                 <inset key="contentEdgeInsets" minX="24" minY="0.0" maxX="24" maxY="0.0"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Ajouter aux provisions">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="titleColor" name="color_whiteLabel"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="CornerRadius">
@@ -951,7 +950,7 @@ courses</string>
                                         </connections>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" name="color_mainTabBar"/>
+                                <color key="backgroundColor" name="color_secondNavigation"/>
                                 <constraints>
                                     <constraint firstItem="Ck5-KS-GtI" firstAttribute="top" secondItem="15R-Zf-2jn" secondAttribute="bottom" id="0sA-9A-9TH"/>
                                     <constraint firstItem="Ck5-KS-GtI" firstAttribute="leading" secondItem="J8u-pn-Wb2" secondAttribute="leading" id="BVV-wA-LJI"/>
@@ -1023,12 +1022,12 @@ courses</string>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G5p-Ba-C0S" userLabel="BottomBackgroundHiddenForIPad">
                                 <rect key="frame" x="0.0" y="467" width="375" height="200"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="color_whiteBackground"/>
                                 <variation key="heightClass=regular-widthClass=regular" hidden="YES"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sis-cG-GFL" userLabel="BottomWithCornerForIPad">
                                 <rect key="frame" x="0.0" y="467" width="375" height="200"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="color_whiteBackground"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="jRF-xW-kw8"/>
                                 </constraints>
@@ -1053,7 +1052,7 @@ courses</string>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dfP-wu-Gun" userLabel="ViewCacheBandeauHaut">
                                                 <rect key="frame" x="0.0" y="52" width="375" height="38"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="backgroundColor" name="color_whiteBackground"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="duN-dX-tIm"/>
                                                 </constraints>
@@ -1118,7 +1117,7 @@ courses</string>
                                                                 </userDefinedRuntimeAttributes>
                                                             </view>
                                                         </subviews>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" name="color_whiteBackground"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="Ip7-gd-sBR" secondAttribute="trailing" constant="9" id="345-Tm-BiK"/>
                                                             <constraint firstAttribute="bottom" secondItem="Ip7-gd-sBR" secondAttribute="bottom" constant="9" id="X9h-1p-nRW"/>
@@ -1149,7 +1148,7 @@ courses</string>
                                                                         </connections>
                                                                     </button>
                                                                 </subviews>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <color key="backgroundColor" name="color_whiteBackground"/>
                                                                 <constraints>
                                                                     <constraint firstItem="z04-vd-4Ad" firstAttribute="top" secondItem="cTm-gi-XzE" secondAttribute="top" id="6NW-i6-HRR"/>
                                                                     <constraint firstItem="z04-vd-4Ad" firstAttribute="leading" secondItem="cTm-gi-XzE" secondAttribute="leading" id="9PT-sd-KuN"/>
@@ -1373,7 +1372,6 @@ courses</string>
                                                                         </constraints>
                                                                     </view>
                                                                 </subviews>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="bottom" secondItem="QuX-Hb-sD3" secondAttribute="bottom" id="IDa-iq-6OK"/>
                                                                     <constraint firstItem="QuX-Hb-sD3" firstAttribute="top" secondItem="Ofa-ja-b3w" secondAttribute="top" id="JMf-1b-ugF"/>
@@ -1516,7 +1514,7 @@ courses</string>
                                         <variation key="heightClass=compact" alignment="center" axis="horizontal" distribution="fillEqually"/>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="color_whiteBackground"/>
                                 <gestureRecognizers/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="CornerRadius">
@@ -1568,7 +1566,7 @@ courses</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="4575" y="-815"/>
+            <point key="canvasLocation" x="3959" y="-723"/>
         </scene>
     </scenes>
     <resources>
@@ -1595,14 +1593,23 @@ courses</string>
         <namedColor name="color_mainNavigation">
             <color red="0.44299998879432678" green="0.59600001573562622" blue="0.70999997854232788" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <namedColor name="color_mainTabBar">
-            <color red="0.87800002098083496" green="0.90600001811981201" blue="0.92500001192092896" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-        </namedColor>
         <namedColor name="color_provisionName">
             <color red="0.2199999988079071" green="0.3449999988079071" blue="0.46299999952316284" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="color_quantityAndUnit">
             <color red="0.55699998140335083" green="0.59200000762939453" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="color_secondNavigation">
+            <color red="0.8731591702" green="0.90780407190000001" blue="0.92845708130000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="color_whiteBackground">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="color_whiteButton">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="color_whiteLabel">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

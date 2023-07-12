@@ -5,7 +5,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -74,7 +73,6 @@
                                                                 </constraints>
                                                             </imageView>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
                                                             <constraint firstItem="UHf-My-GjW" firstAttribute="leading" secondItem="vlq-oI-WGt" secondAttribute="leading" id="EhV-ax-azh"/>
                                                             <constraint firstAttribute="bottom" secondItem="lUG-F8-Fbt" secondAttribute="bottom" id="Eyr-PF-rIA"/>
@@ -106,7 +104,7 @@
                                 <state key="disabled" image="ic_bsd_delete"/>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="color_whiteBackground"/>
                         <constraints>
                             <constraint firstItem="PNE-0c-NRY" firstAttribute="centerY" secondItem="wel-CK-pTP" secondAttribute="centerY" id="Fhd-bK-fOJ"/>
                             <constraint firstAttribute="trailing" secondItem="phM-Ho-H9y" secondAttribute="trailing" id="K53-ct-ZhV"/>
@@ -135,6 +133,7 @@
             <connections>
                 <outlet property="addToCartButton" destination="phM-Ho-H9y" id="San-Ni-ctW"/>
                 <outlet property="background" destination="wel-CK-pTP" id="GWB-6R-4xK"/>
+                <outlet property="dlcImageView" destination="UHf-My-GjW" id="gy7-Ar-JqK"/>
                 <outlet property="dlcLabel" destination="lUG-F8-Fbt" id="MVb-rA-AIb"/>
                 <outlet property="nameLabel" destination="Lpy-MY-8d8" id="NT8-FY-wOz"/>
                 <outlet property="productImageView" destination="Oxi-xj-dvb" id="kxd-PK-kBP"/>
@@ -153,8 +152,8 @@
         <namedColor name="color_quantityAndUnit">
             <color red="0.55699998140335083" green="0.59200000762939453" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <namedColor name="color_whiteBackground">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

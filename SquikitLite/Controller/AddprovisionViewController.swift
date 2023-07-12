@@ -180,7 +180,7 @@ extension AddprovisionViewController: UITableViewDataSource {
         } else {
             searchProvCell.addButton.isHidden = false
             searchProvCell.alreadyAddLabel.isHidden = true
-            searchProvCell.background.backgroundColor = UIColor.white
+            searchProvCell.background.backgroundColor = UIColor.whiteBackground
         }
         
         return searchProvCell
@@ -190,7 +190,7 @@ extension AddprovisionViewController: UITableViewDataSource {
         // create attributed string
         let attributedString = NSMutableAttributedString(string: name, attributes: [NSAttributedString.Key.font : UIFont.productName!])
         // set attributes
-        attributedString.setAttributes([NSAttributedString.Key.font : UIFont.productNameSearched!, NSAttributedString.Key.foregroundColor: UIColor.black], range: (name.cleanUpForComparaison as NSString).range(of: searchText.cleanUpForComparaison))
+        attributedString.setAttributes([NSAttributedString.Key.font : UIFont.productNameSearched!, NSAttributedString.Key.foregroundColor: UIColor.creole], range: (name.cleanUpForComparaison as NSString).range(of: searchText.cleanUpForComparaison))
         
         return attributedString
     }

@@ -26,7 +26,10 @@ extension UIColor {
     static let mainNavigation = UIColor(named: "color_mainNavigation")!
     static let inactiveButton = UIColor(named: "color_inactiveButton")!
     static let provisionName = UIColor(named: "color_provisionName")!
-    
+    static let whiteBackground = UIColor(named: "color_whiteBackground")!
+    static let whiteLabel = UIColor(named: "color_whiteLabel")!
+    static let creole = UIColor(named: "color_creole")!
+    static let quantityAndUnit = UIColor(named: "color_quantityAndUnit")!
     // MARK: DLC
     
     static let dlcMoyen = UIColor(named: "color_dlcMoyen")!

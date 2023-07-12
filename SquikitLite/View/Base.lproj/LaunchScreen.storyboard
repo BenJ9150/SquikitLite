@@ -54,7 +54,7 @@
                                                             <constraint firstAttribute="height" constant="48" id="MT0-mH-cMy"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="49"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="textColor" name="color_whiteLabel"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
@@ -103,6 +103,9 @@
         <image name="ic_squikit_complet" width="420" height="99"/>
         <namedColor name="color_mainNavigation">
             <color red="0.44299998879432678" green="0.59600001573562622" blue="0.70999997854232788" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="color_whiteLabel">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

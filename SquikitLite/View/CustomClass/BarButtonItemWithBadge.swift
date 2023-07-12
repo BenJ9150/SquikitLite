@@ -29,7 +29,7 @@ class BarButtonItemWithBadge: UIBarButtonItem {
         label.isUserInteractionEnabled = false
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = .whiteLabel
         label.font = .badgeNotification
         label.layer.zPosition = 1
         self.badgeLabel = label

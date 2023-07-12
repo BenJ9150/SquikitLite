@@ -25,11 +25,11 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6gt-HT-Tpz">
                                         <rect key="frame" x="24.000000000000004" y="2.3333333333333339" width="35.333333333333343" height="19.333333333333329"/>
                                         <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="14"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="color_whiteLabel"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" name="color_provisionName"/>
+                                <color key="backgroundColor" name="color_headers"/>
                                 <constraints>
                                     <constraint firstItem="6gt-HT-Tpz" firstAttribute="centerY" secondItem="e2K-h4-BNV" secondAttribute="centerY" id="Ukm-V4-ZRJ"/>
                                     <constraint firstAttribute="height" constant="24" id="eHo-wS-g4b"/>
@@ -96,14 +96,17 @@
         </tableViewCell>
     </objects>
     <resources>
+        <namedColor name="color_headers">
+            <color red="0.17723390459999999" green="0.34997516870000001" blue="0.47575825449999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="color_mainBackground">
             <color red="0.94499999284744263" green="0.9570000171661377" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="color_mainNavigation">
             <color red="0.44299998879432678" green="0.59600001573562622" blue="0.70999997854232788" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <namedColor name="color_provisionName">
-            <color red="0.2199999988079071" green="0.3449999988079071" blue="0.46299999952316284" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        <namedColor name="color_whiteLabel">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
