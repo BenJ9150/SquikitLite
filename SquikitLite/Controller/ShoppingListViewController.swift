@@ -94,13 +94,6 @@ extension ShoppingListViewController {
 
 extension ShoppingListViewController {
     
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        if isViewLoaded {
-            shoppingTV.reloadData()
-        }
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         animationAtStart()

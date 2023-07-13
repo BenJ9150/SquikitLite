@@ -67,7 +67,7 @@ extension CartViewController {
 
 
 //===========================================================
-// MARK: View dismiss
+// MARK: View transitions
 //===========================================================
 
 
@@ -76,24 +76,6 @@ extension CartViewController {
     
     private func dismissViewOutsideTapAction() {
         dismiss(animated: true)
-    }
-}
-
-
-
-//===========================================================
-// MARK: View transitions
-//===========================================================
-
-
-
-extension CartViewController {
-    
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        if isViewLoaded {
-            cartTV.reloadData()
-        }
     }
 }
 

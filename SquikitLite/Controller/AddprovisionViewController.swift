@@ -35,10 +35,10 @@ class AddprovisionViewController: UIViewController {
     @IBOutlet weak var productsChoiceCollectionView: UICollectionView!
     @IBOutlet weak var productsChoiceCVHeight: NSLayoutConstraint!
     @IBOutlet weak var returnButton: UIButton!
-    @IBOutlet weak var addButtonView: UIView!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var infoMultipleSelectionLabel: UILabel!
     @IBOutlet weak var multipleSelectionSwitch: UISwitch!
+    @IBOutlet weak var productsChoiceView: UIView!
     
     // MARK: Actions
     
@@ -47,7 +47,7 @@ class AddprovisionViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    @IBAction func returnButtonTap() { // masqué
+    @IBAction func returnButtonTap() {
         dismiss(animated: true)
     }
     
@@ -86,6 +86,15 @@ extension AddprovisionViewController {
         
         // update search bar design
         searchBar.backgroundImage = UIImage() // pour enlever le contour
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            if view.bounds.height > view.bounds.width {
+                // portrait
+                searchBar.spellCheckingType = .default
+            } else {
+                searchBar.spellCheckingType = .no
+            }
+        }
+        
     }
 }
 
@@ -102,8 +111,15 @@ extension AddprovisionViewController {
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         if isViewLoaded {
+            multipleSelectionSwitchTapAction() // pour modifier height de la collectionView
+            if UIDevice.current.orientation.isLandscape {
+                searchBar.spellCheckingType = .no
+                searchBar.resignFirstResponder() // pour mettre à jour spell checking
+            } else {
+                searchBar.spellCheckingType = .default
+                searchBar.resignFirstResponder() // pour mettre à jour spell checking
+            }
             productsChoiceCollectionView.reloadData()
-            productsTV.reloadData()
         }
     }
     
@@ -164,13 +180,7 @@ extension AddprovisionViewController: UISearchBarDelegate {
         o_searchedProductsDP = ProductGenericMethods.filterProductsByName(fromProductsDP: o_productsDPForSearch, withText: searchText, withMultipleSlection: multipleSelectionSwitch!.isOn)
         productsTV.reloadData()
     }
-    /*
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        o_searching = false
-        searchBar.text = ""
-        searchProvisionsTableView.reloadData()
-    }
-    */
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
@@ -370,17 +380,27 @@ extension AddprovisionViewController {
     private func multipleSelectionSwitchTapAction() {
         if multipleSelectionSwitch!.isOn {
             // sélection multiple activée
-            productsChoiceCVHeight.constant = Dimensions.addProvsCellHeight + Dimensions.addProvsCellTopInset + Dimensions.addProvsCellBottomInset
-            infoMultipleSelectionLabel.isHidden = false
-            addButtonView.isHidden = false
-            addButtonState(isEnabled: false)
+            if UIDevice.current.userInterfaceIdiom == .phone && view.bounds.height < view.bounds.width {
+                // iphone paysage
+                productsChoiceCVHeight.constant = Dimensions.addProvsCellHeight + Dimensions.addProvsCellSpace + Dimensions.addProvsCellSpace
+            } else {
+                productsChoiceCVHeight.constant = Dimensions.addProvsCellHeight + Dimensions.addProvsCellTopInset + Dimensions.addProvsCellBottomInset
+            }
+            productsChoiceView.isHidden = false
+            if o_provsSelection.count > 0 {
+                infoMultipleSelectionLabel.isHidden = true
+                addButtonState(isEnabled: true)
+            } else {
+                infoMultipleSelectionLabel.isHidden = false
+                addButtonState(isEnabled: false)
+            }
         } else {
-            productsChoiceCVHeight.constant = 0
+            // pas de sélection multiple
             o_provsSelection.removeAll()
             productsChoiceCollectionView.reloadData()
             productsTV.reloadData()
             infoMultipleSelectionLabel.isHidden = true
-            addButtonView.isHidden = true
+            productsChoiceView.isHidden = true
         }
         
     }
@@ -398,8 +418,7 @@ extension AddprovisionViewController {
     
     private func initProductsChoiceCV() {
         productsChoiceCollectionView.register(MultipleProductsChoiceCell.nib, forCellWithReuseIdentifier: MultipleProductsChoiceCell.key)
-        productsChoiceCVHeight.constant = 0
-        addButtonView.isHidden = true
+        productsChoiceView.isHidden = true
         infoMultipleSelectionLabel.isHidden = true
     }
 }
@@ -507,6 +526,10 @@ extension AddprovisionViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if UIDevice.current.userInterfaceIdiom == .phone && view.bounds.height < view.bounds.width {
+            // iphone paysage
+            return UIEdgeInsets(top: Dimensions.addProvsCellSpace, left: Dimensions.addProvsCellSpace, bottom: Dimensions.addProvsCellSpace, right: Dimensions.addProvsCellSpace)
+        }
         return UIEdgeInsets(top: Dimensions.addProvsCellTopInset, left: Dimensions.addProvsCellSpace, bottom: Dimensions.addProvsCellBottomInset, right: Dimensions.addProvsCellSpace)
     }
     
