@@ -34,8 +34,10 @@ class Dimensions {
     // MARK: Add provisions CollectionView
     
     static let addProvsCellWidth: CGFloat = 108
-    static let addProvsCellHeight: CGFloat = 52
+    static let addProvsCellHeight: CGFloat = 46
     static let addProvsCellSpace: CGFloat = 8
+    static let addProvsCellTopInset: CGFloat = 8
+    static let addProvsCellBottomInset: CGFloat = 16
     
     // MARK: Shopping TableView
     

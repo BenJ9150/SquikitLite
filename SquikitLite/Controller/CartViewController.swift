@@ -25,7 +25,7 @@ class CartViewController: UIViewController {
     
     // MARK: Outlets
     
-    @IBOutlet weak var shoppingTableView: UITableView!
+    @IBOutlet weak var cartTV: UITableView!
     @IBOutlet weak var addToProvButton: UIButton!
     @IBOutlet weak var emptyCartLabel: UILabel!
     
@@ -92,7 +92,7 @@ extension CartViewController {
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         if isViewLoaded {
-            shoppingTableView.reloadData()
+            cartTV.reloadData()
         }
     }
 }
@@ -144,11 +144,11 @@ extension CartViewController {
 extension CartViewController {
     
     private func initTableView() {
-        shoppingTableView.register(ShoppingCell.nib, forCellReuseIdentifier: ShoppingCell.key)
+        cartTV.register(ShoppingCell.nib, forCellReuseIdentifier: ShoppingCell.key)
         //shoppingTableView.register(ShoppingHeader.nib, forHeaderFooterViewReuseIdentifier: ShoppingHeader.key)
-        shoppingTableView.contentInset = UIEdgeInsets(top: Dimensions.shoppingTableViewTopInset, left: 0, bottom: Dimensions.shoppingTableViewBottomInset, right: 0)
-        shoppingTableView.separatorStyle = .none
-        shoppingTableView.sectionHeaderTopPadding = Dimensions.shoppingTableViewTopInset
+        cartTV.contentInset = UIEdgeInsets(top: Dimensions.shoppingTableViewTopInset, left: 0, bottom: Dimensions.shoppingTableViewBottomInset, right: 0)
+        cartTV.separatorStyle = .none
+        cartTV.sectionHeaderTopPadding = Dimensions.shoppingTableViewTopInset
     }
 }
 
@@ -230,7 +230,7 @@ extension CartViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        shoppingTableView.deselectRow(at: indexPath, animated: false)
+        cartTV.deselectRow(at: indexPath, animated: false)
         
         guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return}
         if indexPath.row >= provsDPInSection.count {return}
@@ -265,15 +265,15 @@ extension CartViewController {
     private func deleteItemFromDP(provisionDP: ProvisionDisplayProvider) {
         // on supprime du provider existant
         let result = ProvGenericMethods.deleteItemFromDP(provDP: provisionDP, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
-        if let indexPath = result.index {
+        if let index = result.index, index.section < cartTV.numberOfSections && index.row < cartTV.numberOfRows(inSection: index.section) {
             if let sectionToDelete = result.deleteSection {
-                shoppingTableView.deleteSections(IndexSet(integer: sectionToDelete), with: .automatic)
+                cartTV.deleteSections(IndexSet(integer: sectionToDelete), with: .automatic)
             } else {
-                shoppingTableView.deleteRows(at: [indexPath], with: .automatic)
+                cartTV.deleteRows(at: [index], with: .automatic)
             }
         } else {
             // on reload tout au cas où...
-            shoppingTableView.reloadData()
+            cartTV.reloadData()
         }
         // if empty
         changeIhmIfEmpty()

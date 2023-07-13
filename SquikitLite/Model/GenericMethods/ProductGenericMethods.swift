@@ -182,21 +182,25 @@ extension ProductGenericMethods {
 
 extension ProductGenericMethods {
     
-    static func filterProductsByName(fromProductsDP productsDP: [ProductDisplayProvider], withText searchText: String) -> [ProductDisplayProvider] {
+    static func filterProductsByName(fromProductsDP productsDP: [ProductDisplayProvider], withText searchText: String, withMultipleSlection: Bool) -> [ProductDisplayProvider] {
         
         if searchText == "" {
             return productsDP
         }
         
-        let cleanedSearchText = searchText.cleanUpForComparaison // pour éviter de faire à chaque itération
-        var count = 0
+        // nombre d'élément par tri
         let maxCountPerTest: Int
-        if searchText.count < 3 {
+        if withMultipleSlection {
+            maxCountPerTest = 1 // pour afficher plus rapidement les sous-catégories
+        } else if searchText.count < 3 {
             maxCountPerTest = 3
         } else {
             maxCountPerTest = searchText.count
         }
         
+        // tri
+        let cleanedSearchText = searchText.cleanUpForComparaison // pour éviter de faire à chaque itération
+        var count = 0
         var searchedProvsProvider = productsDP.filter({ provProvider in
             // name
             if count >= maxCountPerTest {return false}

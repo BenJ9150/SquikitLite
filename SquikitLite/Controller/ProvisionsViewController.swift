@@ -32,7 +32,7 @@ class ProvisionsViewController: UIViewController {
     
     // MARK: Outlets
 
-    @IBOutlet weak var provisionsCollectionView: UICollectionView!
+    @IBOutlet weak var provisionsCV: UICollectionView!
     @IBOutlet weak var explainLabel: UILabel!
     
     // MARK: Actions
@@ -101,7 +101,7 @@ extension ProvisionsViewController {
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         if isViewLoaded {
-            provisionsCollectionView.reloadData()
+            provisionsCV.reloadData()
         }
     }
     
@@ -234,12 +234,12 @@ extension ProvisionsViewController {
             
             if let indexPath = result.index {
                 if result.newSection {
-                    provisionsCollectionView.insertSections(IndexSet(integer: indexPath.section))
+                    provisionsCV.insertSections(IndexSet(integer: indexPath.section))
                 } else {
-                    self.provisionsCollectionView.insertItems(at: [indexPath])
+                    self.provisionsCV.insertItems(at: [indexPath])
                 }
                 // scroll to cell
-                provisionsCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: true)
+                provisionsCV.scrollToItem(at: indexPath, at: .centeredVertically, animated: true)
                 showOrNotSortButton()
                 return
             }
@@ -253,13 +253,13 @@ extension ProvisionsViewController {
                     let _ = ProvGenericMethods.addItemToProvsDPSortByDlc(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
                 }
             }
-            provisionsCollectionView.reloadData()
+            provisionsCV.reloadData()
             showOrNotSortButton()
             return
         }
         // on update tout
         getUserProvisions()
-        provisionsCollectionView.reloadData()
+        provisionsCV.reloadData()
     }
 }
 
@@ -285,15 +285,15 @@ extension ProvisionsViewController {
             result = ProvGenericMethods.deleteItemFromDPSortByDlc(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
         }
         
-        if let indexPath = result.index {
+        if let index = result.index, index.section < provisionsCV.numberOfSections && index.row < provisionsCV.numberOfItems(inSection: index.section) {
             if let sectionToDelete = result.deleteSection {
-                provisionsCollectionView.deleteSections(IndexSet(integer: sectionToDelete))
+                provisionsCV.deleteSections(IndexSet(integer: sectionToDelete))
             } else {
-                provisionsCollectionView.deleteItems(at: [indexPath])
+                provisionsCV.deleteItems(at: [index])
             }
         } else {
             // on reload tout au cas où...
-            provisionsCollectionView.reloadData()
+            provisionsCV.reloadData()
         }
         // on supprime des provisions
         guard let uuid = providerInNotif.uuid else {return}
@@ -313,17 +313,17 @@ extension ProvisionsViewController {
 extension ProvisionsViewController {
     
     @objc func updateUserProvision(_ notif: NSNotification) {
-        if let provIndexPath = notif.object as? IndexPath {
+        if let index = notif.object as? IndexPath, index.section < provisionsCV.numberOfSections && index.row < provisionsCV.numberOfItems(inSection: index.section) {
             // on reload la cellule
-            provisionsCollectionView.reloadItems(at: [provIndexPath])
+            provisionsCV.reloadItems(at: [index])
         } else {
             // on reload tout au cas où...
-            provisionsCollectionView.reloadData()
+            provisionsCV.reloadData()
         }
     }
     
     @objc func updateProductInStock() {
-        provisionsCollectionView.reloadData()
+        provisionsCV.reloadData()
     }
 }
 
@@ -338,10 +338,10 @@ extension ProvisionsViewController {
 extension ProvisionsViewController {
     
     private func initCollectionView() {
-        provisionsCollectionView.register(ProvisionCell.nib, forCellWithReuseIdentifier: ProvisionCell.key)
-        provisionsCollectionView.register(ProvisionHeader.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProvisionHeader.key)
-        provisionsCollectionView.backgroundColor = UIColor.clear
-        provisionsCollectionView.contentInset = UIEdgeInsets(top: Dimensions.provisionCollectionViewTopInset, left: 0, bottom: Dimensions.provisionCollectionViewBottomInset, right: 0)
+        provisionsCV.register(ProvisionCell.nib, forCellWithReuseIdentifier: ProvisionCell.key)
+        provisionsCV.register(ProvisionHeader.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProvisionHeader.key)
+        provisionsCV.backgroundColor = UIColor.clear
+        provisionsCV.contentInset = UIEdgeInsets(top: Dimensions.provisionCollectionViewTopInset, left: 0, bottom: Dimensions.provisionCollectionViewBottomInset, right: 0)
     }
 }
 
@@ -486,7 +486,12 @@ extension ProvisionsViewController {
             // maj provision
             provisionDP.dlc = alertDLC.o_datePicker.date
             // maj IHM
-            self.provisionsCollectionView.reloadItems(at: [indexPath])
+            if indexPath.section < self.provisionsCV.numberOfSections && indexPath.row < self.provisionsCV.numberOfItems(inSection: indexPath.section) {
+                self.provisionsCV.reloadItems(at: [indexPath])
+            } else {
+                self.provisionsCV.reloadData()
+            }
+            
         }
         alertDLC.addAction(okButton)
         present(alertDLC, animated: true)
@@ -512,7 +517,7 @@ extension ProvisionsViewController {
             o_sortType = .byCategories
         }
         getUserProvisions()
-        provisionsCollectionView.reloadData()
+        provisionsCV.reloadData()
     }
     
     private func showOrNotSortButton() {

@@ -11,24 +11,24 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="MultipleProductsChoiceCell" customModule="SquikitLite" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="108" height="52"/>
+            <rect key="frame" x="0.0" y="0.0" width="108" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="108" height="52"/>
+                <rect key="frame" x="0.0" y="0.0" width="108" height="46"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHf-mF-WfH">
-                        <rect key="frame" x="0.0" y="0.0" width="108" height="52"/>
+                        <rect key="frame" x="0.0" y="0.0" width="108" height="46"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="ic_delete" translatesAutoresizingMaskIntoConstraints="NO" id="H7h-LI-SPq">
-                                <rect key="frame" x="91" y="2" width="16" height="16"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="ic_close_24dp" translatesAutoresizingMaskIntoConstraints="NO" id="H7h-LI-SPq">
+                                <rect key="frame" x="91" y="3" width="14" height="14"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="G9C-Lg-g8h"/>
-                                    <constraint firstAttribute="width" constant="16" id="VrB-0x-FSN"/>
+                                    <constraint firstAttribute="height" constant="14" id="G9C-Lg-g8h"/>
+                                    <constraint firstAttribute="width" constant="14" id="VrB-0x-FSN"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nom du product" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DGV-1q-cvm">
-                                <rect key="frame" x="16" y="8" width="76" height="36"/>
+                                <rect key="frame" x="16" y="5" width="76" height="36"/>
                                 <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="12"/>
                                 <color key="textColor" name="color_provisionName"/>
                                 <nil key="highlightedColor"/>
@@ -36,12 +36,12 @@
                         </subviews>
                         <color key="backgroundColor" name="color_whiteBackground"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="DGV-1q-cvm" secondAttribute="bottom" constant="8" id="2yb-X8-XJk"/>
-                            <constraint firstItem="DGV-1q-cvm" firstAttribute="top" secondItem="dHf-mF-WfH" secondAttribute="top" constant="8" id="Mbp-YK-fBF"/>
+                            <constraint firstAttribute="bottom" secondItem="DGV-1q-cvm" secondAttribute="bottom" constant="5" id="2yb-X8-XJk"/>
+                            <constraint firstItem="DGV-1q-cvm" firstAttribute="top" secondItem="dHf-mF-WfH" secondAttribute="top" constant="5" id="Mbp-YK-fBF"/>
                             <constraint firstItem="DGV-1q-cvm" firstAttribute="leading" secondItem="dHf-mF-WfH" secondAttribute="leading" constant="16" id="ObF-yU-kq9"/>
                             <constraint firstAttribute="trailing" secondItem="DGV-1q-cvm" secondAttribute="trailing" constant="16" id="Sph-Wi-3Vq"/>
-                            <constraint firstAttribute="trailing" secondItem="H7h-LI-SPq" secondAttribute="trailing" constant="1" id="sAF-5s-Ssr"/>
-                            <constraint firstItem="H7h-LI-SPq" firstAttribute="top" secondItem="dHf-mF-WfH" secondAttribute="top" constant="2" id="yG5-ll-BhE"/>
+                            <constraint firstAttribute="trailing" secondItem="H7h-LI-SPq" secondAttribute="trailing" constant="3" id="sAF-5s-Ssr"/>
+                            <constraint firstItem="H7h-LI-SPq" firstAttribute="top" secondItem="dHf-mF-WfH" secondAttribute="top" constant="3" id="yG5-ll-BhE"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="CornerRadius">
@@ -66,7 +66,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="ic_delete" width="24" height="24"/>
+        <image name="ic_close_24dp" width="24" height="24"/>
         <namedColor name="color_provisionName">
             <color red="0.2199999988079071" green="0.3449999988079071" blue="0.46299999952316284" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

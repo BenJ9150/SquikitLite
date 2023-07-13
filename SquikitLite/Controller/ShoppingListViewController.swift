@@ -1,5 +1,5 @@
 //
-//  CoursesViewController.swift
+//  ShoppingListViewController.swift
 //  SquikitLite
 //
 //  Created by Benjamin on 22/06/2023.
@@ -15,7 +15,7 @@ import UIKit
 
 
 
-class CoursesViewController: UIViewController {
+class ShoppingListViewController: UIViewController {
 
     // MARK: Properties
     
@@ -26,7 +26,7 @@ class CoursesViewController: UIViewController {
     
     // MARK: Outlets
     
-    @IBOutlet weak var shoppingTableView: UITableView!
+    @IBOutlet weak var shoppingTV: UITableView!
     @IBOutlet weak var explainLabel: UILabel!
     
 }
@@ -39,7 +39,7 @@ class CoursesViewController: UIViewController {
 
 
 
-extension CoursesViewController {
+extension ShoppingListViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +66,7 @@ extension CoursesViewController {
 
 
 
-extension CoursesViewController {
+extension ShoppingListViewController {
     
     private func addNotificationObservers() {
         // notification user provisions added
@@ -92,12 +92,12 @@ extension CoursesViewController {
 
 
 
-extension CoursesViewController {
+extension ShoppingListViewController {
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         if isViewLoaded {
-            shoppingTableView.reloadData()
+            shoppingTV.reloadData()
         }
     }
     
@@ -168,7 +168,7 @@ extension CoursesViewController {
 
 
 
-extension CoursesViewController {
+extension ShoppingListViewController {
     
     private func animationAtStart() {
         if o_provisionsDP.count <= 0 {
@@ -186,7 +186,7 @@ extension CoursesViewController {
 
 
 
-extension CoursesViewController {
+extension ShoppingListViewController {
     
     private func getUserProvisions() {
         o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inShop, andUpdateCategories: &o_headers)
@@ -201,7 +201,7 @@ extension CoursesViewController {
 
 
 
-extension CoursesViewController {
+extension ShoppingListViewController {
     
     @objc func provAddedToShop(_ notif: NSNotification) {
         explainLabel.isHidden = true
@@ -211,12 +211,12 @@ extension CoursesViewController {
             let result = ProvGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
             if let indexPath = result.index {
                 if result.newSection {
-                    shoppingTableView.insertSections(IndexSet(integer: indexPath.section), with: .automatic)
+                    shoppingTV.insertSections(IndexSet(integer: indexPath.section), with: .automatic)
                 } else {
-                    shoppingTableView.insertRows(at: [indexPath], with: .automatic)
+                    shoppingTV.insertRows(at: [indexPath], with: .automatic)
                 }
                 // scroll to cell
-                shoppingTableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+                shoppingTV.scrollToRow(at: indexPath, at: .middle, animated: true)
                 return
             }
         } else if let providersInNotif = notif.object as? [ProvisionDisplayProvider] {
@@ -224,12 +224,12 @@ extension CoursesViewController {
             for providerInNotif in providersInNotif {
                 let _ = ProvGenericMethods.addItemToProvsDP(provDP: providerInNotif, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
             }
-            shoppingTableView.reloadData()
+            shoppingTV.reloadData()
             return
         }
         // on update tout au cas où...
         getUserProvisions()
-        shoppingTableView.reloadData()
+        shoppingTV.reloadData()
     }
 }
 
@@ -241,7 +241,7 @@ extension CoursesViewController {
 
 
 
-extension CoursesViewController {
+extension ShoppingListViewController {
     
     @objc func deleteProvFromShop(_ notif: NSNotification) {
         guard let providerInNotif = notif.object as? ProvisionDisplayProvider else {return}
@@ -255,15 +255,15 @@ extension CoursesViewController {
     private func deleteItemFromDP(provisionDP: ProvisionDisplayProvider) {
         // on supprime du provider existant
         let result = ProvGenericMethods.deleteItemFromDP(provDP: provisionDP, toDico: &o_provisionsDP, andUpadeCategories: &o_headers)
-        if let indexPath = result.index {
+        if let index = result.index, index.section < shoppingTV.numberOfSections && index.row < shoppingTV.numberOfRows(inSection: index.section) {
             if let sectionToDelete = result.deleteSection {
-                shoppingTableView.deleteSections(IndexSet(integer: sectionToDelete), with: .automatic)
+                shoppingTV.deleteSections(IndexSet(integer: sectionToDelete), with: .automatic)
             } else {
-                shoppingTableView.deleteRows(at: [indexPath], with: .automatic)
+                shoppingTV.deleteRows(at: [index], with: .automatic)
             }
         } else {
             // on reload tout au cas où...
-            shoppingTableView.reloadData()
+            shoppingTV.reloadData()
         }
     }
 }
@@ -276,20 +276,20 @@ extension CoursesViewController {
 
 
 
-extension CoursesViewController {
+extension ShoppingListViewController {
     
     @objc func updateProvInShop(_ notif: NSNotification) {
-        if let provIndexPath = notif.object as? IndexPath {
+        if let index = notif.object as? IndexPath, index.section < shoppingTV.numberOfSections && index.row < shoppingTV.numberOfRows(inSection: index.section) {
             // on reload la cellule
-            shoppingTableView.reloadRows(at: [provIndexPath], with: .automatic)
+            shoppingTV.reloadRows(at: [index], with: .automatic)
         } else {
             // on reload tout au cas où...
-            shoppingTableView.reloadData()
+            shoppingTV.reloadData()
         }
     }
     
     @objc func updateProductInShop() {
-        shoppingTableView.reloadData()
+        shoppingTV.reloadData()
     }
 }
 
@@ -301,15 +301,15 @@ extension CoursesViewController {
 
 
 
-extension CoursesViewController {
+extension ShoppingListViewController {
     
     private func initTableView() {
-        shoppingTableView.register(ShoppingCell.nib, forCellReuseIdentifier: ShoppingCell.key)
-        shoppingTableView.register(ShoppingHeader.nib, forHeaderFooterViewReuseIdentifier: ShoppingHeader.key)
-        shoppingTableView.backgroundColor = UIColor.clear
-        shoppingTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Dimensions.shoppingTableViewBottomInset, right: 0)
-        shoppingTableView.separatorStyle = .none
-        shoppingTableView.sectionHeaderTopPadding = Dimensions.shoppingTableViewTopInset
+        shoppingTV.register(ShoppingCell.nib, forCellReuseIdentifier: ShoppingCell.key)
+        shoppingTV.register(ShoppingHeader.nib, forHeaderFooterViewReuseIdentifier: ShoppingHeader.key)
+        shoppingTV.backgroundColor = UIColor.clear
+        shoppingTV.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Dimensions.shoppingTableViewBottomInset, right: 0)
+        shoppingTV.separatorStyle = .none
+        shoppingTV.sectionHeaderTopPadding = Dimensions.shoppingTableViewTopInset
     }
 }
 
@@ -321,7 +321,7 @@ extension CoursesViewController {
 
 
 
-extension CoursesViewController: UITableViewDataSource {
+extension ShoppingListViewController: UITableViewDataSource {
     
     // MARK: TableView headers
     
@@ -382,7 +382,7 @@ extension CoursesViewController: UITableViewDataSource {
 
 
 
-extension CoursesViewController: UITableViewDelegate {
+extension ShoppingListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return Dimensions.headerHeight
@@ -393,7 +393,7 @@ extension CoursesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        shoppingTableView.deselectRow(at: indexPath, animated: false)
+        shoppingTV.deselectRow(at: indexPath, animated: false)
         // BSD detail prov
         GenericMethodsVC.showProvBSD(viewController: self,forProvisionDP: o_provisionsDP, atIndexPath: indexPath, withHeaderTab: o_headers)
     }
@@ -407,7 +407,7 @@ extension CoursesViewController: UITableViewDelegate {
 
 
 
-extension CoursesViewController {
+extension ShoppingListViewController {
     
     private func addToCart(provisionDP: ProvisionDisplayProvider, atIndexPath indexPath: IndexPath) {
         // on change l'état de la provision
@@ -429,7 +429,7 @@ extension CoursesViewController {
 
 
 
-extension CoursesViewController {
+extension ShoppingListViewController {
     
     @objc func updateCartBadgeNotif() {
         updateCartBadge()

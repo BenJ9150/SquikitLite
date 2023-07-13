@@ -22,7 +22,7 @@
 		432A854D2A44B8A200225150 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 432A854B2A44B8A200225150 /* Main.storyboard */; };
 		432A854F2A44B8A400225150 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 432A854E2A44B8A400225150 /* Assets.xcassets */; };
 		432A85522A44B8A400225150 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 432A85502A44B8A400225150 /* LaunchScreen.storyboard */; };
-		432A85602A44BB8C00225150 /* CoursesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A855F2A44BB8C00225150 /* CoursesViewController.swift */; };
+		432A85602A44BB8C00225150 /* ShoppingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A855F2A44BB8C00225150 /* ShoppingListViewController.swift */; };
 		432A85622A44BC0800225150 /* ProvisionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A85612A44BC0800225150 /* ProvisionsViewController.swift */; };
 		432A85642A44BEAE00225150 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A85632A44BEAE00225150 /* Colors.swift */; };
 		432A85662A44C57800225150 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A85652A44C57800225150 /* MainTabBarViewController.swift */; };
@@ -79,7 +79,7 @@
 		432A854E2A44B8A400225150 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		432A85512A44B8A400225150 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		432A85532A44B8A400225150 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		432A855F2A44BB8C00225150 /* CoursesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesViewController.swift; sourceTree = "<group>"; };
+		432A855F2A44BB8C00225150 /* ShoppingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListViewController.swift; sourceTree = "<group>"; };
 		432A85612A44BC0800225150 /* ProvisionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionsViewController.swift; sourceTree = "<group>"; };
 		432A85632A44BEAE00225150 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		432A85652A44C57800225150 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -193,12 +193,12 @@
 			children = (
 				4363D3C42A59442D00098D7C /* GenericMethodsVC.swift */,
 				432A85652A44C57800225150 /* MainTabBarViewController.swift */,
-				432A85612A44BC0800225150 /* ProvisionsViewController.swift */,
 				432A856B2A44DD1800225150 /* AddprovisionViewController.swift */,
 				434E17B92A4EC91A0086FC28 /* ProvisionsBSDViewController.swift */,
 				43EF08872A4FFD6D00499940 /* DlcAlertController.swift */,
 				43EF088B2A502B6E00499940 /* UnitsAlertController.swift */,
-				432A855F2A44BB8C00225150 /* CoursesViewController.swift */,
+				432A85612A44BC0800225150 /* ProvisionsViewController.swift */,
+				432A855F2A44BB8C00225150 /* ShoppingListViewController.swift */,
 				43285B452A587634002229F0 /* CartViewController.swift */,
 			);
 			path = Controller;
@@ -400,7 +400,7 @@
 				435C02E92A4D7A78000AB320 /* SearchProvisionsCell.swift in Sources */,
 				43CB192E2A4D8E840035620D /* Categories.swift in Sources */,
 				43F1CD402A508E5E00A6E6B6 /* ProductDisplayProvider.swift in Sources */,
-				432A85602A44BB8C00225150 /* CoursesViewController.swift in Sources */,
+				432A85602A44BB8C00225150 /* ShoppingListViewController.swift in Sources */,
 				436EFF8F2A554C2C00B9C09A /* CustomProduct.swift in Sources */,
 				432A85782A44F8BE00225150 /* Product.swift in Sources */,
 				435C02E62A4D6CF3000AB320 /* UIKitExtensions.swift in Sources */,
