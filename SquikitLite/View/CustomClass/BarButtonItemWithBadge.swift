@@ -7,9 +7,18 @@
 
 import UIKit
 
-class BarButtonItemWithBadge: UIBarButtonItem {
 
-    //@IBInspectable
+
+//===========================================================
+// MARK: BarButtonItemWithBadge class
+//===========================================================
+
+
+
+class BarButtonItemWithBadge: UIBarButtonItem {
+    
+    // MARK: Properties
+    
     public var badgeNumber: Int = 0 {
         didSet {
             self.updateBadge()
@@ -18,6 +27,8 @@ class BarButtonItemWithBadge: UIBarButtonItem {
     
     private let badgeLabel: UILabel
     private let badgeDim: CGFloat = 20
+    
+    // MARK: Init
     
     required public init?(coder aDecoder: NSCoder)
     {
@@ -38,6 +49,23 @@ class BarButtonItemWithBadge: UIBarButtonItem {
         
         self.addObserver(self, forKeyPath: "view", options: [], context: nil)
     }
+    
+    // MARK: Deinit
+    
+    deinit {
+        self.removeObserver(self, forKeyPath: "view")
+    }
+}
+
+
+
+//===========================================================
+// MARK: Methods
+//===========================================================
+
+
+
+extension BarButtonItemWithBadge {
     
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
     {
@@ -65,10 +93,9 @@ class BarButtonItemWithBadge: UIBarButtonItem {
         }
         
         // animation
-        MyAnimations.disappearAndReappear(forViews: [badgeLabel])
-    }
-    
-    deinit {
-        self.removeObserver(self, forKeyPath: "view")
+        badgeLabel.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+        UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+            self.badgeLabel.transform = .identity
+        }
     }
 }

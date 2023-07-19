@@ -111,7 +111,7 @@ extension CartViewController {
     
     private func getCartProvisions() {
         o_provisionsDP = ProvGenericMethods.getUserProvisionsDisplayProvider(fromState: .inCart, andUpdateCategories: &o_headers)
-        changeIhmIfEmpty()
+        updateCartUI()
     }
 }
 
@@ -127,110 +127,9 @@ extension CartViewController {
     
     private func initTableView() {
         cartTV.register(ShoppingCell.nib, forCellReuseIdentifier: ShoppingCell.key)
-        //shoppingTableView.register(ShoppingHeader.nib, forHeaderFooterViewReuseIdentifier: ShoppingHeader.key)
         cartTV.contentInset = UIEdgeInsets(top: Dimensions.shoppingTableViewTopInset, left: 0, bottom: Dimensions.shoppingTableViewBottomInset, right: 0)
         cartTV.separatorStyle = .none
         cartTV.sectionHeaderTopPadding = Dimensions.shoppingTableViewTopInset
-    }
-}
-
-
-
-//===========================================================
-// MARK: UITableViewDataSource
-//===========================================================
-
-
-
-extension CartViewController: UITableViewDataSource {
-    
-    // MARK: TableView headers
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return o_headers.count
-    }
-    /*
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ShoppingHeader.key) as! ShoppingHeader
-        guard section < o_headers.count, let firstProvInSection = o_provisionsDP[o_headers[section]]?.first else {
-            headerView.headerLabel.text = ""
-            return headerView
-        }
-        
-        headerView.headerLabel.text = firstProvInSection.category
-        return headerView
-    }
-    */
-    // MARK: TableView Cell
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[section]] {
-            return provsDPInSection.count
-        }
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let shoppingCell = tableView.dequeueReusableCell(withIdentifier: ShoppingCell.key, for: indexPath) as! ShoppingCell
-        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return shoppingCell}
-        if indexPath.row >= provsDPInSection.count {return shoppingCell}
-        
-        shoppingCell.productImageView.image = provsDPInSection[indexPath.row].image
-        shoppingCell.nameLabel.text = provsDPInSection[indexPath.row].name
-        shoppingCell.qtyAndUnitLabel.text = provsDPInSection[indexPath.row].quantityAndShoppingUnit
-        shoppingCell.dlcLabel.text = provsDPInSection[indexPath.row].dlcToString
-        
-        if provsDPInSection[indexPath.row].quantityAndShoppingUnit == "" {
-            shoppingCell.qtyAndUnitLabel.isHidden = true
-        } else {
-            shoppingCell.qtyAndUnitLabel.isHidden = false
-        }
-        
-        // changement icone pour delete
-        shoppingCell.addToCartButton.isEnabled = false
-        
-        return shoppingCell
-    }
-}
-
-
-
-//===========================================================
-// MARK: UITableViewDelegate
-//===========================================================
-
-
-
-extension CartViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 0 //Dimensions.headerHeight
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Dimensions.shoppingRowHeight
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        cartTV.deselectRow(at: indexPath, animated: false)
-        
-        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return}
-        if indexPath.row >= provsDPInSection.count {return}
-        let alert = UIAlertController(title: NSLocalizedString("alert_deleteFromCart", comment: ""), message: "", preferredStyle: .actionSheet)
-        
-        let deleteButton = UIAlertAction(title: NSLocalizedString("alert_delete", comment: ""), style: .destructive) { _ in
-            self.deleteItemFromDP(provisionDP: provsDPInSection[indexPath.row])
-        }
-        let putToShopButton = UIAlertAction(title: NSLocalizedString("alert_putBackToShop", comment: ""), style: .default) { _ in
-            self.removeFromCartToShop(provisionDP: provsDPInSection[indexPath.row])
-            self.dismiss(animated: true)
-        }
-        
-        alert.addAction(putToShopButton)
-        alert.addAction(deleteButton)
-        alert.addAction(AlertButton().cancel)
-        
-        present(alert, animated: true)
     }
 }
 
@@ -258,7 +157,7 @@ extension CartViewController {
             cartTV.reloadData()
         }
         // if empty
-        changeIhmIfEmpty()
+        updateCartUI()
         
         // on supprime des courses
         guard let uuid = provisionDP.uuid else {return}
@@ -293,14 +192,14 @@ extension CartViewController {
 
 
 //===========================================================
-// MARK: diplay empty cart
+// MARK: Update cart UI if empty
 //===========================================================
 
 
 
 extension CartViewController {
     
-    private func changeIhmIfEmpty() {
+    private func updateCartUI() {
         if o_provisionsDP.count <= 0 {
             emptyCartLabel.isHidden = false
             addToProvButton.isHidden = true
@@ -308,5 +207,90 @@ extension CartViewController {
             emptyCartLabel.isHidden = true
             addToProvButton.isHidden = false
         }
+    }
+}
+
+
+
+//===========================================================
+// MARK: TableView DataSource
+//===========================================================
+
+
+
+extension CartViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return o_headers.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[section]] {
+            return provsDPInSection.count
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let shoppingCell = tableView.dequeueReusableCell(withIdentifier: ShoppingCell.key, for: indexPath) as! ShoppingCell
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return shoppingCell}
+        if indexPath.row >= provsDPInSection.count {return shoppingCell}
+        
+        shoppingCell.productImageView.image = provsDPInSection[indexPath.row].image
+        shoppingCell.nameLabel.text = provsDPInSection[indexPath.row].name
+        shoppingCell.qtyAndUnitLabel.text = provsDPInSection[indexPath.row].quantityAndShoppingUnit
+        shoppingCell.dlcLabel.text = provsDPInSection[indexPath.row].dlcToString
+        
+        if provsDPInSection[indexPath.row].quantityAndShoppingUnit == "" {
+            shoppingCell.qtyAndUnitLabel.isHidden = true
+        } else {
+            shoppingCell.qtyAndUnitLabel.isHidden = false
+        }
+        
+        // changement icone pour delete
+        shoppingCell.addToCartButton.isEnabled = false
+        
+        return shoppingCell
+    }
+}
+
+
+
+//===========================================================
+// MARK: TableView Delegate
+//===========================================================
+
+
+
+extension CartViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0 //Dimensions.headerHeight
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Dimensions.shoppingRowHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        cartTV.deselectRow(at: indexPath, animated: false)
+        
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return}
+        if indexPath.row >= provsDPInSection.count {return}
+        let alert = UIAlertController(title: NSLocalizedString("alert_deleteFromCart", comment: ""), message: "", preferredStyle: .actionSheet)
+        
+        let deleteButton = UIAlertAction(title: NSLocalizedString("alert_delete", comment: ""), style: .destructive) { _ in
+            self.deleteItemFromDP(provisionDP: provsDPInSection[indexPath.row])
+        }
+        let putToShopButton = UIAlertAction(title: NSLocalizedString("alert_putBackToShop", comment: ""), style: .default) { _ in
+            self.removeFromCartToShop(provisionDP: provsDPInSection[indexPath.row])
+            self.dismiss(animated: true)
+        }
+        
+        alert.addAction(putToShopButton)
+        alert.addAction(deleteButton)
+        alert.addAction(AlertButton().cancel)
+        
+        present(alert, animated: true)
     }
 }

@@ -1,11 +1,12 @@
 //
-//  FoundationExtensions.swift
+//  Extensions.swift
 //  SquikitLite
 //
 //  Created by Benjamin on 28/06/2023.
 //
 
 import Foundation
+import UIKit
 
 
 
@@ -78,15 +79,6 @@ extension String {
 extension Double {
     
     var toRoundedString: String {
-        /*
-        let roundedQty = self.rounded()
-        if roundedQty == self {
-            return "\(self.formatted(.number.precision(.fractionLength(0))))"
-        } else {
-            return "\(self.formatted(.number.precision(.fractionLength(1))))"
-        }
-         */
-        
         let roundedQty = self.rounded()
         if roundedQty == self {
            // pas de virgule
@@ -125,4 +117,58 @@ extension Calendar {
 
 
 
+//===========================================================
+// MARK: UITextField
+//===========================================================
 
+
+
+extension UITextField {
+    
+    func addDoneOnNumericPad() {
+        // create toolbar
+        let keypadToolbar: UIToolbar = UIToolbar()
+        // add done item
+        keypadToolbar.items = [
+        UIBarButtonItem(title: "OK", style: UIBarButtonItem.Style.done, target: self, action: #selector(self.resignFirstResponder)),
+        UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil)
+        ]
+        keypadToolbar.sizeToFit()
+        // add toolbar to textfield
+        self.inputAccessoryView = keypadToolbar
+    }
+}
+
+
+
+//===========================================================
+// MARK: AlertButton
+//===========================================================
+
+
+
+class AlertButton {
+    
+    let cancel = UIAlertAction(title: NSLocalizedString("alert_cancel", comment: ""), style: .cancel)
+}
+
+
+
+//===========================================================
+// MARK: UIControl
+//===========================================================
+
+
+
+extension UIControl {
+    
+    // pour réaliser une action en closure sur clic d'un bouton dans une cellule (collection ou tableView)
+    func addTouchUpInsideAction(_ closure: @escaping()->()) {
+        // on retire l'action pour éviter de s'abonner plusieurs fois
+        removeAction(identifiedBy: UIAction.Identifier("ActionInCell"), for: .touchUpInside)
+        // on ajoute l'action
+        addAction(UIAction(identifier: UIAction.Identifier("ActionInCell"),handler: { _ in
+            closure()
+        }), for: .touchUpInside)
+    }
+}

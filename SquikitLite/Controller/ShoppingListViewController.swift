@@ -113,49 +113,6 @@ extension ShoppingListViewController {
 
 
 //===========================================================
-// MARK: Show/hide tabBar
-//===========================================================
-
-
-/*
-extension CoursesViewController {
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
-            changeTabBar(hide: true)
-        } else {
-            changeTabBar(hide: false)
-        }
-    }
-    
-    private func changeTabBar(hide: Bool) {
-        guard let tabBar = tabBarController?.tabBar else {return}
-        if o_tabBarTransforming {return}
-        if o_tabBarIsHidden == hide {return}
-        o_tabBarTransforming = true
-        
-        if hide {
-            UIView.animate(withDuration: 0.3) {
-                tabBar.frame = CGRect(origin: CGPoint(x: tabBar.frame.origin.x, y: tabBar.frame.origin.y + tabBar.frame.height*2), size: tabBar.frame.size)
-            } completion: { _ in
-                self.o_tabBarIsHidden = true
-                self.o_tabBarTransforming = false
-            }
-
-        } else {
-            UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
-                tabBar.frame = CGRect(origin: CGPoint(x: tabBar.frame.origin.x, y: tabBar.frame.origin.y - tabBar.frame.height*2), size: tabBar.frame.size)
-            } completion: { _ in
-                self.o_tabBarIsHidden = false
-                self.o_tabBarTransforming = false
-            }
-        }
-    }
-}
-*/
-
-
-//===========================================================
 // MARK: Animation at start
 //===========================================================
 
@@ -166,7 +123,10 @@ extension ShoppingListViewController {
     private func animationAtStart() {
         if o_provisionsDP.count <= 0 {
             explainLabel.isHidden = false
-            MyAnimations.disappearAndReappear(forViews: [explainLabel])
+            explainLabel.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+            UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+                self.explainLabel.transform = .identity
+            }
         }
     }
 }
@@ -289,112 +249,6 @@ extension ShoppingListViewController {
 
 
 //===========================================================
-// MARK: Init tableView
-//===========================================================
-
-
-
-extension ShoppingListViewController {
-    
-    private func initTableView() {
-        shoppingTV.register(ShoppingCell.nib, forCellReuseIdentifier: ShoppingCell.key)
-        shoppingTV.register(ShoppingHeader.nib, forHeaderFooterViewReuseIdentifier: ShoppingHeader.key)
-        shoppingTV.backgroundColor = UIColor.clear
-        shoppingTV.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Dimensions.shoppingTableViewBottomInset, right: 0)
-        shoppingTV.separatorStyle = .none
-        shoppingTV.sectionHeaderTopPadding = Dimensions.shoppingTableViewTopInset
-    }
-}
-
-
-
-//===========================================================
-// MARK: UITableViewDataSource
-//===========================================================
-
-
-
-extension ShoppingListViewController: UITableViewDataSource {
-    
-    // MARK: TableView headers
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return o_headers.count
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ShoppingHeader.key) as! ShoppingHeader
-        guard section < o_headers.count, let firstProvInSection = o_provisionsDP[o_headers[section]]?.first else {
-            headerView.headerLabel.text = ""
-            return headerView
-        }
-        
-        headerView.headerLabel.text = firstProvInSection.category
-        return headerView
-    }
-    
-    // MARK: TableView Cell
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[section]] {
-            return provsDPInSection.count
-        }
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let shoppingCell = tableView.dequeueReusableCell(withIdentifier: ShoppingCell.key, for: indexPath) as! ShoppingCell
-        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return shoppingCell}
-        if indexPath.row >= provsDPInSection.count {return shoppingCell}
-        
-        shoppingCell.productImageView.image = provsDPInSection[indexPath.row].image
-        shoppingCell.nameLabel.text = provsDPInSection[indexPath.row].name
-        shoppingCell.qtyAndUnitLabel.text = provsDPInSection[indexPath.row].quantityAndShoppingUnit
-        shoppingCell.dlcLabel.text = provsDPInSection[indexPath.row].dlcToString
-        
-        if provsDPInSection[indexPath.row].quantityAndShoppingUnit == "" {
-            shoppingCell.qtyAndUnitLabel.isHidden = true
-        } else {
-            shoppingCell.qtyAndUnitLabel.isHidden = false
-        }
-        
-        // add to cart button
-        shoppingCell.addToCartButton.addTouchUpInsideAction {
-            self.addToCart(provisionDP: provsDPInSection[indexPath.row], atIndexPath: indexPath)
-        }
-        
-        return shoppingCell
-    }
-}
-
-
-
-//===========================================================
-// MARK: UITableViewDelegate
-//===========================================================
-
-
-
-extension ShoppingListViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return Dimensions.headerHeight
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Dimensions.shoppingRowHeight
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        shoppingTV.deselectRow(at: indexPath, animated: false)
-        // BSD detail prov
-        GenericMethodsVC.showProvBSD(viewController: self,forProvisionDP: o_provisionsDP, atIndexPath: indexPath, withHeaderTab: o_headers)
-    }
-}
-
-
-
-//===========================================================
 // MARK: Add to cart
 //===========================================================
 
@@ -432,5 +286,117 @@ extension ShoppingListViewController {
         if let item = navigationItem.rightBarButtonItem as? BarButtonItemWithBadge {
             item.badgeNumber = Provision.cartCount
         }
+    }
+}
+
+
+
+//===========================================================
+// MARK: Init tableView
+//===========================================================
+
+
+
+extension ShoppingListViewController {
+    
+    private func initTableView() {
+        shoppingTV.register(ShoppingCell.nib, forCellReuseIdentifier: ShoppingCell.key)
+        shoppingTV.register(ShoppingHeader.nib, forHeaderFooterViewReuseIdentifier: ShoppingHeader.key)
+        shoppingTV.backgroundColor = UIColor.clear
+        shoppingTV.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Dimensions.shoppingTableViewBottomInset, right: 0)
+        shoppingTV.separatorStyle = .none
+        shoppingTV.sectionHeaderTopPadding = Dimensions.shoppingTableViewTopInset
+    }
+}
+
+
+
+//===========================================================
+// MARK: TableView DataSource
+//===========================================================
+
+
+
+extension ShoppingListViewController: UITableViewDataSource {
+    
+    // MARK: Header DataSource
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return o_headers.count
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ShoppingHeader.key) as! ShoppingHeader
+        guard section < o_headers.count, let firstProvInSection = o_provisionsDP[o_headers[section]]?.first else {
+            headerView.headerLabel.text = ""
+            return headerView
+        }
+        
+        headerView.headerLabel.text = firstProvInSection.category
+        return headerView
+    }
+    
+    // MARK: Cell DataSource
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[section]] {
+            return provsDPInSection.count
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let shoppingCell = tableView.dequeueReusableCell(withIdentifier: ShoppingCell.key, for: indexPath) as! ShoppingCell
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return shoppingCell}
+        if indexPath.row >= provsDPInSection.count {return shoppingCell}
+        
+        shoppingCell.productImageView.image = provsDPInSection[indexPath.row].image
+        shoppingCell.nameLabel.text = provsDPInSection[indexPath.row].name
+        shoppingCell.qtyAndUnitLabel.text = provsDPInSection[indexPath.row].quantityAndShoppingUnit
+        shoppingCell.dlcLabel.text = provsDPInSection[indexPath.row].dlcToString
+        
+        if provsDPInSection[indexPath.row].quantityAndShoppingUnit == "" {
+            shoppingCell.qtyAndUnitLabel.isHidden = true
+        } else {
+            shoppingCell.qtyAndUnitLabel.isHidden = false
+        }
+        
+        // add to cart button
+        shoppingCell.addToCartButton.addTouchUpInsideAction {
+            self.addToCart(provisionDP: provsDPInSection[indexPath.row], atIndexPath: indexPath)
+        }
+        
+        return shoppingCell
+    }
+}
+
+
+
+//===========================================================
+// MARK: TableView Delegate
+//===========================================================
+
+
+
+extension ShoppingListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return Dimensions.headerHeight
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Dimensions.shoppingRowHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return}
+        if indexPath.row >= provsDPInSection.count {return}
+        shoppingTV.deselectRow(at: indexPath, animated: false)
+        
+        // BSD détail provision
+        let provisionBSD = storyboard?.instantiateViewController(withIdentifier: ProvisionsBSDViewController.STORYBOARD_ID) as! ProvisionsBSDViewController
+        provisionBSD.o_provisionDP = provsDPInSection[indexPath.row]
+        provisionBSD.o_provIndexPath = indexPath
+        present(provisionBSD, animated: true)
     }
 }

@@ -26,19 +26,19 @@ class AddprovisionViewController: UIViewController {
     private var o_searchedProductsDP = [ProductDisplayProvider]() // liste triée suivant recherche
     private var o_productsDPForSearch = [ProductDisplayProvider]() // liste complète utilisée pour créer la liste triée
     private var o_searching = false
-    private var o_provsSelection = [ProductDisplayProvider]()
+    private var o_selectedProducts = [ProductDisplayProvider]()
     
     // MARK: Outlets
     
     @IBOutlet weak var productsTV: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var productsChoiceCollectionView: UICollectionView!
-    @IBOutlet weak var productsChoiceCVHeight: NSLayoutConstraint!
+    @IBOutlet weak var selectedProductsCV: UICollectionView!
+    @IBOutlet weak var selectedProductsCVHeight: NSLayoutConstraint!
     @IBOutlet weak var returnButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var infoMultipleSelectionLabel: UILabel!
     @IBOutlet weak var multipleSelectionSwitch: UISwitch!
-    @IBOutlet weak var productsChoiceView: UIView!
+    @IBOutlet weak var selectedProductsView: UIView!
     
     // MARK: Actions
     
@@ -72,29 +72,14 @@ extension AddprovisionViewController {
         // get all provions from database
         loadProducts()
         
-        // search provisions tableView
+        // search bar
+        initSearchBar()
+        
+        // products tableView
         productsTV.register(SearchProvisionsCell.nib, forCellReuseIdentifier: SearchProvisionsCell.key)
         
-        // searchBar first responder
-        searchBar.becomeFirstResponder()
-        
-        // collectionView multiple choice
-        initProductsChoiceCV()
-        
-        // update navigation design
-        returnButton.setImage(UIImage(named: "ic_return_blue")!.withTintColor(.provisionName), for: .normal)
-        
-        // update search bar design
-        searchBar.backgroundImage = UIImage() // pour enlever le contour
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            if view.bounds.height > view.bounds.width {
-                // portrait
-                searchBar.spellCheckingType = .default
-            } else {
-                searchBar.spellCheckingType = .no
-            }
-        }
-        
+        // selected product collectionView
+        initSelectedProductsCV()
     }
 }
 
@@ -119,17 +104,18 @@ extension AddprovisionViewController {
                 searchBar.spellCheckingType = .default
                 searchBar.resignFirstResponder() // pour mettre à jour spell checking
             }
-            productsChoiceCollectionView.reloadData()
+            selectedProductsCV.reloadData()
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if o_provsSelection.count > 0 {
+        if o_selectedProducts.count > 0 {
             saveSelection()
         }
     }
 }
+
 
 
 //===========================================================
@@ -164,32 +150,269 @@ extension AddprovisionViewController {
 
 
 //===========================================================
-// MARK: UISearchBarDelegate
+// MARK: Add provisions
 //===========================================================
 
 
 
-extension AddprovisionViewController: UISearchBarDelegate {
+extension AddprovisionViewController {
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText == "" {
-            o_searching = false
+    private func addProvToSelection(fromProductDP productDP: ProductDisplayProvider) {
+        // check if product exist
+        var productExist = false
+        var messProductExist = ""
+        if o_currentVC == .inStock {
+            if ProvGenericMethods.checkIfProductAlreadyAdded(fromId: productDP.product.Id, withState: .inStock) {
+                productExist = true
+                messProductExist = NSLocalizedString("alert_provAlreadyInStock", comment: "")
+            }
         } else {
-            o_searching = true
+            if ProvGenericMethods.checkIfProductAlreadyAdded(fromId: productDP.product.Id, withState: .inShopOrCart) {
+                productExist = true
+                messProductExist = NSLocalizedString("alert_provAlreadyInShop", comment: "")
+            }
         }
-        o_searchedProductsDP = ProductGenericMethods.filterProductsByName(fromProductsDP: o_productsDPForSearch, withText: searchText, withMultipleSlection: multipleSelectionSwitch!.isOn)
-        productsTV.reloadData()
+        
+        if productExist {
+            let alert = UIAlertController(title: messProductExist, message: "", preferredStyle: .alert)
+            alert.addAction(AlertButton().cancel)
+            present(alert, animated: true)
+            return
+        }
+        
+        // pas de sélection multiple
+        if !multipleSelectionSwitch!.isOn {
+            let _ = ProvGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC)
+            dismiss(animated: true)
+            return
+        }
+        
+        // check if product in selection
+        if o_selectedProducts.contains(where: { $0.product.Id == productDP.product.Id }) {
+            // on retire de la sélection
+            o_selectedProducts.removeAll { $0.product.Id == productDP.product.Id }
+        } else {
+            // on ajoute à la liste des nouveaux product
+            o_selectedProducts.append(productDP)
+        }
+        
+        updateSelectedProductsUI()
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
+    private func saveSelection() {
+        if o_selectedProducts.count <= 0 {return}
+        
+        for productDP in o_selectedProducts {
+            let _ = ProvGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC)
+        }
     }
 }
 
 
 
 //===========================================================
-// MARK: UITableViewDataSource
+// MARK: switch multiple slection
+//===========================================================
+
+
+
+extension AddprovisionViewController {
+    
+    private func multipleSelectionSwitchTapAction() {
+        if multipleSelectionSwitch!.isOn {
+            // sélection multiple activée
+            if UIDevice.current.userInterfaceIdiom == .phone && view.bounds.height < view.bounds.width {
+                // iphone paysage
+                selectedProductsCVHeight.constant = Dimensions.addProvsCellHeight + Dimensions.addProvsCellSpace + Dimensions.addProvsCellSpace
+            } else {
+                selectedProductsCVHeight.constant = Dimensions.addProvsCellHeight + Dimensions.addProvsCellTopInset + Dimensions.addProvsCellBottomInset
+            }
+            selectedProductsView.isHidden = false
+            if o_selectedProducts.count > 0 {
+                infoMultipleSelectionLabel.isHidden = true
+                updateAddButtonUI(isEnabled: true)
+            } else {
+                infoMultipleSelectionLabel.isHidden = false
+                updateAddButtonUI(isEnabled: false)
+            }
+        } else {
+            // pas de sélection multiple
+            o_selectedProducts.removeAll()
+            selectedProductsCV.reloadData()
+            productsTV.reloadData()
+            infoMultipleSelectionLabel.isHidden = true
+            selectedProductsView.isHidden = true
+        }
+        
+    }
+}
+
+
+
+//===========================================================
+// MARK: init selected prod. CV
+//===========================================================
+
+
+
+extension AddprovisionViewController {
+    
+    private func initSelectedProductsCV() {
+        selectedProductsCV.register(MultipleProductsChoiceCell.nib, forCellWithReuseIdentifier: MultipleProductsChoiceCell.key)
+        selectedProductsView.isHidden = true
+        infoMultipleSelectionLabel.isHidden = true
+    }
+}
+
+
+
+//===========================================================
+// MARK: update selected prod. UI
+//===========================================================
+
+
+
+extension AddprovisionViewController {
+    
+    private func updateSelectedProductsUI() {
+        if o_selectedProducts.count <= 0 {
+            // rien de sélectionné
+            infoMultipleSelectionLabel.isHidden = false
+            updateAddButtonUI(isEnabled: false)
+            selectedProductsCV.reloadData()
+            return
+        }
+        // sélection en cours
+        updateAddButtonUI(isEnabled: true)
+        infoMultipleSelectionLabel.isHidden = true
+        selectedProductsCV.reloadData()
+    }
+    
+    private func updateAddButtonUI(isEnabled: Bool) {
+        if isEnabled {
+            addButton.backgroundColor = UIColor.mainButton
+            addButton.addSmallShadow()
+            addButton.isEnabled = true
+        } else {
+            addButton.backgroundColor = UIColor.inactiveButton
+            addButton.removeShadow()
+            addButton.isEnabled = false
+        }
+    }
+}
+
+
+
+//===========================================================
+// MARK: Selected prod. Delegate
+//===========================================================
+
+
+
+extension AddprovisionViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // suppr selection
+        let alert = UIAlertController(title: NSLocalizedString("alert_addProvsRemoveSelection", comment: ""), message: "", preferredStyle: .actionSheet)
+        
+        let removeButton = UIAlertAction(title: NSLocalizedString("alert_remove", comment: ""), style: .destructive) { _ in
+            self.o_selectedProducts.remove(at: indexPath.row)
+            self.productsTV.reloadData()
+            self.updateSelectedProductsUI()
+        }
+        
+        alert.addAction(removeButton)
+        alert.addAction(AlertButton().cancel)
+        present(alert, animated: true)
+    }
+}
+
+
+
+//===========================================================
+// MARK: Selected prod. DataSource
+//===========================================================
+
+
+
+extension AddprovisionViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return o_selectedProducts.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MultipleProductsChoiceCell.key, for: indexPath) as! MultipleProductsChoiceCell
+        if indexPath.row >= o_selectedProducts.count {return cell}
+        
+        cell.nameLabel.text = o_selectedProducts[indexPath.row].name
+        return cell
+    }
+}
+
+
+
+//===========================================================
+// MARK: Selected prod. FlowLayout
+//===========================================================
+
+
+
+extension AddprovisionViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellWidth = CollViewGenericMethods.getCellWidth(forCV: collectionView, withTarget: Dimensions.addProvsCellWidth, andSpace: Dimensions.addProvsCellSpace) - 16
+        // -16 pour voir que c'est scrollable (la 4ème cellule n'apparait pas entièrement)
+        return CGSize(width: cellWidth, height: Dimensions.addProvsCellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if UIDevice.current.userInterfaceIdiom == .phone && view.bounds.height < view.bounds.width {
+            // iphone paysage
+            return UIEdgeInsets(top: Dimensions.addProvsCellSpace, left: Dimensions.addProvsCellSpace, bottom: Dimensions.addProvsCellSpace, right: Dimensions.addProvsCellSpace)
+        }
+        return UIEdgeInsets(top: Dimensions.addProvsCellTopInset, left: Dimensions.addProvsCellSpace, bottom: Dimensions.addProvsCellBottomInset, right: Dimensions.addProvsCellSpace)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return Dimensions.addProvsCellSpace
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return Dimensions.addProvsCellSpace
+    }
+}
+
+
+
+//===========================================================
+// MARK: Products Delegate
+//===========================================================
+
+
+
+extension AddprovisionViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if o_searching && indexPath.row < o_searchedProductsDP.count {
+            addProvToSelection(fromProductDP: o_searchedProductsDP[indexPath.row])
+        } else if indexPath.row < o_productsDP.count {
+            addProvToSelection(fromProductDP: o_productsDP[indexPath.row])
+        }
+        
+        if indexPath.section < productsTV.numberOfSections && indexPath.row < productsTV.numberOfRows(inSection: indexPath.section) {
+            productsTV.reloadRows(at: [indexPath], with: .automatic)
+        } else {
+            productsTV.reloadData()
+        }
+        
+    }
+}
+
+
+
+//===========================================================
+// MARK: Products DataSource
 //===========================================================
 
 
@@ -243,7 +466,7 @@ extension AddprovisionViewController: UITableViewDataSource {
             searchProvCell.alreadyAddLabel.isHidden = false
             searchProvCell.background.backgroundColor = UIColor.mainBackground
             searchProvCell.categoryLabel.text = ""
-        } else if o_provsSelection.contains(where: { $0.product.Id == productDP.product.Id }) {
+        } else if o_selectedProducts.contains(where: { $0.product.Id == productDP.product.Id }) {
             // existe déjà dans la sélection
             searchProvCell.addButton.isHidden = false
             searchProvCell.alreadyAddLabel.isHidden = true
@@ -283,262 +506,54 @@ extension AddprovisionViewController: UITableViewDataSource {
 
 
 //===========================================================
-// MARK: UITableViewDelegate
-//===========================================================
-
-
-
-extension AddprovisionViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if o_searching && indexPath.row < o_searchedProductsDP.count {
-            addProvToSelection(fromProductDP: o_searchedProductsDP[indexPath.row])
-        } else if indexPath.row < o_productsDP.count {
-            addProvToSelection(fromProductDP: o_productsDP[indexPath.row])
-        }
-        
-        if indexPath.section < productsTV.numberOfSections && indexPath.row < productsTV.numberOfRows(inSection: indexPath.section) {
-            productsTV.reloadRows(at: [indexPath], with: .automatic)
-        } else {
-            productsTV.reloadData()
-        }
-        
-    }
-}
-
-
-
-//===========================================================
-// MARK: Add provisions
+// MARK: Init search bar
 //===========================================================
 
 
 
 extension AddprovisionViewController {
     
-    private func addProvToSelection(fromProductDP productDP: ProductDisplayProvider) {
-        // check if product exist
-        var productExist = false
-        var messProductExist = ""
-        if o_currentVC == .inStock {
-            if ProvGenericMethods.checkIfProductAlreadyAdded(fromId: productDP.product.Id, withState: .inStock) {
-                productExist = true
-                messProductExist = NSLocalizedString("alert_provAlreadyInStock", comment: "")
-            }
-        } else {
-            if ProvGenericMethods.checkIfProductAlreadyAdded(fromId: productDP.product.Id, withState: .inShopOrCart) {
-                productExist = true
-                messProductExist = NSLocalizedString("alert_provAlreadyInShop", comment: "")
-            }
-        }
+    func initSearchBar() {
+        // searchBar first responder
+        searchBar.becomeFirstResponder()
         
-        if productExist {
-            let alert = UIAlertController(title: messProductExist, message: "", preferredStyle: .alert)
-            alert.addAction(AlertButton().cancel)
-            present(alert, animated: true)
-            return
-        }
-        
-        // pas de sélection multiple
-        if !multipleSelectionSwitch!.isOn {
-            let _ = ProvGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC)
-            dismiss(animated: true)
-            return
-        }
-        
-        // check if product in selection
-        if o_provsSelection.contains(where: { $0.product.Id == productDP.product.Id }) {
-            // on retire de la sélection
-            o_provsSelection.removeAll { $0.product.Id == productDP.product.Id }
-        } else {
-            // on ajoute à la liste des nouveaux product
-            o_provsSelection.append(productDP)
-        }
-        
-        updateIhmProductsChoiceCV()
-    }
-    
-    private func saveSelection() {
-        if o_provsSelection.count <= 0 {return}
-        
-        for productDP in o_provsSelection {
-            let _ = ProvGenericMethods.addNewProvision(fromProduct: productDP.product, withState: o_currentVC)
-        }
-    }
-}
-
-
-
-//===========================================================
-// MARK: switch multiple slection
-//===========================================================
-
-
-
-extension AddprovisionViewController {
-    
-    private func multipleSelectionSwitchTapAction() {
-        if multipleSelectionSwitch!.isOn {
-            // sélection multiple activée
-            if UIDevice.current.userInterfaceIdiom == .phone && view.bounds.height < view.bounds.width {
-                // iphone paysage
-                productsChoiceCVHeight.constant = Dimensions.addProvsCellHeight + Dimensions.addProvsCellSpace + Dimensions.addProvsCellSpace
+        // update search bar design
+        searchBar.backgroundImage = UIImage() // pour enlever le contour
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            if view.bounds.height > view.bounds.width {
+                // portrait
+                searchBar.spellCheckingType = .default
             } else {
-                productsChoiceCVHeight.constant = Dimensions.addProvsCellHeight + Dimensions.addProvsCellTopInset + Dimensions.addProvsCellBottomInset
+                searchBar.spellCheckingType = .no
             }
-            productsChoiceView.isHidden = false
-            if o_provsSelection.count > 0 {
-                infoMultipleSelectionLabel.isHidden = true
-                addButtonState(isEnabled: true)
-            } else {
-                infoMultipleSelectionLabel.isHidden = false
-                addButtonState(isEnabled: false)
-            }
+        }
+        
+        // update return button design
+        returnButton.setImage(UIImage(named: "ic_return_blue")!.withTintColor(.provisionName), for: .normal)
+    }
+}
+
+
+
+//===========================================================
+// MARK: Search bar delegate
+//===========================================================
+
+
+
+extension AddprovisionViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText == "" {
+            o_searching = false
         } else {
-            // pas de sélection multiple
-            o_provsSelection.removeAll()
-            productsChoiceCollectionView.reloadData()
-            productsTV.reloadData()
-            infoMultipleSelectionLabel.isHidden = true
-            productsChoiceView.isHidden = true
+            o_searching = true
         }
-        
+        o_searchedProductsDP = ProductGenericMethods.filterProductsByName(fromProductsDP: o_productsDPForSearch, withText: searchText, withMultipleSlection: multipleSelectionSwitch!.isOn)
+        productsTV.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
-
-
-
-//===========================================================
-// MARK: init collection view selection
-//===========================================================
-
-
-
-extension AddprovisionViewController {
-    
-    private func initProductsChoiceCV() {
-        productsChoiceCollectionView.register(MultipleProductsChoiceCell.nib, forCellWithReuseIdentifier: MultipleProductsChoiceCell.key)
-        productsChoiceView.isHidden = true
-        infoMultipleSelectionLabel.isHidden = true
-    }
-}
-
-
-
-//===========================================================
-// MARK: update IHM CV selection
-//===========================================================
-
-
-
-extension AddprovisionViewController {
-    
-    private func updateIhmProductsChoiceCV() {
-        if o_provsSelection.count <= 0 {
-            // rien de sélectionné
-            infoMultipleSelectionLabel.isHidden = false
-            addButtonState(isEnabled: false)
-            productsChoiceCollectionView.reloadData()
-            return
-        }
-        // sélection en cours
-        addButtonState(isEnabled: true)
-        infoMultipleSelectionLabel.isHidden = true
-        productsChoiceCollectionView.reloadData()
-    }
-    
-    private func addButtonState(isEnabled: Bool) {
-        if isEnabled {
-            addButton.backgroundColor = UIColor.mainButton
-            addButton.addSmallShadow()
-            addButton.isEnabled = true
-        } else {
-            addButton.backgroundColor = UIColor.inactiveButton
-            addButton.removeShadow()
-            addButton.isEnabled = false
-        }
-    }
-}
-
-
-
-//===========================================================
-// MARK: UICollectionViewDelegate
-//===========================================================
-
-
-
-extension AddprovisionViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // suppr selection
-        let alert = UIAlertController(title: NSLocalizedString("alert_addProvsRemoveSelection", comment: ""), message: "", preferredStyle: .actionSheet)
-        
-        let removeButton = UIAlertAction(title: NSLocalizedString("alert_remove", comment: ""), style: .destructive) { _ in
-            self.o_provsSelection.remove(at: indexPath.row)
-            self.productsTV.reloadData()
-            self.updateIhmProductsChoiceCV()
-        }
-        
-        alert.addAction(removeButton)
-        alert.addAction(AlertButton().cancel)
-        present(alert, animated: true)
-    }
-}
-
-
-
-//===========================================================
-// MARK: UICollectionViewDataSource
-//===========================================================
-
-
-
-extension AddprovisionViewController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return o_provsSelection.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MultipleProductsChoiceCell.key, for: indexPath) as! MultipleProductsChoiceCell
-        if indexPath.row >= o_provsSelection.count {return cell}
-        
-        cell.nameLabel.text = o_provsSelection[indexPath.row].name
-        return cell
-    }
-}
-
-
-
-//===========================================================
-// MARK: UICollectionViewDelegateFlowLayout
-//===========================================================
-
-
-
-extension AddprovisionViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = CollViewGenericMethods.getCellWidth(forCV: collectionView, withTarget: Dimensions.addProvsCellWidth, andSpace: Dimensions.addProvsCellSpace) - 16
-        // -16 pour voir que c'est scrollable (la 4ème cellule n'apparait pas entièrement)
-        return CGSize(width: cellWidth, height: Dimensions.addProvsCellHeight)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        if UIDevice.current.userInterfaceIdiom == .phone && view.bounds.height < view.bounds.width {
-            // iphone paysage
-            return UIEdgeInsets(top: Dimensions.addProvsCellSpace, left: Dimensions.addProvsCellSpace, bottom: Dimensions.addProvsCellSpace, right: Dimensions.addProvsCellSpace)
-        }
-        return UIEdgeInsets(top: Dimensions.addProvsCellTopInset, left: Dimensions.addProvsCellSpace, bottom: Dimensions.addProvsCellBottomInset, right: Dimensions.addProvsCellSpace)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return Dimensions.addProvsCellSpace
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return Dimensions.addProvsCellSpace
-    }
-}
-

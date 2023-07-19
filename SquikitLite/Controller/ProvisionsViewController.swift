@@ -119,49 +119,6 @@ extension ProvisionsViewController {
 
 
 //===========================================================
-// MARK: Show/hide tabBar
-//===========================================================
-
-
-/*
-extension ProvisionsViewController {
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
-            changeTabBar(hide: true)
-        } else {
-            changeTabBar(hide: false)
-        }
-    }
-    
-    private func changeTabBar(hide: Bool) {
-        guard let tabBar = tabBarController?.tabBar else {return}
-        if o_tabBarTransforming {return}
-        if o_tabBarIsHidden == hide {return}
-        o_tabBarTransforming = true
-        
-        if hide {
-            UIView.animate(withDuration: 0.3) {
-                tabBar.frame = CGRect(origin: CGPoint(x: tabBar.frame.origin.x, y: tabBar.frame.origin.y + tabBar.frame.height*2), size: tabBar.frame.size)
-            } completion: { _ in
-                self.o_tabBarIsHidden = true
-                self.o_tabBarTransforming = false
-            }
-
-        } else {
-            UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
-                tabBar.frame = CGRect(origin: CGPoint(x: tabBar.frame.origin.x, y: tabBar.frame.origin.y - tabBar.frame.height*2), size: tabBar.frame.size)
-            } completion: { _ in
-                self.o_tabBarIsHidden = false
-                self.o_tabBarTransforming = false
-            }
-        }
-    }
-}
-*/
-
-
-//===========================================================
 // MARK: Animation at start
 //===========================================================
 
@@ -172,8 +129,13 @@ extension ProvisionsViewController {
     private func animationAtStart() {
         guard let tabBar = tabBarController?.tabBar as? MainTabBar else {return}
         if o_provisionsDP.count <= 0 {
+            // animation info label
             explainLabel.isHidden = false
-            MyAnimations.disappearAndReappear(forViews: [explainLabel])
+            explainLabel.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+            UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+                self.explainLabel.transform = .identity
+            }
+            // animation bouton add
             Task {
                 while !self.explainLabel.isHidden {
                     do { try await Task.sleep(nanoseconds: 1000000000) } catch {}
@@ -330,144 +292,6 @@ extension ProvisionsViewController {
 
 
 //===========================================================
-// MARK: Init collectionView
-//===========================================================
-
-
-
-extension ProvisionsViewController {
-    
-    private func initCollectionView() {
-        provisionsCV.register(ProvisionCell.nib, forCellWithReuseIdentifier: ProvisionCell.key)
-        provisionsCV.register(ProvisionHeader.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProvisionHeader.key)
-        provisionsCV.backgroundColor = UIColor.clear
-        provisionsCV.contentInset = UIEdgeInsets(top: Dimensions.provisionCollectionViewTopInset, left: 0, bottom: Dimensions.provisionCollectionViewBottomInset, right: 0)
-    }
-}
-
-
-
-//===========================================================
-// MARK: UICollectionViewDelegateFlowLayout
-//===========================================================
-
-
-
-extension ProvisionsViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = CollViewGenericMethods.getCellWidth(forCV: collectionView, withTarget: Dimensions.provisionsCellWidth, andSpace: Dimensions.provisionsCellSpace)
-        return CGSize(width: cellWidth, height: Dimensions.provisionsCellHeight)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: Dimensions.provisionsCellSpace, left: Dimensions.provisionsCellSpace, bottom: Dimensions.provisionsCellSpace, right: Dimensions.provisionsCellSpace)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return Dimensions.provisionsCellSpace
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return Dimensions.provisionsCellSpace
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: Dimensions.headerHeight)
-    }
-}
-
-
-//===========================================================
-// MARK: UICollectionViewDelegate
-//===========================================================
-
-
-
-extension ProvisionsViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // BSD detail prov
-        GenericMethodsVC.showProvBSD(viewController: self,forProvisionDP: o_provisionsDP, atIndexPath: indexPath, withHeaderTab: o_headers)
-    }
-}
-
-
-
-//===========================================================
-// MARK: UICollectionViewDataSource
-//===========================================================
-
-
-
-extension ProvisionsViewController: UICollectionViewDataSource {
-        
-    // MARK: CollectionView headers
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return o_headers.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProvisionHeader.key, for: indexPath) as! ProvisionHeader
-        
-        if indexPath.section >= o_headers.count {return headerView}
-        headerView.headerLabel.text = o_headers[indexPath.section]
-        
-        return headerView
-    }
-    
-    // MARK: CollectionView Cell
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[section]] {
-            return provsDPInSection.count
-        }
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProvisionCell.key, for: indexPath) as! ProvisionCell
-        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return cell}
-        if indexPath.row >= provsDPInSection.count {return cell}
-        
-        // Info cell
-        cell.nameLabel.text = provsDPInSection[indexPath.row].name
-        cell.qtyAndUnitLabel.text = provsDPInSection[indexPath.row].quantityAndShoppingUnit
-        cell.productImage.image = provsDPInSection[indexPath.row].image
-        cell.expirationButton.setTitle(provsDPInSection[indexPath.row].stringExpirationCountDown, for: .normal)
-        setColorExpiration(forButton: cell.expirationButton, inProvProvider: provsDPInSection[indexPath.row])
-        
-        // DLC button action
-        cell.expirationButton.addTouchUpInsideAction {
-            self.updateDlcOf(provisionDP: provsDPInSection[indexPath.row], atIndexPath: indexPath)
-        }
-        
-        return cell
-    }
-    
-    private func setColorExpiration(forButton button: UIButton, inProvProvider provProvider: ProvisionDisplayProvider) {
-        if provProvider.expirationCountDown == Int.max {
-            button.backgroundColor = UIColor.dlcDesactivated
-            return
-        }
-        if provProvider.expirationCountDown <= AppSettings.ConsoLimitNowValue {
-            button.backgroundColor = UIColor.dlcUrgent
-            return
-        }
-        if provProvider.expirationCountDown <= AppSettings.ConsoLimitSoonValue {
-            button.backgroundColor = UIColor.dlcMoyen
-            return
-        }
-        
-        button.backgroundColor = UIColor.dlcNormal
-        return
-    }
-}
-
-
-
-//===========================================================
 // MARK: Update DLC
 //===========================================================
 
@@ -529,3 +353,148 @@ extension ProvisionsViewController {
         rightItem.isHidden = true
     }
 }
+
+
+
+//===========================================================
+// MARK: Init collectionView
+//===========================================================
+
+
+
+extension ProvisionsViewController {
+    
+    private func initCollectionView() {
+        provisionsCV.register(ProvisionCell.nib, forCellWithReuseIdentifier: ProvisionCell.key)
+        provisionsCV.register(ProvisionHeader.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProvisionHeader.key)
+        provisionsCV.backgroundColor = UIColor.clear
+        provisionsCV.contentInset = UIEdgeInsets(top: Dimensions.provisionCollectionViewTopInset, left: 0, bottom: Dimensions.provisionCollectionViewBottomInset, right: 0)
+    }
+}
+
+
+
+//===========================================================
+// MARK: CollectionView FlowLayout
+//===========================================================
+
+
+
+extension ProvisionsViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellWidth = CollViewGenericMethods.getCellWidth(forCV: collectionView, withTarget: Dimensions.provisionsCellWidth, andSpace: Dimensions.provisionsCellSpace)
+        return CGSize(width: cellWidth, height: Dimensions.provisionsCellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: Dimensions.provisionsCellSpace, left: Dimensions.provisionsCellSpace, bottom: Dimensions.provisionsCellSpace, right: Dimensions.provisionsCellSpace)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return Dimensions.provisionsCellSpace
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return Dimensions.provisionsCellSpace
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: Dimensions.headerHeight)
+    }
+}
+
+
+//===========================================================
+// MARK: CollectionView Delegate
+//===========================================================
+
+
+
+extension ProvisionsViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return}
+        if indexPath.row >= provsDPInSection.count {return}
+        
+        // BSD détail provision
+        let provisionBSD = storyboard?.instantiateViewController(withIdentifier: ProvisionsBSDViewController.STORYBOARD_ID) as! ProvisionsBSDViewController
+        provisionBSD.o_provisionDP = provsDPInSection[indexPath.row]
+        provisionBSD.o_provIndexPath = indexPath
+        present(provisionBSD, animated: true)
+    }
+}
+
+
+
+//===========================================================
+// MARK: CollectionView DataSource
+//===========================================================
+
+
+
+extension ProvisionsViewController: UICollectionViewDataSource {
+        
+    // MARK: Header DataSource
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return o_headers.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProvisionHeader.key, for: indexPath) as! ProvisionHeader
+        
+        if indexPath.section >= o_headers.count {return headerView}
+        headerView.headerLabel.text = o_headers[indexPath.section]
+        
+        return headerView
+    }
+    
+    // MARK: Cell DataSource
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[section]] {
+            return provsDPInSection.count
+        }
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProvisionCell.key, for: indexPath) as! ProvisionCell
+        guard indexPath.section < o_headers.count, let provsDPInSection = o_provisionsDP[o_headers[indexPath.section]] else {return cell}
+        if indexPath.row >= provsDPInSection.count {return cell}
+        
+        // Info cell
+        cell.nameLabel.text = provsDPInSection[indexPath.row].name
+        cell.qtyAndUnitLabel.text = provsDPInSection[indexPath.row].quantityAndShoppingUnit
+        cell.productImage.image = provsDPInSection[indexPath.row].image
+        cell.expirationButton.setTitle(provsDPInSection[indexPath.row].stringExpirationCountDown, for: .normal)
+        setColorExpiration(forButton: cell.expirationButton, inProvProvider: provsDPInSection[indexPath.row])
+        
+        // DLC button action
+        cell.expirationButton.addTouchUpInsideAction {
+            self.updateDlcOf(provisionDP: provsDPInSection[indexPath.row], atIndexPath: indexPath)
+        }
+        
+        return cell
+    }
+    
+    private func setColorExpiration(forButton button: UIButton, inProvProvider provProvider: ProvisionDisplayProvider) {
+        if provProvider.expirationCountDown == Int.max {
+            button.backgroundColor = UIColor.dlcDesactivated
+            return
+        }
+        if provProvider.expirationCountDown <= AppSettings.ConsoLimitNowValue {
+            button.backgroundColor = UIColor.dlcUrgent
+            return
+        }
+        if provProvider.expirationCountDown <= AppSettings.ConsoLimitSoonValue {
+            button.backgroundColor = UIColor.dlcMoyen
+            return
+        }
+        
+        button.backgroundColor = UIColor.dlcNormal
+        return
+    }
+}
+

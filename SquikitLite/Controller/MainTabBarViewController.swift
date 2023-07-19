@@ -21,7 +21,6 @@ class MainTabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBar.unselectedItemTintColor = UIColor.inactiveButton
         initMiddleButton()
     }
 }

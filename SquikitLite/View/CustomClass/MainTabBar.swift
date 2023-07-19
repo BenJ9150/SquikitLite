@@ -37,6 +37,7 @@ extension MainTabBar {
     override func draw(_ rect: CGRect) {
         addCustomBackground()
         addMiddleButton()
+        unselectedItemTintColor = UIColor.inactiveButton
     }
 }
 
@@ -52,7 +53,16 @@ extension MainTabBar {
     
     func middleButtonAnimation() {
         guard let middleButton = currentMiddleButton else {return}
-        MyAnimations.upAndDownWithBounce(forViews: [middleButton], yTranslation: 24)
+        
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseOut) {
+            middleButton.transform = CGAffineTransform(translationX: 0, y: -24)
+        } completion: { success in
+            if success {
+                UIView.animate(withDuration: 0.3, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+                    middleButton.transform = .identity
+                }
+            }
+        }
     }
 }
 

@@ -417,9 +417,13 @@ extension ProvisionsBSDViewController {
             // animation ajout aux courses
             addToShopLabel.text = NSLocalizedString("bsdProv_provAddedToShop", comment: "")
             addToShopButton.isEnabled = false
-            MyAnimations.disappearAndReappear(forViews: [addToShopLabel, addToShopButton]) {
+            addToShopLabel.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+            UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+                self.addToShopLabel.transform = .identity
+            } completion: { _ in
                 self.dismiss(animated: true)
             }
+            
             return
         }
         
