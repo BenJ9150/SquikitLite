@@ -54,7 +54,7 @@ extension MainTabBarViewController {
         } else {
             addProvisionVC.o_currentVC = .inShop // shopping is active
         }
-        //addProvisionVC.modalPresentationStyle = .fullScreen
+        
         present(addProvisionVC, animated: true)
     }
 }
