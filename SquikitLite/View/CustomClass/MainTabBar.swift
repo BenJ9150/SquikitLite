@@ -53,7 +53,7 @@ extension MainTabBar {
     
     func middleButtonAnimation() {
         guard let middleButton = currentMiddleButton else {return}
-        print(middleButton.frame.origin.y)
+        
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseOut) {
             middleButton.transform = CGAffineTransform(translationX: 0, y: -24)
         } completion: { _ in

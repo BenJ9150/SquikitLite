@@ -24,7 +24,6 @@ class CollViewGenericMethods {
         
         // nombre de colonne possible
         let columnNb = (viewWidth - cellSpace) / (cellWidthTarget + cellSpace)
-        //let roundedColumNb = columnNb.rounded(.awayFromZero) // 3 colonnes sur iphone 14
         var roundedColumNb = columnNb.rounded(.down)
         if columnNb - roundedColumNb > 0.7 {
             roundedColumNb += 1
